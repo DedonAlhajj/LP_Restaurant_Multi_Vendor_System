@@ -25,11 +25,34 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        //dd($request);
         $request->authenticate();
 
         $request->session()->regenerate();
+        $user = Auth::user();
+        $role = request('role'); // جلب الدور المختار من نموذج تسجيل الدخول
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if ($role == 'admin' && $user->hasRole('Admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // تحقق من اختيار Seller
+        if ($role == 'seller' && $user->hasRole('Seller')) {
+            if ($user->status == 'pending') {
+                return redirect()->route('seller.waiting');
+            } elseif ($user->status == 'approved') {
+                return redirect()->route('seller.dashboard');
+            } else {
+                auth()->logout();
+                return redirect()->route('login')->withErrors(['account' => 'Your account has been rejected']);
+            }
+        }
+
+        // في حال لم يتم اختيار الدور الصحيح
+        auth()->logout();
+        return redirect()->route('login')->withErrors(['role' => 'تم اختيار دور غير صحيح.']);
+
+        //return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

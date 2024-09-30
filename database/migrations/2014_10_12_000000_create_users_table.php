@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->enum('user_type', ['admin', 'seller']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

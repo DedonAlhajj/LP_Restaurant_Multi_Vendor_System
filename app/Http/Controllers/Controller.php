@@ -10,7 +10,9 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function test(){
-
+    public function __construct()
+    {
+        $this->middleware(['role:Admin'])->only(['adminDashboard']);
+        $this->middleware(['role:Seller'])->only(['sellerDashboard']);
     }
 }
