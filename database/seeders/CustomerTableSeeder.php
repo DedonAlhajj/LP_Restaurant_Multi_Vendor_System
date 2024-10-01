@@ -16,7 +16,7 @@ class CustomerTableSeeder extends Seeder
     {
         Customer::create([
             'name'=>'ali',
-            'password'=>Hash::make('12345678'),
+            'password'=>Hash::make('password'),
             'phone'=>'010223339922',
         ]);
     }

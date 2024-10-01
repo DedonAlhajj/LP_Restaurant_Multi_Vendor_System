@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         ]);
         Role::create(['name' => 'Admin']);
         Role::create(['name' => 'Seller']);
-$admin = User::where('email', 'admin@gmail.com')->first();
+        $admin = User::where('email', 'admin@gmail.com')->first();
 
         if ($admin) {
             $admin->assignRole('Admin');

@@ -27,11 +27,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            ['name' => 'admin', 'email' => 'admin@gmail.com', 'password' => bcrypt('12345678')],
-        ]);
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'Seller']);
+        // DB::table('users')->insert([
+        //     ['name' => 'admin', 'email' => 'admin@gmail.com', 'password' => bcrypt('password')],
+        // ]);
+        // Role::create(['name' => 'Admin']);
+        // Role::create(['name' => 'Seller']);
 
         // $admin = User::where('email', 'admin@gmail.com')->first();
 
