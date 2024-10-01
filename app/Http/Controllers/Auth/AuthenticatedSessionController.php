@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->route('seller.dashboard');
             } else {
                 auth()->logout();
-                return redirect()->route('login')->withErrors(['account' => 'Your account has been rejected']);
+                return redirect()->route('login')->withErrors(['account' => 'Your account has been rejected.']);
             }
         }
 

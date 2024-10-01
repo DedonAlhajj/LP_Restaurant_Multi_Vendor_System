@@ -20,8 +20,8 @@ class CheckSellerStatus
 
         // تحقق إذا كان المستخدم هو Seller
         if ($user->hasRole('Seller')) {
-            // إذا كانت حالة البائع pending، أرسله إلى صفحة الانتظار
-            if ($user->status == 'pending') {
+            // إذا كانت حالة البائع pending وأرسل إلى صفحة الانتظار
+            if ($user->status == 'pending' && !$request->routeIs('seller.waiting')) {
                 return redirect()->route('seller.waiting');
             }
 
