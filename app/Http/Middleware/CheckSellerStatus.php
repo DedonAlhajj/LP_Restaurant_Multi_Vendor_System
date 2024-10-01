@@ -14,14 +14,25 @@ class CheckSellerStatus
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next, $status): Response
+    public function handle(Request $request, Closure $next):Response
     {
-        {
-            if (Auth::user()->status !== $status) {
+        $user = Auth::user();
+
+        // تحقق إذا كان المستخدم هو Seller
+        if ($user->hasRole('Seller')) {
+            // إذا كانت حالة البائع pending، أرسله إلى صفحة الانتظار
+            if ($user->status == 'pending') {
                 return redirect()->route('seller.waiting');
             }
 
-            return $next($request);
+            // إذا كانت حالة البائع rejected، أخرجه من النظام
+            if ($user->status == 'rejected') {
+                auth()->logout();
+                return redirect()->route('login')->withErrors(['account' => 'Your account has been rejected.']);
+            }
         }
+
+        // متابعة الطلب إذا كان كل شيء صحيح
+        return $next($request);
     }
 }

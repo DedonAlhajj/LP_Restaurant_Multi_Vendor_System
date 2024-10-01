@@ -39,7 +39,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 });
 
-
+/*
 Route::middleware(['auth', 'role:Seller'])->group(function () {
     Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])
         ->middleware('checkSellerStatus:approved')
@@ -48,7 +48,12 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 
 
+});*/
+Route::middleware(['auth', 'role:Seller', 'checkSellerStatus'])->group(function () {
+    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
+    Route::get('/seller/waiting', [SellerController::class, 'waiting'])->name('seller.waiting');
 });
+
 
 
 require __DIR__.'/auth.php';
