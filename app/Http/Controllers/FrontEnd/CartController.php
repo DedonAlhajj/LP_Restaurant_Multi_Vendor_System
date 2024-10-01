@@ -29,7 +29,7 @@ class CartController extends Controller
     {
 
 
-        return view('cart.index', compact('cartItems'));
+        return view('cart.index', compact(''));
     }
 
 }

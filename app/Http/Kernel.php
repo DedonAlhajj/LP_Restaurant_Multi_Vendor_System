@@ -26,6 +26,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // ...
         'checkSellerStatus' => \App\Http\Middleware\CheckSellerStatus::class,
+        'check.vendor.slug' => \App\Http\Middleware\CheckVendorSlug::class,
+
     ];
 
     /**

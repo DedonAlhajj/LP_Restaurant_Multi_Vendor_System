@@ -59,8 +59,24 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 });
 
 ////////////////////////////////////////frontend/////////////////////////////////////
-Route::group(['prefix' => '{vendor_slug}'], function() {
-    Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
+
+
+
+require __DIR__.'/auth.php';
+
+Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
+    //Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
+
+    Route::get('/', [VendorController::class, 'welcome'])->name('vendor.welcome');
+    Route::get('/index', [VendorController::class, 'index'])->name('vendor.index');
+    Route::get('/menu', [VendorController::class, 'showMenu'])->name('vendor.menu');
+
+
+
+
+
+
+
 
 
     Route::middleware('guest:customer')->group(function () {
@@ -80,6 +96,3 @@ Route::group(['prefix' => '{vendor_slug}'], function() {
 
 
 });
-
-
-require __DIR__.'/auth.php';

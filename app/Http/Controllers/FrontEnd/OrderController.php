@@ -28,7 +28,7 @@ class OrderController extends Controller
     public function completeOrder(Request $request)
     {
         // التحقق من صحة البيانات
-        $request->validate([
+       /* $request->validate([
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'order_type' => 'required|in:table,delivery', // التحقق من أن نوع الطلب صحيح
@@ -69,6 +69,6 @@ class OrderController extends Controller
         // يمكنك الآن إزالة العناصر من السلة أو تحديث حالة السلة بناءً على متطلبات التطبيق
 
         return redirect()->route('order.success')->with('message', 'تم إرسال طلبك بنجاح.');
-    }
+    */}
 
 }
