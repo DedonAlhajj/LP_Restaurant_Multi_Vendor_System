@@ -1,15 +1,36 @@
 <?php
 
+
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory;
-    protected $gureded=[];
-    
+    use HasFactory, Notifiable;
+
+    /**
+     * الحقول القابلة للملء.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'password',
+        'phone',
+    ];
+
+    /**
+     * تحويل كلمة المرور إلى hash تلقائيًا عند حفظها.
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+
     public function orders()
     {
         return $this->hasMany(Customer::class, 'customer_id');

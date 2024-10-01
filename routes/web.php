@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\Auth\CustomerAuthController;
+use App\Http\Controllers\FrontEnd\OrderController;
+use App\Http\Controllers\FrontEnd\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SellerDashboardController;
@@ -55,7 +58,41 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
     Route::get('/seller/waiting', [SellerController::class, 'index'])->name('seller.waiting');
 });
 
+////////////////////////////////////////frontend/////////////////////////////////////
 
 
 
 require __DIR__.'/auth.php';
+
+Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
+    //Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
+
+    Route::get('/', [VendorController::class, 'welcome'])->name('vendor.welcome');
+    Route::get('/index', [VendorController::class, 'index'])->name('vendor.index');
+    Route::get('/menu', [VendorController::class, 'showMenu'])->name('vendor.menu');
+
+
+
+
+
+
+
+
+
+    Route::middleware('guest:customer')->group(function () {
+        Route::get('customer/login', [CustomerAuthController::class, 'loginForm'])->name('customer.login');
+        Route::post('customer/login', [CustomerAuthController::class, 'login']);
+        Route::get('customer/register', [CustomerAuthController::class, 'registerForm'])->name('customer.register');
+        Route::post('customer/register', [CustomerAuthController::class, 'register']);
+    });
+
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
+        Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
+    });
+
+
+    Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+
+
+});

@@ -17,12 +17,12 @@ class UsersTableSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin@gmail.com',
+            'email' => 'admin1@gmail.com',
             'password' => Hash::make('password'), // Encrypt the password
         ]);
         Role::create(['name' => 'Admin']);
         Role::create(['name' => 'Seller']);
-        $admin = User::where('email', 'admin@gmail.com')->first();
+        $admin = User::where('email', 'admin1@gmail.com')->first();
 
         if ($admin) {
             $admin->assignRole('Admin');
@@ -33,6 +33,6 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-    
+
     }
 }
