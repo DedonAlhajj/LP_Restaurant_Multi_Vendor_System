@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('restaurant_id')->constrained('restaurants')->onDelete('cascade'); 
             $table->string('name'); 
             $table->text('description')->nullable();
-            $table->decimal('price', 8, 2); 
+            $table->decimal('price', 8, 2)->defualt(10); 
             $table->string('image')->nullable(); 
             $table->timestamps(); 
         });
