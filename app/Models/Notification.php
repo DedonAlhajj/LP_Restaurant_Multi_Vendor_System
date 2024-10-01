@@ -10,5 +10,8 @@ class Notification extends Model
     use HasFactory;
 
     protected $gureded=[];
-
+    public function user()
+    {
+        return $this->belongsTo(User::class); //seller
+    }
 }
