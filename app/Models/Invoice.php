@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Invoice extends Model
 {
@@ -11,4 +12,8 @@ class Invoice extends Model
     protected $table='order_invoices';
     protected $gureded=[];
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

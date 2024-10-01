@@ -9,5 +9,15 @@ class Customer extends Model
 {
     use HasFactory;
     protected $gureded=[];
+    
+    public function orders()
+    {
+        return $this->hasMany(Customer::class, 'customer_id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
 
 }
