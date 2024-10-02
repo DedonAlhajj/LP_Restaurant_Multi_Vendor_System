@@ -11,13 +11,13 @@ class CartService
 
     public function __construct()
     {
-        $this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
+        //$this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
 
     }
 
     public function getCartContent()
     {
-        return \Cart::session($this->sessionId)->getContent();
+        return \Cart::getContent();
     }
 
     public function addItem($data)
@@ -26,7 +26,7 @@ class CartService
             return false; // العنصر موجود بالفعل
         }
 
-        \Cart::session($this->sessionId)->add([
+        \Cart::add([
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
@@ -39,7 +39,7 @@ class CartService
 
     public function updateItemQuantity($id, $quantity)
     {
-        \Cart::session($this->sessionId)->update($id, [
+        \Cart::update($id, [
             'quantity' => [
                 'relative' => false,
                 'value' => $quantity
@@ -49,17 +49,17 @@ class CartService
 
     public function removeItem($id)
     {
-        \Cart::session($this->sessionId)->remove($id);
+        \Cart::remove($id);
     }
 
     public function clearCart()
     {
-        \Cart::session($this->sessionId)->clear();
+        \Cart::clear();
     }
 
     protected function itemExists($id)
     {
-        return \Cart::session($this->sessionId)->get($id) !== null;
+        return \Cart::get($id) !== null;
     }
 
     public function calculateTotalPrice($cartItems)
