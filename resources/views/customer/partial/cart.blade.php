@@ -37,7 +37,7 @@
                       <form action="{{ route('cart.remove',$slug) }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $item->id }}">
-                        <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="button"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit"><i class="fa-solid fa-trash"></i></button>
                     </form>
                   </div>
               </li>
