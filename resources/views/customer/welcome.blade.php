@@ -19,7 +19,7 @@
                     <img src="{{asset('customer/assets/images/logo-item/spoon1.svg')}}" alt="spoon-1" class="wow bounceInDown">
                     <img class="wow bounceInUp" src="{{asset('customer/assets/images/logo-item/spoon2.svg')}}" alt="spoon-1">
                 </div>
-                <h1 class="brand-title text-white mt-3">{{$restaurant->name}}</h1>
+                <h1 class="brand-title text-white mt-3">{{$vendor->name}}</h1>
             </div>
         </div>                                        
     </div>                                        
@@ -66,7 +66,7 @@
                 <div class="swiper-pagination style-1 flex-1"></div>
             </div>
             <div class="slide-content">
-                <h1 class="brand-title">{{$restaurant->name}}</h1>
+                <h1 class="brand-title">{{$vendor->name}}</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
             </div>
         </div>
@@ -77,7 +77,7 @@
     <!-- Footer -->
     <footer class="footer border-0">
         <div class="container">
-            <a href="{{route('vendor.index', $restaurant->slug)}}" class="btn btn-primary btn-rounded d-block">LET'S ROCK</a>
+            <a href="{{route('vendor.index', $vendor->slug)}}" class="btn btn-primary btn-rounded d-block">LET'S ROCK</a>
         </div>
     </footer>
     <!-- Footer End-->
