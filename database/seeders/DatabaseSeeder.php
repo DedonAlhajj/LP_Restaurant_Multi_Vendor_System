@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         OrderItemsTableSeeder::class,
         InvoicesTableSeeder::class,
         RatingsAndCommentsTableSeeder::class,
-        NotificationsTableSeeder::class,
+        //NotificationsTableSeeder::class,
         PaymentsTableSeeder::class,
         ]);
 
