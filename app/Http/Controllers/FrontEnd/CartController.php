@@ -19,13 +19,16 @@ class CartController extends Controller
     // عرض محتويات السلة
     public function index($vendor_slug)
     {
-        try {
-            $cartItems = $this->cartService->getCartContent();
-            return view('customer.cart', compact('cartItems', 'vendor_slug'));
-        } catch (Exception $e) {
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('error', 'An error occurred while loading the contents of the cart.');
-        }
+        $cartItems = $this->cartService->getCartContent();
+        $totalPrice = $this->cartService->calculateTotalPrice($cartItems);
+
+        // ارجاع محتويات السلة كـ JSON
+        return response()->json([
+            'success' => true,
+            'message' => 'Item show successfully',
+            'cartItems' => $cartItems,
+            'totalPrice'=>$totalPrice,
+        ]);
     }
 
     // إضافة عنصر إلى السلة
@@ -79,8 +82,13 @@ class CartController extends Controller
 
         try {
             $this->cartService->removeItem($validated['id']);
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('success', 'The item was removed successfully.');
+            return response()->json([
+                'success' => true,
+                'message' => 'The item was removed successfully.',
+                'vendor_slug' => $vendor_slug,
+            ]);
+           /* return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('success', 'The item was removed successfully.');*/
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while removing the item from the cart.');

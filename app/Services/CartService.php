@@ -40,12 +40,12 @@ class CartService
 
     public function updateItemQuantity($id, $quantity)
     {
-        \Cart::update($id, [
-            'quantity' => [
+        \Cart::update($id, array(
+            'quantity' => array(
                 'relative' => false,
-                'value' => $quantity
-            ]
-        ]);
+                'value' => $quantity,
+            ),
+        ));
     }
 
     public function removeItem($id)
