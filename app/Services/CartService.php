@@ -28,19 +28,14 @@ class CartService
         if ($this->itemExists($data['id'])) {
             return false; // العنصر موجود بالفعل
         }
-<<<<<<< HEAD
-        \Cart::session($this->sessionId)->add([
-=======
 
         \Cart::add([
->>>>>>> 0363600121bbff7310626e5fbb3ddbba2b3eb8a1
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
             'quantity' => $data['quantity'],
-        ));
+        ]);
 
-        dd($cart);
         return true;
     }
 

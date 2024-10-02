@@ -10,7 +10,7 @@
             <h3 class="text-center">Your Cart is Empty</h3>
             @else
             @foreach(Cart::getContent() as $item)
-              <li class="item_".$item->id >
+              <li class="item_{{$item->id}}"> 
                   <div class="item-content">
                       <div class="item-media media media-60">
                           <img src="{{asset('customer/assets/images/food/pic6.png')}}" alt="logo">
