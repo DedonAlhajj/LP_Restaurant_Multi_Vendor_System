@@ -34,11 +34,16 @@
                               </div>
                           </div>
                       </div>
-                      <form action="{{ route('cart.remove',$slug) }}" method="POST">
+                      {{-- <form action="{{ route('cart.remove',$slug) }}" method="POST" id="remove-cart-item-{{ $item->id }}">
                         @csrf
                         <input type="hidden" name="id" value="{{ $item->id }}">
                         <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit"><i class="fa-solid fa-trash"></i></button>
-                    </form>
+                    </form> --}}
+
+                    <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit" data-id="{{ $item->id }}" data-slug="{{ $slug }}"><i class="fa-solid fa-trash"></i></button>
+
+
+
                   </div>
               </li>
               @endforeach
@@ -72,3 +77,66 @@
       @endif
   </div>
 </div>
+
+@push('scripts')
+<script src="{{asset('customer/assets/js/jquery.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function() {
+        $(".btn-remove").click(function(e) {
+            e.preventDefault();
+            var form = $(this).closest("form");
+            Swal.fire({
+                title: 'Are you sure delete this item ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var slug= $(this).data("slug");
+                    var url = "{{ route('cart.remove',':slug') }}"
+                    url = url.replace(':slug',slug);
+                    $.ajax({
+                        type: "POST",
+                        url:url ,
+                        data: 
+                        {
+                            "_token": "{{ csrf_token() }}",
+                            "id": $(this).data("id"),
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                   'success'
+                                )
+                                $(".item_" + response.id).remove();
+                                $(".cart-count").text(response.count);
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong.',
+                                    'error'
+                                )
+                            }
+                        },
+                        error: function(response) {
+                            console.log(response);
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            )
+                        }
+                    });
+                    form.submit();
+                }
+            })
+        });
+    });
+</script>
+
+@endpush
