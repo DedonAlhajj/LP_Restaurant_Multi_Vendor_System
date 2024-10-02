@@ -19,7 +19,7 @@
                     <img src="{{asset('customer/assets/images/logo-item/spoon1.svg')}}" alt="spoon-1" class="wow bounceInDown">
                     <img class="wow bounceInUp" src="{{asset('customer/assets/images/logo-item/spoon2.svg')}}" alt="spoon-1">
                 </div>
-                <h1 class="brand-title text-white mt-3">Foodia</h1>
+                <h1 class="brand-title text-white mt-3">{{$restaurant->name}}</h1>
             </div>
         </div>                                        
     </div>                                        
@@ -66,7 +66,7 @@
                 <div class="swiper-pagination style-1 flex-1"></div>
             </div>
             <div class="slide-content">
-                <h1 class="brand-title">Foodia</h1>
+                <h1 class="brand-title">{{$restaurant->name}}</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
             </div>
         </div>
@@ -77,9 +77,30 @@
     <!-- Footer -->
     <footer class="footer border-0">
         <div class="container">
-            <a href="welcome.html" class="btn btn-primary btn-rounded d-block">LET'S ROCK</a>
+            <a href="{{route('vendor.index', $restaurant->slug)}}" class="btn btn-primary btn-rounded d-block">LET'S ROCK</a>
         </div>
     </footer>
     <!-- Footer End-->
 </div>   
+
+@push('styles')
+<link rel="stylesheet" href="{{asset('customer/assets/vendor/wow/css/libs/animate.css')}}">
+
+@endpush
+@push('scripts')
+<script src="{{asset('customer/assets/vendor/wow/dist/wow.min.js')}}"></script>
+<script src="{{asset('customer/assets/js/dz.carousel.js')}}"></script><!-- Swiper -->
+<script>
+    new WOW().init();
+    
+    var wow = new WOW(
+    {
+      boxClass:     'wow',      // animated element css class (default is wow)
+      animateClass: 'animated', // animation css class (default is animated)
+      offset:       50,          // distance to the element when triggering the animation (default is 0)
+      mobile:       false       // trigger animations on mobile devices (true is default)
+    });
+    wow.init();	
+</script>
+@endpush
 @endsection

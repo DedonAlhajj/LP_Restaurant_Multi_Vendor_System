@@ -63,13 +63,16 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 
 require __DIR__.'/auth.php';
-
+Route::get('/not-found',function(){
+    return view('customer.error');
+})->name('not.found');
 Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
     //Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
 
     Route::get('/', [VendorController::class, 'welcome'])->name('vendor.welcome');
     Route::get('/index', [VendorController::class, 'index'])->name('vendor.index');
     Route::get('/menu', [VendorController::class, 'showMenu'])->name('vendor.menu');
+    Route::get('/menu/product/{product_id}', [VendorController::class, 'showFoodItem'])->name('vendor.menu.fooditem');
 
 
 

@@ -133,17 +133,18 @@
                 
 				<div class="item-list recent-jobs-list">
 					<ul>
-						<li>
+                        @forelse ($foodItems as $foodItem )
+                        <li>
 							<div class="item-content">
 								<div class="item-inner">
 									<div class="item-title-row">
-										<h6 class="item-title"><a href="product-detail.html">Cappucino Latte Creamy Milk Italiano</a></h6>
-										<div class="item-subtitle">Coffe, Milk</div>
+										<h6 class="item-title"><a href="{{route('vendor.menu.fooditem',['vendor_slug' => $vendor->slug,$foodItem->id])}}">{{$foodItem->name}}</a></h6>
+										<div class="item-subtitle">{{$foodItem->description}}</div>
 									</div>
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
+                                            <h6 class="me-3">{{$foodItem->price}}</h6>
+                                            {{-- <del class="off-text"><h6>$ 8.9</h6></del> --}}
                                         </div>    
                                         <div class="d-flex align-items-center">
                                             <i class="fa-solid fa-star"></i>
@@ -160,122 +161,14 @@
                                 </div>
 							</div>
 						</li>
-                        <li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title-row">
-										<h6 class="item-title"><a href="product-detail.html">Hot Mochacinno Coffee Grande</a></h6>
-										<div class="item-subtitle">Coffe</div>
-									</div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 7.5</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <div class="d-flex align-items-center">
-                                            <i class="fa-solid fa-star"></i>
-                                            <h6>4.0</h6>
-                                        </div>
-                                    </div>
-								</div>
-                                <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic2.png')}}" alt="logo">
-                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
-                                        </svg>
-                                    </a>    
-                                </div>
-							</div>
-						</li>
-                        <li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title-row">
-										<h6 class="item-title"><a href="product-detail.html">Coffee Mocha / White Mocha</a></h6>
-										<div class="item-subtitle">Coffe, Milk</div>
-									</div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <div class="d-flex align-items-center">
-                                            <i class="fa-solid fa-star"></i>
-                                            <h6>4.3</h6>
-                                        </div>
-                                    </div>
-								</div>
-                                <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic3.png')}}" alt="logo">
-                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
-                                        </svg>
-                                    </a>    
-                                </div>
-							</div>
-						</li>
+                        @empty
+                            
+                        @endforelse
+
                     </ul>
                     <div class="saprater"></div>    
                     <!-- TITLE -->
-                    <h4 class="title my-4">Cold Brew</h4>
-                    <!-- TITLE -->
-
-                    <ul>
-                        <li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title-row">
-										<h6 class="item-title"><a href="product-detail.html">Vanilla Sweet Cream Cold Brew</a></h6>
-										<div class="item-subtitle">Coffe, Milk</div>
-									</div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <div class="d-flex align-items-center">
-                                            <i class="fa-solid fa-star"></i>
-                                            <h6>4.5</h6>
-                                        </div>
-                                    </div>
-								</div>
-                                <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic4.png')}}" alt="logo">
-                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
-                                        </svg>
-                                    </a>    
-                                </div>
-							</div>
-						</li> 
-                        <li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title-row">
-										<h6 class="item-title"><a href="product-detail.html">Citrus Cold Brew with Extra Cream</a></h6>
-										<div class="item-subtitle">Coffe, Milk</div>
-									</div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <div class="d-flex align-items-center">
-                                            <i class="fa-solid fa-star"></i>
-                                            <h6>4.5</h6>
-                                        </div>
-                                    </div>
-								</div>
-                                <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic5.png')}}" alt="logo">
-                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
-                                        </svg>
-                                    </a>    
-                                </div>
-							</div>
-						</li>
-                    </ul>    
+        
 				</div>
 				<!-- Job List -->                    
 			</div>    
@@ -283,74 +176,7 @@
 	</div>
     <!-- Page Content End-->
 	
-    <!-- Theme Color Settings -->
-	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
-        <div class="offcanvas-body small">
-            <ul class="theme-color-settings">
-                <li>
-                    <input class="filled-in" id="primary_color_8" name="theme_color" type="radio" value="color-primary" />
-					<label for="primary_color_8"></label>
-                    <span>Default</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_2" name="theme_color" type="radio" value="color-green" />
-					<label for="primary_color_2"></label>
-                    <span>Green</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_3" name="theme_color" type="radio" value="color-blue" />
-					<label for="primary_color_3"></label>
-                    <span>Blue</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_4" name="theme_color" type="radio" value="color-pink" />
-					<label for="primary_color_4"></label>
-                    <span>Pink</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_5" name="theme_color" type="radio" value="color-yellow" />
-					<label for="primary_color_5"></label>
-                    <span>Yellow</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_6" name="theme_color" type="radio" value="color-orange" />
-					<label for="primary_color_6"></label>
-                    <span>Orange</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_7" name="theme_color" type="radio" value="color-purple" />
-					<label for="primary_color_7"></label>
-                    <span>Purple</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_1" name="theme_color" type="radio" value="color-red" />
-					<label for="primary_color_1"></label>
-                    <span>Red</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_9" name="theme_color" type="radio" value="color-lightblue" />
-					<label for="primary_color_9"></label>
-                    <span>Lightblue</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_10" name="theme_color" type="radio" value="color-teal" />
-					<label for="primary_color_10"></label>
-                    <span>Teal</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_11" name="theme_color" type="radio" value="color-lime" />
-					<label for="primary_color_11"></label>
-                    <span>Lime</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_12" name="theme_color" type="radio" value="color-deeporange" />
-					<label for="primary_color_12"></label>
-                    <span>Deeporange</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-	<!-- Theme Color Settings End -->
+
 	<!-- CART -->
 	<div class="offcanvas offcanvas-bottom rounded-0" tabindex="-1" id="offcanvasBottom1">
 		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close">

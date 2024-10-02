@@ -343,7 +343,7 @@
 					<!-- Recomended Start -->
                     <div class="title-bar">
                         <h5 class="title">Recomended 👌</h5>
-                        <a class="btn-link" href="product.html">View more</a>
+                        <a class="btn-link" href="{{route('vendor.menu',$restaurant->slug)}}">View more</a>
                     </div>
                     
                     <div class="swiper-btn-center-lr">

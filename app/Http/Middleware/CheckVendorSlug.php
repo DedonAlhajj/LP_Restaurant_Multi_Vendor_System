@@ -17,7 +17,7 @@ class CheckVendorSlug
             $vendor = Restaurant::where('slug', $vendor_slug)->first();
 
             if (!$vendor) {
-                return redirect()->back(); // أو يمكنك إعادة توجيه المستخدم إلى صفحة خطأ مخصصة
+                return redirect()->route('not.found'); // أو يمكنك إعادة توجيه المستخدم إلى صفحة خطأ مخصصة
             }
 
             $request->attributes->set('vendor', $vendor);
