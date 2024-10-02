@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Auth\CustomerAuthController;
-use App\Http\Controllers\FrontEnd\CartController;
 use App\Http\Controllers\FrontEnd\OrderController;
 use App\Http\Controllers\FrontEnd\VendorController;
 use App\Http\Controllers\ProfileController;
@@ -22,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('customer.product');
+    return view('customer.notification');
 });
 
 Route::get('/dashboard', function () {
@@ -65,7 +64,7 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 require __DIR__.'/auth.php';
 Route::get('/not-found',function(){
-    return view('customer.error');
+    return view(view: 'customer.error');
 })->name('not.found');
 Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
     //Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
@@ -74,13 +73,7 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
     Route::get('/index', [VendorController::class, 'index'])->name('vendor.index');
     Route::get('/menu', [VendorController::class, 'showMenu'])->name('vendor.menu');
     Route::get('/menu/product/{product_id}', [VendorController::class, 'showFoodItem'])->name('vendor.menu.fooditem');
-
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-
+    Route::get('/notifications', [VendorController::class, 'showNotifications'])->name('vendor.notifications');
 
 
     Route::middleware('guest:customer')->group(function () {
@@ -94,9 +87,5 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
         Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
         Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
     });
-
-
     Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
-
-
 });

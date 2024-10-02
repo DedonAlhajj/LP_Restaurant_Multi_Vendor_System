@@ -24,12 +24,12 @@ class VendorController extends Controller
     public function welcome(){
         // dd($vendor_slug);
 
-        return view('customer.welcome', ['restaurant'=>$this->vendor]);
+        return view('customer.welcome', ['vendor'=>$this->vendor]);
     }
     public function index($vendor_slug){
         // dd('index');
 
-        return view('customer.index',['restaurant'=>$this->vendor]);
+        return view('customer.index',['vendor'=>$this->vendor]);
     }
 
 
@@ -54,5 +54,12 @@ class VendorController extends Controller
         $foodItem=FoodItem::find($food_item_id);
         return view('customer.product-detail', ['vendor'=>$this->vendor, 'foodItem']);
 
+    }
+
+
+    public function showNotifications()
+    {
+
+        return view('customer.notification', ['vendor'=>$this->vendor]);
     }
 }
