@@ -7,16 +7,12 @@ use Cart;
 
 class CartService
 {
-    protected $sessionId;
+    protected $sessionId='cart';
 
     public function __construct()
     {
-<<<<<<< HEAD
-        $this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
-=======
-        //$this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
+        // $this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
 
->>>>>>> 0363600121bbff7310626e5fbb3ddbba2b3eb8a1
     }
 
     public function getCartContent()
@@ -30,12 +26,9 @@ class CartService
         if ($this->itemExists($data['id'])) {
             return false; // العنصر موجود بالفعل
         }
-<<<<<<< HEAD
-        \Cart::session($this->sessionId)->add([
-=======
 
-        \Cart::add([
->>>>>>> 0363600121bbff7310626e5fbb3ddbba2b3eb8a1
+
+       $cart= \Cart::add([
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
@@ -43,6 +36,7 @@ class CartService
             'attributes' => $data['attributes'] ?? [],
         ]);
 
+        dd($cart);
         return true;
     }
 
