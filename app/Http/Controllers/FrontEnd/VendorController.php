@@ -48,11 +48,12 @@ class VendorController extends Controller
     }
 
 
-    public function showFoodItem( $food_item_id)
+    public function showFoodItem($vendor_slug, $food_item_id)
 
     {
         $foodItem=FoodItem::find($food_item_id);
-        return view('customer.product-detail', ['vendor'=>$this->vendor, 'foodItem']);
+        // dd($foodItem);
+        return view('customer.product-detail', ['vendor'=>$this->vendor, 'product'=>$foodItem]);
 
     }
 

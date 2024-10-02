@@ -12,7 +12,6 @@ class CartService
     public function __construct()
     {
         $this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
-
     }
 
     public function getCartContent()
@@ -22,10 +21,10 @@ class CartService
 
     public function addItem($data)
     {
+       
         if ($this->itemExists($data['id'])) {
             return false; // العنصر موجود بالفعل
         }
-
         \Cart::session($this->sessionId)->add([
             'id' => $data['id'],
             'name' => $data['name'],

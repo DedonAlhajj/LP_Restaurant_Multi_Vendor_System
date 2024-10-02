@@ -9,7 +9,7 @@
             @if(Cart::isEmpty())
             <h3 class="text-center">Your Cart is Empty</h3>
             @else
-            @foreach(Cart::getContent() as $item)
+            @foreach(Cart::getCartContent() as $item)
               <li class="item_".$item->id >
                   <div class="item-content">
                       <div class="item-media media media-60">

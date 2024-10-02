@@ -21,7 +21,7 @@ class CartController extends Controller
     {
         try {
             $cartItems = $this->cartService->getCartContent();
-            return view('cart.index', compact('cartItems', 'vendor_slug'));
+            return view('customer.cart', compact('cartItems', 'vendor_slug'));
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while loading the contents of the cart.');
@@ -31,6 +31,7 @@ class CartController extends Controller
     // إضافة عنصر إلى السلة
     public function add(Request $request, $vendor_slug)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'id' => 'required|integer',
             'name' => 'required|string|max:255',
@@ -40,17 +41,16 @@ class CartController extends Controller
 
         try {
             $added = $this->cartService->addItem($validated);
-
             if (!$added) {
                 return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                    ->with('error', 'The item is already in the cart.');
+                    ->with(['error'=> 'The item is already in the cart.']);
             }
 
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('success', $validated['name'] . 'It has been added successfully.');
+                ->with(['success'=> $validated['name'] . 'It has been added successfully.']);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('error', 'An error occurred while adding the item to the cart.');
+                ->with(['error'=> 'An error occurred while adding the item to the cart.']);
         }
     }
 

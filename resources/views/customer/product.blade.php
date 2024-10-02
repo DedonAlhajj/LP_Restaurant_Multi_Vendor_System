@@ -50,7 +50,9 @@
     
     <!-- Page Content -->
 	<div class="page-content">
+
 		<div class="container"> 
+            @include('customer.partial.alert')
 			<div class="serach-area"> 
 				<form>
 					<div class="mb-3 input-group input-radius">
