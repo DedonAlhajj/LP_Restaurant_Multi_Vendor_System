@@ -48,9 +48,6 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 Route::middleware(['auth', 'role:Seller', 'checkSellerStatus'])->group(function () {
     Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
-
-
-
 });
 
 // صفحة الانتظار يجب أن تكون خارج middleware التحقق من حالة البائع حتى لا يحدث إعادة توجيه لانهائية

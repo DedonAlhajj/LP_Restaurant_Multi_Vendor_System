@@ -487,7 +487,7 @@
                         </div>
                     </div>
 					<!-- Item box Start -->
-                    <a href="product.html" class="btn btn-outline-primary btn-rounded btn-block">VIEW MORE</a>
+                    <a href="{{route('vendor.menu',$vendor->slug)}}" class="btn btn-outline-primary btn-rounded btn-block">VIEW MORE</a>
 				</div>
 			</div>    
 		</div>
