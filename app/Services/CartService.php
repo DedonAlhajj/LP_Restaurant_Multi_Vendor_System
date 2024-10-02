@@ -7,10 +7,11 @@ use Cart;
 
 class CartService
 {
-    protected $sessionId;
+    protected $sessionId='cart';
 
     public function __construct()
     {
+
 
         //$this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
 
@@ -28,12 +29,12 @@ class CartService
             return false; // العنصر موجود بالفعل
         }
 
-        \Cart::add(array(
+        \Cart::add([
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
             'quantity' => $data['quantity'],
-        ));
+        ]);
 
         return true;
     }

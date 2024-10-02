@@ -46,7 +46,7 @@ class CartController extends Controller
             $added = $this->cartService->addItem($validated);
             if (!$added) {
                 return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                    ->with(['error'=> 'The item is already in the cart.']);
+                    ->with(['info' => 'The item is already in the cart.']);
             }
 
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
@@ -82,13 +82,8 @@ class CartController extends Controller
 
         try {
             $this->cartService->removeItem($validated['id']);
-            return response()->json([
-                'success' => true,
-                'message' => 'The item was removed successfully.',
-                'vendor_slug' => $vendor_slug,
-            ]);
-           /* return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('success', 'The item was removed successfully.');*/
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('success', 'The item was removed successfully.');
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while removing the item from the cart.');

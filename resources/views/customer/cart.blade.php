@@ -41,3 +41,5 @@
     <button type="submit">إفراغ السلة</button>
 </form>
 --}}
+
+@dd(Session::get('cart'))
