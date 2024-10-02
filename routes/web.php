@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Auth\CustomerAuthController;
+use App\Http\Controllers\FrontEnd\CartController;
 use App\Http\Controllers\FrontEnd\OrderController;
 use App\Http\Controllers\FrontEnd\VendorController;
 use App\Http\Controllers\ProfileController;
@@ -74,6 +75,13 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
     Route::get('/menu', [VendorController::class, 'showMenu'])->name('vendor.menu');
     Route::get('/menu/product/{product_id}', [VendorController::class, 'showFoodItem'])->name('vendor.menu.fooditem');
     Route::get('/notifications', [VendorController::class, 'showNotifications'])->name('vendor.notifications');
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
 
 
     Route::middleware('guest:customer')->group(function () {
