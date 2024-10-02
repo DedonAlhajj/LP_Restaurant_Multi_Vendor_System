@@ -61,4 +61,12 @@ class CartService
     {
         return \Cart::session($this->sessionId)->get($id) !== null;
     }
+
+    public function calculateTotalPrice($cartItems)
+    {
+        return $cartItems->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+    }
+
 }

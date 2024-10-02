@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Restaurant extends Model
 {
     use HasFactory;
+    protected $table='restaurants';
     protected $gureded=[];
     public function user()
     {

@@ -3,72 +3,94 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function checkout()
+    protected $cartService;
+    protected $vendor;
+
+    public function __construct(Request $request,CartService $cartService)
     {
-        // جلب session id
-        $sessionId = session()->getId();
-
-        // جلب عناصر السلة
-        $cartItems = Cart::where('session_id', $sessionId)->get();
-
-        // التحقق إذا كان المستخدم مسجل دخولاً
-        if (Auth::guard('customer')->check()) {
-            // عرض صفحة تأكيد الطلب
-            return view('order.confirmation', compact('cartItems'));
-        } else {
-            // إذا كان ضيفاً، عرض صفحة تسجيل الدخول أو التسجيل
-            return view('auth.login_or_register', compact('cartItems'));
-        }
+        $this->cartService = $cartService;
+        $this->slug = $request->route('vendor_slug');
+        $this->vendor = Restaurant::where('slug', $this->slug)->firstOrFail();
     }
-    public function completeOrder(Request $request)
+
+    // صفحة تأكيد الطلب
+    public function confirmation(Request $request, $vendor_slug)
+    {
+        $cartItems = $this->cartService->getCartContent();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])->with('error', 'Cart is empty.');
+        }
+
+        if (!auth('customer')->check()) {
+            return redirect()->route('customer.login',['vendor_slug' => $vendor_slug])->with('message', 'Please log in to complete your order.');
+        }
+
+        return view('order.confirmation', compact('cartItems', 'vendor_slug'));
+    }
+
+    // إتمام الطلب
+    public function completeOrder(Request $request,$vendor_slug)
     {
         // التحقق من صحة البيانات
-       /* $request->validate([
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'order_type' => 'required|in:table,delivery', // التحقق من أن نوع الطلب صحيح
-        ]);
+        $validated = $request->validate(['order_type' => 'required',]);
 
-        // جلب session id
-        $sessionId = session()->getId();
+        // جلب عناصر السلة
+        $cartItems = $this->cartService->getCartContent();
 
-        // جلب العناصر من السلة
-        $cartItems = Cart::where('session_id', $sessionId)->get();
-
-        // حساب إجمالي السعر بناءً على السلة
-        $totalPrice = $cartItems->sum(function($item) {
-            return $item->quantity * $item->item->price;
-        });
-
-        // حفظ الطلب في قاعدة البيانات
-        $order = Order::create([
-            'customer_id' => auth()->guard('customer')->id(),
-            'restaurant_id' => 1, // هذا مجرد مثال، اجلب الـ restaurant_id من السلة أو الطلب
-            'order_type' => $request->order_type,
-            'status' => 'Pending', // تعيين الحالة مبدئياً كـ 'Pending'
-            'total_price' => $totalPrice,
-            'payment_status' => 'Unpaid', // تعيين حالة الدفع مبدئياً كـ 'Unpaid'
-            'payment_method' => 'cash', // يمكنك تعديله بناءً على نموذج الطلب
-        ]);
-
-        // إضافة العناصر الخاصة بالطلب إلى جدول order_items
-        foreach ($cartItems as $cartItem) {
-            OrderItem::create([
-                'order_id' => $order->id, // ربط العنصر بالطلب
-                'food_item_id' => $cartItem->item->id, // ربط العنصر بالمنتج (صنف الطعام)
-                'quantity' => $cartItem->quantity,
-                'price' => $cartItem->item->price, // حفظ السعر لكل عنصر
-            ]);
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('error', 'Cart is empty.');
         }
 
-        // يمكنك الآن إزالة العناصر من السلة أو تحديث حالة السلة بناءً على متطلبات التطبيق
+        // حساب إجمالي السعر بناءً على السلة
+        $totalPrice = $this->cartService->calculateTotalPrice($cartItems);
 
-        return redirect()->route('order.success')->with('message', 'تم إرسال طلبك بنجاح.');
-    */}
+        // حفظ الطلب في قاعدة البيانات
+        try {
+            // استخدام المعاملات
+            DB::transaction(function () use ($validated, $totalPrice, $cartItems) {
+                // حفظ الطلب في قاعدة البيانات
+                $order = Order::create([
+                    'customer_id' => auth('customer')->id(),
+                    'restaurant_id' => $this->vendor->id,
+                    'order_types' => $validated['order_type'],
+                    'total_price' => $totalPrice,
+                    'payment_status' => 'Unpaid',
+                    'payment_method' => 'cash',
+                ]);
+
+                // إضافة العناصر الخاصة بالطلب إلى جدول order_items
+                foreach ($cartItems as $cartItem) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'food_item_id' => $cartItem->id,
+                        'quantity' => $cartItem->quantity,
+                        'price' => $cartItem->price,
+                    ]);
+                }
+
+                // تفريغ السلة بعد إتمام الطلب
+                $this->cartService->clearCart();
+            });
+
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('message', 'Your request has been sent successfully.');
+
+        } catch (\Exception $e) {
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('error', 'An error occurred while completing the request. Please try again later.');
+        }
+    }
+
 
 }
