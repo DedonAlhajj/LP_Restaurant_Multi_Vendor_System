@@ -8,7 +8,7 @@ use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
-{   
+{
 
 
     protected $slug;
@@ -33,7 +33,7 @@ class VendorController extends Controller
     }
 
 
-    public function showMenu()
+    public function showMenu($vendor_slug)
     {
         // dd('showMenu');
 
@@ -44,7 +44,7 @@ class VendorController extends Controller
         // dd($foodItems);
 
 
-        return view('customer.product', ['vendor'=>$this->vendor, 'foodItems'=>$foodItems]);
+        return view('customer.product', ['vendor'=>$this->vendor, 'foodItems'=>$foodItems,'slug'=>$vendor_slug]);
     }
 
 

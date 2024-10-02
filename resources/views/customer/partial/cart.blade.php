@@ -4,12 +4,12 @@
   </button>
   <div class="offcanvas-body container fixed">
       <div class="item-list style-2">
-        
+
           <ul>
             @if(Cart::isEmpty())
             <h3 class="text-center">Your Cart is Empty</h3>
             @else
-            @foreach(Cart::getCartContent() as $item)
+            @foreach(Cart::getContent() as $item)
               <li class="item_".$item->id >
                   <div class="item-content">
                       <div class="item-media media media-60">
@@ -21,12 +21,12 @@
                               <div class="item-subtitle">Coffe, Milk</div>
                           </div>
 
-                          
+
                           <div class="item-footer">
                               <div class="d-flex align-items-center">
                                   <h6 class="me-3">$ {{ $item->price }}</h6>
                                   {{-- <del class="off-text"><h6>$ 8.9</h6></del> --}}
-                              </div>    
+                              </div>
                               <div class="d-flex align-items-center">
                                   <div class="dz-stepper border-1 ">
                                       <input class="stepper" type="text" value="{{ $item->quantity }}" name="demo3">
@@ -34,7 +34,7 @@
                               </div>
                           </div>
                       </div>
-                      <form action="{{ route('cart.remove') }}" method="POST">
+                      <form action="{{ route('cart.remove',$slug) }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $item->id }}">
                         <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="button"><i class="fa-solid fa-trash"></i></button>
@@ -66,7 +66,7 @@
                       <h5>$ {{ Cart::getTotal() }}</h5>
                   </li>
               </ul>
-              <a href="{{ route('order.confirmation') }}" class="btn btn-primary btn-rounded btn-block flex-1 ms-2">CONFIRM</a>
+              <a href="{{ route('order.confirmation',$slug) }}" class="btn btn-primary btn-rounded btn-block flex-1 ms-2">CONFIRM</a>
           </div>
       </div>
       @endif
