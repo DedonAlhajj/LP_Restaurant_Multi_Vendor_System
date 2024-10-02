@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class OrderItem extends Model
 {
     use HasFactory;
+    protected $table='order_items';
     protected $gureded=[];
     public function order()
     {

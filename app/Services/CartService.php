@@ -11,12 +11,17 @@ class CartService
 
     public function __construct()
     {
+<<<<<<< HEAD
         $this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
+=======
+        //$this->sessionId = auth('customer')->check() ? auth('customer')->id() : session()->getId();
+
+>>>>>>> 0363600121bbff7310626e5fbb3ddbba2b3eb8a1
     }
 
     public function getCartContent()
     {
-        return \Cart::session($this->sessionId)->getContent();
+        return \Cart::getContent();
     }
 
     public function addItem($data)
@@ -25,7 +30,12 @@ class CartService
         if ($this->itemExists($data['id'])) {
             return false; // العنصر موجود بالفعل
         }
+<<<<<<< HEAD
         \Cart::session($this->sessionId)->add([
+=======
+
+        \Cart::add([
+>>>>>>> 0363600121bbff7310626e5fbb3ddbba2b3eb8a1
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
@@ -38,7 +48,7 @@ class CartService
 
     public function updateItemQuantity($id, $quantity)
     {
-        \Cart::session($this->sessionId)->update($id, [
+        \Cart::update($id, [
             'quantity' => [
                 'relative' => false,
                 'value' => $quantity
@@ -48,16 +58,24 @@ class CartService
 
     public function removeItem($id)
     {
-        \Cart::session($this->sessionId)->remove($id);
+        \Cart::remove($id);
     }
 
     public function clearCart()
     {
-        \Cart::session($this->sessionId)->clear();
+        \Cart::clear();
     }
 
     protected function itemExists($id)
     {
-        return \Cart::session($this->sessionId)->get($id) !== null;
+        return \Cart::get($id) !== null;
     }
+
+    public function calculateTotalPrice($cartItems)
+    {
+        return $cartItems->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+    }
+
 }
