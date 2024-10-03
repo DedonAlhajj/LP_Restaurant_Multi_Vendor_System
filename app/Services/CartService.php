@@ -52,6 +52,8 @@ class CartService
     public function removeItem($id)
     {
         \Cart::remove($id);
+        // $this->calculateTotalPrice(\Cart::getContent());
+     
     }
 
     public function clearCart()
@@ -66,6 +68,7 @@ class CartService
 
     public function calculateTotalPrice($cartItems)
     {
+      
         return $cartItems->sum(function ($item) {
             return $item->quantity * $item->price;
         });

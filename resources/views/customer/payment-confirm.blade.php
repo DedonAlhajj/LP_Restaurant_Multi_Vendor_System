@@ -1,80 +1,67 @@
-@extends('customer.layouts.masterAuth')
-@section('title', 'Login')
+@extends('customer.layouts.master')
+@section('title', 'Order Payment Confirm')
 @section('content')
 <div class="page-wraper">
-
+    
     <!-- Preloader -->
-	<div id="preloader">
-		<div class="spinner"></div>
-	</div>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
     <!-- Preloader end-->
-
-    <!-- Page Content -->
-    <div class="page-content">
-        <!-- Banner -->
-        <div class="banner-wrapper">
-            <div class="circle-1"></div>
-            <div class="container inner-wrapper">
-                <h1 class="dz-title">{{$vendor->name}}</h1>
-                <p class="mb-0">Restaurant App</p>
-            </div>
-        </div>
-        <!-- Banner End -->
-        <div class="account-box">
-
+    
+	<!-- Header -->
+    <header class="header">
+        <div class="main-bar">
             <div class="container">
-                @include('customer.partial.alert')
-
-                <div class="account-area">
-                    <h3 class="title">Welcome back</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-					<form method="POST" action="{{ route('customer.store' , $vendor->slug) }}">
-                        @csrf
-						<div class="input-group input-mini mb-3">
-							<span class="input-group-text"><i class="fa fa-user"></i></span>
-							<input type="text" class="form-control" value="{{old('phone')}}" placeholder="Phone" name="phone" required>
-						</div>
-						<div class="mb-3 input-group input-mini">
-							<span class="input-group-text"><i class="fa fa-lock"></i></span>
-							<input type="password" class="form-control dz-password" placeholder="Password" name="password" required>
-							<span class="input-group-text show-pass"> 
-								<i class="fa fa-eye-slash"></i>
-								<i class="fa fa-eye"></i>
-							</span>
-						</div>
-
-
-						<div class="input-group">
-							<button type="submit" class="btn mt-2 btn-primary w-100 btn-rounded">SIGN IN</a>
-						</div>
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-								<label class="form-check-label" for="flexCheckChecked">
-									Keep Sign In
-								</label>
-							</div>
-                         
-							<a href="forgot-password.html" class="btn-link">Forgot password?</a>
-						</div>
-					</form>  
-                    <div class="text-center mb-auto p-tb20">
-                        <a href="{{route('customer.register', $vendor->slug)}}" class="saprate">Don’t have an account?</a>
+                <div class="header-content">
+                    <div class="left-content">
+                        <a href="javascript:void(0);" class="back-btn">
+                            <svg width="18" height="18" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M9.03033 0.46967C9.2966 0.735936 9.3208 1.1526 9.10295 1.44621L9.03033 1.53033L2.561 8L9.03033 14.4697C9.2966 14.7359 9.3208 15.1526 9.10295 15.4462L9.03033 15.5303C8.76406 15.7966 8.3474 15.8208 8.05379 15.6029L7.96967 15.5303L0.96967 8.53033C0.703403 8.26406 0.679197 7.8474 0.897052 7.55379L0.96967 7.46967L7.96967 0.46967C8.26256 0.176777 8.73744 0.176777 9.03033 0.46967Z" fill="#a19fa8"/>
+							</svg>
+                        </a>
+                    </div>
+					<h5 class="mb-0 ms-2 text-nowrap">Order Confirm</h5>
+                    <div class="mid-content">
+                    </div>
+                    <div class="right-content">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Page Content End -->
+    </header>
+    <!-- Header End -->
     
-    <!-- Footer -->
-    <footer class="footer fixed">
-        <div class="container">
-            <a href="signup.html" class="btn btn-transparent btn-rounded d-block">CREATE AN ACCOUNT</a>
-        </div>
-    </footer>
-    <!-- Footer End -->
     
+    <!-- Page Content -->
+	<div class="page-content">
+		<div class="container"> 
+			<!-- MAKE PAYMENT -->
+				<div class="box">
+					<div class="payment-box">
+						<div class="payment-successful">
+							<i class="fa-solid fa-check mb-2"></i>
+							<h5 class="text-white">Order Completed Successful!</h5>	
+							<p>You will paid: ${{$order->total_price}}</p>
+						</div>	
+					</div>
+					<div class="text-center mt-3">
+						<p class="text-dark mb-0">Receipt has been sent to your email address.</p>
+						<a href="javascript:void(0);" class="btn-link">View Receipt <i class="fa-solid fa-angle-right ms-2"></i></a>
+					</div>
+				</div>
+			<!-- MAKE PAYMENT -->
+		</div>
+		<div class="footer fixed ">
+			<div class="container">
+				<p class="text-dark text-center">Your Order Number is <span class="font-w600">{{$order->id}}</span></p>
+				<div class="footer-btn d-flex align-items-center">
+					<a href="tracking-order2.html" class="btn btn-primary flex-1 ms-2">Order Delivery Status</a>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- Page Content End-->
     <!-- Theme Color Settings -->
 	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
         <div class="offcanvas-body small">
@@ -144,5 +131,4 @@
     </div>
 	<!-- Theme Color Settings End -->
 </div>
-
 @endsection

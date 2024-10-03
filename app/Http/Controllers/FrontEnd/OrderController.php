@@ -14,6 +14,7 @@ class OrderController extends Controller
 {
     protected $cartService;
     protected $vendor;
+    protected $slug;
 
     public function __construct(Request $request,CartService $cartService)
     {
@@ -26,23 +27,26 @@ class OrderController extends Controller
     public function confirmation(Request $request, $vendor_slug)
     {
         $cartItems = $this->cartService->getCartContent();
-
         if ($cartItems->isEmpty()) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])->with('error', 'Cart is empty.');
         }
+     
+        // dd(auth('customer')->check());
+        // if (!auth('customer')->check()) {
 
-        if (!auth('customer')->check()) {
-            return redirect()->route('customer.login',['vendor_slug' => $vendor_slug])->with('message', 'Please log in to complete your order.');
-        }
+            // return redirect()->route('customer.login',['vendor_slug' => $this->vendor->slug])->with('url.intended', $request->url());
+            // return redirect()->route('customer.login',['vendor_slug' => $this->vendor->slug])
+            // ->with(['info'=> 'Please log in to complete your order.' ]);
+        // }
 
-        return view('order.confirmation', compact('cartItems', 'vendor_slug'));
+        return view('customer.payment', compact('cartItems', 'vendor_slug'));
     }
 
     // إتمام الطلب
     public function completeOrder(Request $request,$vendor_slug)
     {
         // التحقق من صحة البيانات
-        $validated = $request->validate(['order_type' => 'required',]);
+        $validated = $request->validate(rules: ['order_type' => 'required',]);
 
         // جلب عناصر السلة
         $cartItems = $this->cartService->getCartContent();
@@ -58,7 +62,7 @@ class OrderController extends Controller
         // حفظ الطلب في قاعدة البيانات
         try {
             // استخدام المعاملات
-            DB::transaction(function () use ($validated, $totalPrice, $cartItems) {
+            Db::beginTransaction();
                 // حفظ الطلب في قاعدة البيانات
                 $order = Order::create([
                     'customer_id' => auth('customer')->id(),
@@ -80,17 +84,27 @@ class OrderController extends Controller
                 }
 
                 // تفريغ السلة بعد إتمام الطلب
+                
+                db::commit();
                 $this->cartService->clearCart();
-            });
-
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('message', 'Your request has been sent successfully.');
-
+                return view('customer.payment-confirm',['vendor_slug' => $this->vendor->slug , 'order' => $order ] );    
         } catch (\Exception $e) {
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('error', 'An error occurred while completing the request. Please try again later.');
+            db::rollBack();
+            return redirect()->back()->with(['error'=>$e->getMessage()]);
+                // ->with('error', 'An error occurred while completing the request. Please try again later.');
         }
     }
 
+
+    public function history($vendor_slug)
+    {
+        return view('customer.payment-confirm', compact('vendor_slug'));
+    }
+
+
+    public function customerOrder()
+    {
+        return view('customer.order-list');
+    }
 
 }

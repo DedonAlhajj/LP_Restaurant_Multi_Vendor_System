@@ -35,7 +35,7 @@
 <body class="bg-white">
 
 
-
+    
     @yield('content')
 <!--**********************************
     Scripts

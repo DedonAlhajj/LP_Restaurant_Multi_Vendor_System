@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
         // ...
         'checkSellerStatus' => \App\Http\Middleware\CheckSellerStatus::class,
         'check.vendor.slug' => \App\Http\Middleware\CheckVendorSlug::class,
+        'auth.customer' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
 
     ];
 

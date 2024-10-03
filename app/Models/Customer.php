@@ -11,6 +11,8 @@ class Customer extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $guard = 'customer';
+
     /**
      * الحقول القابلة للملء.
      *

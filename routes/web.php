@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('customer.notification');
-});
+// Route::get('/', function () {
+//     return view('customer.notification');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -81,16 +81,24 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
 
 
 
-    Route::middleware('guest:customer')->group(function () {
+    // Route::middleware('guest:customer')->group(function () {
         Route::get('customer/login', [CustomerAuthController::class, 'loginForm'])->name('customer.login');
-        Route::post('customer/login', [CustomerAuthController::class, 'login']);
+
+        Route::post('customer/login', [CustomerAuthController::class, 'login'])->name('customer.store');
+
         Route::get('customer/register', [CustomerAuthController::class, 'registerForm'])->name('customer.register');
         Route::post('customer/register', [CustomerAuthController::class, 'register']);
-    });
 
-    Route::middleware('auth:customer')->group(function () {
+    // });
+
+    Route::get('customer/logout', action: [CustomerAuthController::class, 'logout'])->name('customer.logout');
+
+
+    Route::middleware('auth.customer')->group(function () {
+        Route::get('/my-order', [OrderController::class, 'customerOrder'])->name('customer.orders');
         Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
         Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
+        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
     });
     Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
 });
