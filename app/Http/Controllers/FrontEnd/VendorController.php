@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FoodItem;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -27,7 +28,15 @@ class VendorController extends Controller
         return view('customer.welcome', ['vendor'=>$this->vendor]);
     }
     public function index($vendor_slug){
-        // dd('index');
+       /*
+        $foodItems = FoodItem::select('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id',
+            'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image',
+            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating'))
+            ->leftJoin('order_ratings_and_comments', 'food_items.id', '=', 'order_ratings_and_comments.food_item_id')
+            ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
+            ->orderByDesc('average_rating') // ترتيب تنازلي بناءً على متوسط التقييم
+            ->take(2)
+            ->get();*/
 
         return view('customer.index',['vendor'=>$this->vendor]);
     }
@@ -35,13 +44,14 @@ class VendorController extends Controller
 
     public function showMenu($vendor_slug)
     {
-        // dd('showMenu');
-
-
-        // dd($vendor);
-        // جلب قائمة الطعام الخاصة بالبائع
-        $foodItems = FoodItem::where('restaurant_id', $this->vendor->id)->get();
-        // dd($foodItems);
+        $foodItems = FoodItem::select('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id',
+            'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image',
+            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating'))
+            ->leftJoin('order_ratings_and_comments', 'food_items.id', '=', 'order_ratings_and_comments.food_item_id')
+            ->where('food_items.restaurant_id', $this->vendor->id) // إضافة شرط المطعم
+            ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
+            ->orderByDesc('average_rating') // ترتيب تنازلي بناءً على متوسط التقييم
+            ->get();
 
 
         return view('customer.product', ['vendor'=>$this->vendor, 'foodItems'=>$foodItems,'slug'=>$vendor_slug]);

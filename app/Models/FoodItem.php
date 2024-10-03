@@ -30,6 +30,12 @@ class FoodItem extends Model
 
     public function ratingsAndComments()
     {
-        return $this->hasMany(RatingAndComment::class);
+        return $this->hasMany(RatingAndComment::class,'food_item_id');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        // استعلام لحساب متوسط التقييم
+        return $this->ratingsAndComments()->avg('rating') ?? 0; // إرجاع 0 إذا لم يكن هناك تقييمات
     }
 }

@@ -3,13 +3,13 @@
 @section('title', 'Products List')
 @section('content')
 <div class="page-wraper">
-    
+
     <!-- Preloader -->
     <div id="preloader">
         <div class="spinner"></div>
     </div>
     <!-- Preloader end-->
-    
+
 	<!-- Header -->
     <header class="header">
         <div class="main-bar">
@@ -47,13 +47,13 @@
         </div>
     </header>
     <!-- Header End -->
-    
+
     <!-- Page Content -->
 	<div class="page-content">
 
-		<div class="container"> 
+		<div class="container">
             @include('customer.partial.alert')
-			<div class="serach-area"> 
+			<div class="serach-area">
 				<form>
 					<div class="mb-3 input-group input-radius">
 						<span class="input-group-text">
@@ -128,11 +128,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- TITLE -->
                 <h4 class="title my-4">Expresson & Classic</h4>
                 <!-- TITLE -->
-                
+
 				<div class="item-list recent-jobs-list">
 					<ul>
                         @forelse ($foodItems as $foodItem )
@@ -147,10 +147,10 @@
                                         <div class="d-flex align-items-center">
                                             <h6 class="me-3">{{$foodItem->price}}</h6>
                                             {{-- <del class="off-text"><h6>$ 8.9</h6></del> --}}
-                                        </div>    
+                                        </div>
                                         <div class="d-flex align-items-center">
                                             <i class="fa-solid fa-star"></i>
-                                            <h6>4.5</h6>
+                                            <h6>{{ number_format($foodItem->average_rating, 1) }}</h6>
                                         </div>
                                     </div>
 								</div>
@@ -159,25 +159,25 @@
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
                                         </svg>
-                                    </a>    
+                                    </a>
                                 </div>
 							</div>
 						</li>
                         @empty
-                            
+
                         @endforelse
 
                     </ul>
-                    <div class="saprater"></div>    
+                    <div class="saprater"></div>
                     <!-- TITLE -->
-        
+
 				</div>
-				<!-- Job List -->                    
-			</div>    
+				<!-- Job List -->
+			</div>
 		</div>
 	</div>
     <!-- Page Content End-->
-	
+
 
 	<!-- CART -->
     @include('customer.partial.cart')
@@ -211,12 +211,12 @@
 						<input type="radio" class="btn-check" name="btnradio" id="btnradio2">
 						<label class="btn-outline-primary tag-btn" for="btnradio2">Under 30 mins</label>
 					</div>
-					
+
 					<div class="clearfix">
 						<input type="radio" class="btn-check" name="btnradio" id="btnradio3">
 						<label class="btn-outline-primary tag-btn" for="btnradio3">Under 45 mins</label>
 					</div>
-				  
+
 					<div class="clearfix">
 						<input type="radio" class="btn-check" name="btnradio" id="btnradio4">
 						<label class="btn-outline-primary tag-btn" for="btnradio4">Under 60 mins</label>
@@ -234,10 +234,10 @@
 
 					<input type="radio" class="btn-check" name="btnradio5" id="btnradio7">
 					<label class="btn-outline-primary tag-btn" for="btnradio7">Gluten free</label>
-				  
+
 					<input type="radio" class="btn-check" name="btnradio5" id="btnradio8">
 					<label class="btn-outline-primary tag-btn" for="btnradio8">Law Cafe</label>
-					
+
 					<input type="radio" class="btn-check" name="btnradio5" id="btnradio9">
 					<label class="btn-outline-primary tag-btn" for="btnradio9">Suger Free</label>
 				</div>
@@ -253,10 +253,10 @@
 
 					<input type="radio" class="btn-check" name="btnradio6" id="btnradio12">
 					<label class="btn-outline-primary tag-btn" for="btnradio12">70g Kacl</label>
-				  
+
 					<input type="radio" class="btn-check" name="btnradio6" id="btnradio13">
 					<label class="btn-outline-primary tag-btn" for="btnradio13">80g Kacl</label>
-					
+
 				</div>
             </div>
 			<div class="mb-3">
@@ -279,7 +279,7 @@
 						<i class="fa-solid fa-star"></i>
 						4.7
 					</label>
-				  
+
 					<input type="radio" class="btn-check" name="btnradio7" id="btnradio17">
 					<label class="btn-outline-primary tag-btn" for="btnradio17">
 						<i class="fa-solid fa-star"></i>

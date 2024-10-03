@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use App\Models\Restaurant;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Models\Order;
@@ -14,6 +16,7 @@ class OrderController extends Controller
 {
     protected $cartService;
     protected $vendor;
+    protected $invoice;
 
     public function __construct(Request $request,CartService $cartService)
     {
@@ -37,7 +40,6 @@ class OrderController extends Controller
 
         return view('order.confirmation', compact('cartItems', 'vendor_slug'));
     }
-
     // إتمام الطلب
     public function completeOrder(Request $request,$vendor_slug)
     {
@@ -78,6 +80,7 @@ class OrderController extends Controller
                         'price' => $cartItem->price,
                     ]);
                 }
+                //$this->invoice->generateInvoice($order);
 
                 // تفريغ السلة بعد إتمام الطلب
                 $this->cartService->clearCart();
@@ -91,6 +94,24 @@ class OrderController extends Controller
                 ->with('error', 'An error occurred while completing the request. Please try again later.');
         }
     }
+
+    public function customerOrders()
+    {
+        // الحصول على الزبون المصادق عليه
+        $customerId = auth('customer')->id();
+
+        // جلب الطلبات الخاصة بالزبون وترتيبها من الأحدث إلى الأقدم
+        $orders = Order::where('customer_id', $customerId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // إرجاع صفحة العرض مع البيانات
+        return view('customer.orders', compact('orders'));
+    }
+
+
+
+
 
 
 }
