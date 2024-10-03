@@ -88,17 +88,12 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
 
         Route::get('customer/register', [CustomerAuthController::class, 'registerForm'])->name('customer.register');
         Route::post('customer/register', [CustomerAuthController::class, 'register']);
-
     // });
 
-    Route::get('customer/logout', action: [CustomerAuthController::class, 'logout'])->name('customer.logout');
-
-
-    Route::middleware('auth.customer')->group(function () {
-        Route::get('/my-order', [OrderController::class, 'customerOrder'])->name('customer.orders');
+    Route::middleware('auth:customer')->group(function () {
         Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
         Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
         Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
     });
-    Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+    //Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
 });
