@@ -17,14 +17,14 @@ class CustomerAuthController extends Controller
 
     protected $vendor;
     protected $slug;
-  
+
 
     public function __construct(Request $request)
-    {   
+    {
         $this->slug = $request->route('vendor_slug');
         $this->vendor = Restaurant::where('slug', $this->slug)->first();
     }
-    public function loginForm(Request $request) 
+    public function loginForm(Request $request)
     {
 
         return view('customer.auth.login' , ['vendor'=> $this->vendor])->with(['url'=>session('intended')]);
@@ -34,7 +34,7 @@ class CustomerAuthController extends Controller
         // تعديل بيانات الاعتماد لتكون متوافقة مع الجدول
         $credentials = $request->only('phone', 'password');
         if (Auth::guard('customer')->attempt($credentials)) {
-                    
+
             return redirect()->intended(route('vendor.index' ,['vendor_slug'=> $this->slug]));
         }
 
@@ -67,9 +67,9 @@ class CustomerAuthController extends Controller
     }
 
     public function logout() {
-      
+
         Auth::guard('customer')->logout();
-        
+
         return redirect()->route('customer.login', $this->slug);
     }
 }
