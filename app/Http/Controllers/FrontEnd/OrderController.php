@@ -30,7 +30,7 @@ class OrderController extends Controller
         if ($cartItems->isEmpty()) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])->with('error', 'Cart is empty.');
         }
-     
+
         // dd(auth('customer')->check());
         // if (!auth('customer')->check()) {
 
@@ -84,10 +84,10 @@ class OrderController extends Controller
                 }
 
                 // تفريغ السلة بعد إتمام الطلب
-                
+            //$this->invoice->generateInvoice($order);
                 db::commit();
                 $this->cartService->clearCart();
-                return view('customer.payment-confirm',['vendor_slug' => $this->vendor->slug , 'order' => $order ] );    
+                return view('customer.payment-confirm',['vendor_slug' => $this->vendor->slug , 'order' => $order ] );
         } catch (\Exception $e) {
             db::rollBack();
             return redirect()->back()->with(['error'=>$e->getMessage()]);
@@ -101,10 +101,17 @@ class OrderController extends Controller
         return view('customer.payment-confirm', compact('vendor_slug'));
     }
 
-
     public function customerOrder()
     {
-        return view('customer.order-list');
+        // الحصول على الزبون المصادق عليه
+        $customerId = auth('customer')->id();
+
+        // جلب الطلبات الخاصة بالزبون وترتيبها من الأحدث إلى الأقدم
+        $orders = Order::where('customer_id', $customerId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('customer.order-list', compact('orders'));
     }
 
 }

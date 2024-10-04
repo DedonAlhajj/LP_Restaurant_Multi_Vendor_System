@@ -33,13 +33,13 @@
 		</div>
 	</header>
     <!-- Header End -->
-    
+
     <!-- Preloader -->
 	<div id="preloader">
 		<div class="spinner"></div>
 	</div>
     <!-- Preloader end-->
-    
+
 	<!-- Sidebar -->
     <div class="sidebar">
 		<div class="author-box">
@@ -48,7 +48,7 @@
 			</div>
 			<div class="dz-info">
 				<span> @if(date('A', strtotime(now())) == 'PM')
-                    Good Evening, 
+                    Good Evening,
                 @else
                     Good Morning,
                 @endif</span>
@@ -63,7 +63,7 @@
         <?php
             $vendor_slug = $vendor->slug;
         ?>
-		<ul class="nav navbar-nav">	
+		<ul class="nav navbar-nav">
 			<li class="nav-label">Main Menu</li>
 			<li><a class="nav-link" href="{{route('vendor.welcome',$vendor_slug)}}">
 				<span class="dz-icon">
@@ -141,12 +141,12 @@
             <li class="nav-label">Settings</li>
             <li class="nav-color" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                 <a href="javascript:void(0);" class="nav-link">
-                    <span class="dz-icon">                        
+                    <span class="dz-icon">
                         <svg class="color-plate" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#000000">
 							<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
 						</svg>
-                    </span>					
-                    <span>Highlights</span>					
+                    </span>
+                    <span>Highlights</span>
                 </a>
             </li>
             <li>
@@ -154,7 +154,7 @@
                     <span class="dz-icon">
                         <svg class="dark" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><g><path d="M11.57,2.3c2.38-0.59,4.68-0.27,6.63,0.64c0.35,0.16,0.41,0.64,0.1,0.86C15.7,5.6,14,8.6,14,12s1.7,6.4,4.3,8.2 c0.32,0.22,0.26,0.7-0.09,0.86C16.93,21.66,15.5,22,14,22c-6.05,0-10.85-5.38-9.87-11.6C4.74,6.48,7.72,3.24,11.57,2.3z"/></g></g></g>
 						</svg>
-                    </span>					
+                    </span>
                     <span class="text-dark">Dark Mode</span>
                     <div class="custom-switch">
                         <input type="checkbox" class="switch-input theme-btn" id="toggle-dark-menu">
@@ -169,7 +169,7 @@
         </div>
     </div>
     <!-- Sidebar End -->
-    
+
     <!-- Banner -->
 	<div class="author-notification">
 		<div class="container inner-wrapper">
@@ -187,14 +187,14 @@
                     <path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#2C406E"/>
                 </svg>
 				<span class="badge badge-danger counter count-item-cart">{{count(Cart::getcontent())}}</span>
-			</a>	
+			</a>
 		</div>
 	</div>
     <!-- Banner End -->
-    
+
     <!-- Page Content -->
     <div class="page-content">
-        
+
         <div class="content-inner pt-0">
 			<div class="container fb">
                 <!-- Search -->
@@ -208,7 +208,7 @@
                         <input type="text" placeholder="Search beverages or foods" class="form-control main-in ps-0 bs-0">
 					</div>
                 </form>
-                
+
                 <!-- Dashboard Area -->
                 <div class="dashboard-area">
 					<!-- Categorie -->
@@ -325,7 +325,7 @@
                         </div>
                     </div>
 					<!-- Categorie End -->
-					
+
 					<!-- Recent -->
 					<div class="m-b10">
                         <div class="swiper-btn-center-lr">
@@ -342,7 +342,7 @@
                                                     <small>*for All Menus</small>
                                                 </div>
                                             </div>
-                                        </div>       
+                                        </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="card add-banner bg-primary">
@@ -355,7 +355,7 @@
                                                     <small>*for All Menus</small>
                                                 </div>
                                             </div>
-                                        </div>       
+                                        </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="card add-banner bg-success">
@@ -368,20 +368,20 @@
                                                     <small>*for All Menus</small>
                                                 </div>
                                             </div>
-                                        </div>       
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 					<!-- Recent -->
-					
+
 					<!-- Recomended Start -->
                     <div class="title-bar">
                         <h5 class="title">Recomended 👌</h5>
                         <a class="btn-link" href="{{route('vendor.menu',$vendor->slug)}}">View more</a>
                     </div>
-                    
+
                     <div class="swiper-btn-center-lr">
                         <div class="swiper-container tag-group mt-4 recomanded-swiper">
                             <div class="swiper-wrapper">
@@ -414,7 +414,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>      
+                                    </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="recomended-list">
@@ -445,7 +445,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>      
+                                    </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="recomended-list">
@@ -476,13 +476,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>      
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 					<!-- Recomended Start -->
-                    
+
 					<!-- Item box Start -->
                     <div class="title-bar">
                         <h5 class="title">Trending this week &#128293;</h5>
@@ -494,7 +494,7 @@
                         <div class="item-content">
                             <a href="product.html"><h6 class="mb-0">Nasi Goreng Kampung Buk Minah</h6></a>
                             <div class="item-footer">
-                                <h6>$ 5.0</h6> 
+                                <h6>$ 5.0</h6>
                                 <a href="javascript:void(0);" class="item-bookmark">
                                     <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M16.7843 2.04749H16.785H16.8064C17.8714 2.05009 18.9118 2.36816 19.7963 2.96157C20.681 3.55518 21.37 4.39768 21.7762 5.38265C22.1823 6.36762 22.2875 7.45087 22.0783 8.49557C21.8692 9.54028 21.3551 10.4996 20.6011 11.2522L20.6004 11.2529L12.0015 19.8519L3.43855 11.2543L3.41711 11.2328L3.39439 11.2126C2.84628 10.7254 2.40336 10.1314 2.09273 9.46713C1.7821 8.80281 1.61031 8.0821 1.58785 7.3491C1.5654 6.61609 1.69276 5.88622 1.96215 5.20414C2.23153 4.52206 2.63727 3.90213 3.15453 3.38228C3.67179 2.86243 4.28969 2.45361 4.97042 2.18082C5.65115 1.90804 6.38038 1.77704 7.11349 1.79584C7.84659 1.81464 8.56815 1.98284 9.23401 2.29015C9.89986 2.59745 10.496 3.03741 10.9859 3.58308L11.0039 3.60309L11.0229 3.6221L11.2929 3.8921L11.9812 4.58036L12.6878 3.91095L12.9728 3.64095L12.9833 3.63096L12.9936 3.62067C13.4906 3.12161 14.0814 2.72571 14.7319 2.45573C15.3825 2.18575 16.08 2.04701 16.7843 2.04749Z" stroke="#BFC9DA" stroke-width="2"/>
@@ -513,7 +513,7 @@
                                 <div class="d-flex align-items-center">
                                     <h6 class="me-3">$ 5.0</h6>
                                     <del><h6>$ 8.9</h6></del>
-                                </div>    
+                                </div>
                                 <a href="javascript:void(0);" class="item-bookmark">
                                     <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M16.7843 2.04749H16.785H16.8064C17.8714 2.05009 18.9118 2.36816 19.7963 2.96157C20.681 3.55518 21.37 4.39768 21.7762 5.38265C22.1823 6.36762 22.2875 7.45087 22.0783 8.49557C21.8692 9.54028 21.3551 10.4996 20.6011 11.2522L20.6004 11.2529L12.0015 19.8519L3.43855 11.2543L3.41711 11.2328L3.39439 11.2126C2.84628 10.7254 2.40336 10.1314 2.09273 9.46713C1.7821 8.80281 1.61031 8.0821 1.58785 7.3491C1.5654 6.61609 1.69276 5.88622 1.96215 5.20414C2.23153 4.52206 2.63727 3.90213 3.15453 3.38228C3.67179 2.86243 4.28969 2.45361 4.97042 2.18082C5.65115 1.90804 6.38038 1.77704 7.11349 1.79584C7.84659 1.81464 8.56815 1.98284 9.23401 2.29015C9.89986 2.59745 10.496 3.03741 10.9859 3.58308L11.0039 3.60309L11.0229 3.6221L11.2929 3.8921L11.9812 4.58036L12.6878 3.91095L12.9728 3.64095L12.9833 3.63096L12.9936 3.62067C13.4906 3.12161 14.0814 2.72571 14.7319 2.45573C15.3825 2.18575 16.08 2.04701 16.7843 2.04749Z" stroke="#BFC9DA" stroke-width="2"/>
@@ -525,16 +525,16 @@
 					<!-- Item box Start -->
                     <a href="{{route('vendor.menu', $vendor->slug)}}" class="btn btn-outline-primary btn-rounded btn-block">VIEW MORE</a>
 				</div>
-			</div>    
+			</div>
 		</div>
-        
-    </div>    
+
+    </div>
     <!-- Page Content End-->
-    
+
     <!-- Menubar -->
 	@include('customer.partial.menubar-area')
 	<!-- Menubar -->
-	
+
 	<!-- Theme Color Settings -->
 	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
         <div class="offcanvas-body small">
@@ -606,7 +606,7 @@
 	<!-- CART -->
     @include('customer.partial.cart')
 	<!-- CART -->
-	
+
 	<!-- PWA Offcanvas -->
 	<div class="offcanvas offcanvas-bottom pwa-offcanvas">
 		<div class="container">
@@ -621,6 +621,6 @@
 	</div>
 	<div class="offcanvas-backdrop pwa-backdrop"></div>
 	<!-- PWA Offcanvas End -->
-	
-</div>  
+
+</div>
 @endsection
