@@ -54,7 +54,7 @@ class VendorController extends Controller
             ->get();
 
 
-        return view('customer.product', ['vendor'=>$this->vendor, 'foodItems'=>$foodItems,'slug'=>$vendor_slug]);
+        return view('customer.product', ['foodItems'=>$foodItems,'vendor'=>$this->vendor]);
     }
 
 

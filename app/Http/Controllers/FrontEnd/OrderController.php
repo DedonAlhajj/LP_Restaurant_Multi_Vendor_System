@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
-use App\Models\Invoice;
 use App\Models\Restaurant;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Models\Order;
@@ -16,7 +14,7 @@ class OrderController extends Controller
 {
     protected $cartService;
     protected $vendor;
-    protected $invoice;
+    protected $slug;
 
     public function __construct(Request $request,CartService $cartService)
     {
@@ -29,22 +27,26 @@ class OrderController extends Controller
     public function confirmation(Request $request, $vendor_slug)
     {
         $cartItems = $this->cartService->getCartContent();
-
         if ($cartItems->isEmpty()) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])->with('error', 'Cart is empty.');
         }
 
-        if (!auth('customer')->check()) {
-            return redirect()->route('customer.login',['vendor_slug' => $vendor_slug])->with('message', 'Please log in to complete your order.');
-        }
+        // dd(auth('customer')->check());
+        // if (!auth('customer')->check()) {
 
-        return view('order.confirmation', compact('cartItems', 'vendor_slug'));
+            // return redirect()->route('customer.login',['vendor_slug' => $this->vendor->slug])->with('url.intended', $request->url());
+            // return redirect()->route('customer.login',['vendor_slug' => $this->vendor->slug])
+            // ->with(['info'=> 'Please log in to complete your order.' ]);
+        // }
+
+        return view('customer.payment', compact('cartItems', 'vendor_slug'));
     }
+
     // إتمام الطلب
     public function completeOrder(Request $request,$vendor_slug)
     {
         // التحقق من صحة البيانات
-        $validated = $request->validate(['order_type' => 'required',]);
+        $validated = $request->validate(rules: ['order_type' => 'required',]);
 
         // جلب عناصر السلة
         $cartItems = $this->cartService->getCartContent();
@@ -60,7 +62,7 @@ class OrderController extends Controller
         // حفظ الطلب في قاعدة البيانات
         try {
             // استخدام المعاملات
-            DB::transaction(function () use ($validated, $totalPrice, $cartItems) {
+            Db::beginTransaction();
                 // حفظ الطلب في قاعدة البيانات
                 $order = Order::create([
                     'customer_id' => auth('customer')->id(),
@@ -80,38 +82,29 @@ class OrderController extends Controller
                         'price' => $cartItem->price,
                     ]);
                 }
-                //$this->invoice->generateInvoice($order);
 
                 // تفريغ السلة بعد إتمام الطلب
+
+                db::commit();
                 $this->cartService->clearCart();
-            });
-
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('message', 'Your request has been sent successfully.');
-
+                return view('customer.payment-confirm',['vendor_slug' => $this->vendor->slug , 'order' => $order ] );
         } catch (\Exception $e) {
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('error', 'An error occurred while completing the request. Please try again later.');
+            db::rollBack();
+            return redirect()->back()->with(['error'=>$e->getMessage()]);
+                // ->with('error', 'An error occurred while completing the request. Please try again later.');
         }
     }
 
-    public function customerOrders()
+
+    public function history($vendor_slug)
     {
-        // الحصول على الزبون المصادق عليه
-        $customerId = auth('customer')->id();
-
-        // جلب الطلبات الخاصة بالزبون وترتيبها من الأحدث إلى الأقدم
-        $orders = Order::where('customer_id', $customerId)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        // إرجاع صفحة العرض مع البيانات
-        return view('customer.orders', compact('orders'));
+        return view('customer.payment-confirm', compact('vendor_slug'));
     }
 
 
-
-
-
+    public function customerOrder()
+    {
+        return view('customer.order-list');
+    }
 
 }

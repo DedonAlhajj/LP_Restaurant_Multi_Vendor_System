@@ -19,16 +19,13 @@ class CartController extends Controller
     // عرض محتويات السلة
     public function index($vendor_slug)
     {
-        $cartItems = $this->cartService->getCartContent();
-        $totalPrice = $this->cartService->calculateTotalPrice($cartItems);
-
-        // ارجاع محتويات السلة كـ JSON
-        return response()->json([
-            'success' => true,
-            'message' => 'Item show successfully',
-            'cartItems' => $cartItems,
-            'totalPrice'=>$totalPrice,
-        ]);
+        try {
+            $cartItems = $this->cartService->getCartContent();
+            return view('customer.cart', compact('cartItems', 'vendor_slug'));
+        } catch (Exception $e) {
+            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                ->with('error', 'An error occurred while loading the contents of the cart.');
+        }
     }
 
     // إضافة عنصر إلى السلة
@@ -67,8 +64,11 @@ class CartController extends Controller
 
         try {
             $this->cartService->updateItemQuantity($validated['id'], $validated['quantity']);
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('success', 'Quantity updated successfully.');
+            // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+            //     ->with('success', 'Quantity updated successfully.');
+            return response()->json(['success' => 'Quantity updated successfully.' , 
+            'subtotal'=>(float) \Cart::getTotal() ,
+          ]);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while updating the quantity.');
@@ -82,8 +82,11 @@ class CartController extends Controller
 
         try {
             $this->cartService->removeItem($validated['id']);
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with('success', 'The item was removed successfully.');
+            // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+            //     ->with('success', 'The item was removed successfully.');
+            return response()->json(['success' => 'The item was removed successfully.' , 
+            'subtotal'=>(float) \Cart::getTotal(),
+            'count'=>(int) \Cart::getContent()->count()  ]);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while removing the item from the cart.');

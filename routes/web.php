@@ -3,9 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\FrontEnd\CartController;
-use App\Http\Controllers\FrontEnd\InvoiceController;
 use App\Http\Controllers\FrontEnd\OrderController;
-use App\Http\Controllers\FrontEnd\OrderRatingAndCommentController;
 use App\Http\Controllers\FrontEnd\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
@@ -22,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('customer.notification');
-});*/
+
+// Route::get('/', function () {
+//     return view('customer.notification');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -82,27 +80,20 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 
-    Route::middleware('guest:customer')->group(function () {
+
+    // Route::middleware('guest:customer')->group(function () {
         Route::get('customer/login', [CustomerAuthController::class, 'loginForm'])->name('customer.login');
-        Route::post('customer/login', [CustomerAuthController::class, 'login']);
+
+        Route::post('customer/login', [CustomerAuthController::class, 'login'])->name('customer.store');
+
         Route::get('customer/register', [CustomerAuthController::class, 'registerForm'])->name('customer.register');
         Route::post('customer/register', [CustomerAuthController::class, 'register']);
-    });
-    Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
-
-    Route::get('/order/{orderId}/download-invoice', [InvoiceController::class, 'downloadInvoice'])
-        ->name('order.downloadInvoice');
+    // });
 
     Route::middleware('auth:customer')->group(function () {
+        Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
         Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
-
-
-        Route::get('food-items/{foodItem}/ratings-comments', [OrderRatingAndCommentController::class, 'index'])->name('ratings-comments.index');
-        Route::get('food-items/{foodItem}/ratings-comments/create', [OrderRatingAndCommentController::class, 'create'])->name('ratings-comments.create');
-        Route::post('food-items/{foodItem}/ratings-comments', [OrderRatingAndCommentController::class, 'store'])->name('ratings-comments.store');
-        Route::get('ratings-comments/{id}/edit', [OrderRatingAndCommentController::class, 'edit'])->name('ratings-comments.edit');
-        Route::put('ratings-comments/{id}', [OrderRatingAndCommentController::class, 'update'])->name('ratings-comments.update');
-        Route::delete('ratings-comments/{id}', [OrderRatingAndCommentController::class, 'destroy'])->name('ratings-comments.destroy');
+        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
     });
-
+    //Route::get('order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
 });

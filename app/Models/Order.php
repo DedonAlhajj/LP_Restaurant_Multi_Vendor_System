@@ -13,7 +13,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $table='orders';
-    protected $gureded=[];
+    protected $fillable=['customer_id','restaurant_id','order_types','total_price','status' , 'payment_method','payment_status' ];
 
 
 

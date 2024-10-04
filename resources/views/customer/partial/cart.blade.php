@@ -29,7 +29,8 @@
                               </div>
                               <div class="d-flex align-items-center">
                                   <div class="dz-stepper border-1 ">
-                                      <input class="stepper" type="text" value="{{ $item->quantity }}" name="demo3">
+                                        
+                                      <input class="stepper" type="text" value="{{ $item->quantity }}" name="quantity" onchange="updateCart(this,{{ $item->id }} , '{{ $vendor->slug }}')" >
                                   </div>
                               </div>
                           </div>
@@ -40,7 +41,7 @@
                         <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit"><i class="fa-solid fa-trash"></i></button>
                     </form> --}}
 
-                    <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit" data-id="{{ $item->id }}" data-slug="{{ $slug }}"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit" data-id="{{ $item->id }}" data-slug="{{ $vendor->slug  }}"><i class="fa-solid fa-trash"></i></button>
 
 
 
@@ -60,7 +61,7 @@
                   </li> --}}
                   <li>
                       <span>Subtotal</span>
-                      <span>$ {{ Cart::getTotal() }}</span>
+                      <span id="cart-subtotal" >$ {{ Cart::getTotal() }}</span>
                   </li>
                   {{-- <li>
                       <span>TAX (2%)</span>
@@ -68,10 +69,10 @@
                   </li> --}}
                   <li>
                       <h5>Total</h5>
-                      <h5>$ {{ Cart::getTotal() }}</h5>
+                      <h5 id="cart-total" >$ {{ Cart::getTotal() }}</h5>
                   </li>
               </ul>
-              <a href="{{ route('order.confirmation',$slug) }}" class="btn btn-primary btn-rounded btn-block flex-1 ms-2">CONFIRM</a>
+              <a href="{{ route('order.confirmation',$vendor->slug ) }}" class="btn btn-primary btn-rounded btn-block flex-1 ms-2">CONFIRM</a>
           </div>
       </div>
       @endif
@@ -81,6 +82,8 @@
 @push('scripts')
 <script src="{{asset('customer/assets/js/jquery.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- delete item from cart --}}
 <script>
     $(document).ready(function() {
         $(".btn-remove").click(function(e) {
@@ -96,6 +99,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var slug= $(this).data("slug");
+                    var id = $(this).data("id");
                     var url = "{{ route('cart.remove',':slug') }}"
                     url = url.replace(':slug',slug);
                     $.ajax({
@@ -104,7 +108,7 @@
                         data: 
                         {
                             "_token": "{{ csrf_token() }}",
-                            "id": $(this).data("id"),
+                            "id": id
                         },
                         success: function(response) {
                             if (response.success) {
@@ -113,18 +117,17 @@
                                     'Your file has been deleted.',
                                    'success'
                                 )
-                                $(".item_" + response.id).remove();
-                                $(".cart-count").text(response.count);
-                            } else {
-                                Swal.fire(
-                                    'Error!',
-                                    'Something went wrong.',
-                                    'error'
-                                )
+                                $(".item_" +id).remove();
+                                $("#cart-subtotal").text("$ "+response.subtotal);
+                                $("#cart-total").text("$ "+response.subtotal);
+                                $(".count-item-cart").text(response.count);
+                                if(response.subtotal == 0)
+                                {
+                                    $(".offcanvas-body").html("<h3 class='text-center'>Your Cart is Empty</h3>");
+                                }
                             }
                         },
                         error: function(response) {
-                            console.log(response);
                             Swal.fire(
                                 'Error!',
                                 'Something went wrong.',
@@ -132,11 +135,47 @@
                             )
                         }
                     });
-                    form.submit();
                 }
             })
         });
     });
 </script>
+{{-- ------------------------------- --}}
 
+{{-- update item from cart --}}
+
+<script>
+
+    function updateCart(element,id , slug) {
+        var quantity = $(element).val();
+      
+        console.log(quantity,slug);
+        var url = "{{ route('cart.update',':slug') }}"
+        url = url.replace(':slug',slug);
+        $.ajax({
+            type: "POST",
+            url:url ,
+            data: 
+            {
+                "_token": "{{ csrf_token() }}",
+                "id": id,
+                "quantity": quantity
+            },
+            success: function(response) {
+                if (response.success) {
+                    $("#cart-subtotal").text("$ "+response.subtotal);
+                    $("#cart-total").text("$ "+response.subtotal);
+                }
+            },
+            error: function(response) {
+                Swal.fire(
+                    'Error!',
+                    'Something went wrong.',
+                    'error'
+                )
+            }
+        });
+    }
+</script>
+{{-- ------------------------------------------- --}}
 @endpush
