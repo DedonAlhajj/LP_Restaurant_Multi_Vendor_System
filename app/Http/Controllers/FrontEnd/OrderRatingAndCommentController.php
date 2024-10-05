@@ -33,7 +33,8 @@ class OrderRatingAndCommentController extends Controller
             $ratingComment = RatingAndComment::where('customer_id', auth('customer')->id())
                 ->where('food_item_id', $foodItem)
                 ->where('rating', '!=', null)
-                ->firstOrFail();
+                ->first();
+            // dd($ratingComment);
             if ($ratingComment && $ratingComment->rating != null) {
                 $rating = $ratingComment->update([
                     'rating' => intval($request->rating),
@@ -48,7 +49,7 @@ class OrderRatingAndCommentController extends Controller
                 $comment = RatingAndComment::create([
                     'food_item_id' => $foodItem->id,
                     'customer_id' => auth('customer')->id(),
-                    'rating' => intval($request->rating) ?? null,
+                    'rating' => $request->rating ?? null,
                     'comment' => $request->comment ?? null,
                 ]);
                 $comment['customer_name'] = auth('customer')->user()->name;

@@ -77,11 +77,11 @@ class VendorController extends Controller
     {
         $foodItem = FoodItem::with('ratingsAndComments')->find($food_item_id);
 
-        if ($foodItem->ratingsAndComments()->count() > 0) {
-            $rating = $foodItem->ratingsAndComments()->where('customer_id', auth('customer')->id())
-                ->whereNotNull('rating')
-                ->first()->rating;
-        }
+        // if ($foodItem->ratingsAndComments()->count() > 0) {
+        //     $rating = $foodItem->ratingsAndComments()->where('customer_id', auth('customer')->id())
+        //         ->whereNotNull('rating')
+        //         ->first()->rating;
+        // }
         // dd($foodItem);
         return view('customer.product-detail', ['vendor' => $this->vendor, 'product' => $foodItem, 'rating' => $rating ?? 0]);
     }
