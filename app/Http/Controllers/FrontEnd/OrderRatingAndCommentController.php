@@ -14,13 +14,29 @@ use Ramsey\Uuid\Type\Integer;
 class OrderRatingAndCommentController extends Controller
 {
     //<p>التقييم: {{ number_format($foodItem->average_rating, 1) }}</p>
+
+
+    // دالة لعرض التقييمات والتعليقات الخاصة بمنتج طعام معين
+    public function index($foodItemId)
+    {
+        try {
+            $foodItem = FoodItem::findOrFail($foodItemId);
+            $ratingsAndComments = RatingAndComment::where('food_item_id', $foodItem->id)
+                ->with('customer')
+                ->latest()
+                ->get();
+
+            return view('customer.ratings-comments.index', compact('foodItem', 'ratingsAndComments'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching the ratings and comments.']);
+        }
+    }
     // عرض صفحة إضافة تقييم وتعليق
     public function create($foodItemId)
     {
         $foodItem = FoodItem::findOrFail($foodItemId);
         return view('customer.ratings-comments.create', compact('foodItem'));
     }
-
     // دالة لإضافة تقييم وتعليق
     public function store(Request $request, $vendor_slug, $foodItem)
     {
@@ -97,7 +113,6 @@ class OrderRatingAndCommentController extends Controller
             return back()->withErrors(['error' => 'An error occurred while updating the rating and comment.']);
         }
     }
-
     // دالة لحذف التقييم والتعليق
     public function destroy($id)
     {
@@ -118,19 +133,5 @@ class OrderRatingAndCommentController extends Controller
         }
     }
 
-    // دالة لعرض التقييمات والتعليقات الخاصة بمنتج طعام معين
-    public function index($foodItemId)
-    {
-        try {
-            $foodItem = FoodItem::findOrFail($foodItemId);
-            $ratingsAndComments = RatingAndComment::where('food_item_id', $foodItem->id)
-                ->with('customer')
-                ->latest()
-                ->get();
 
-            return view('customer.ratings-comments.index', compact('foodItem', 'ratingsAndComments'));
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching the ratings and comments.']);
-        }
-    }
 }
