@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->foreignId('food_item_id')->constrained('food_items')->onDelete('cascade'); // Foreign key to food items
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade'); // Foreign key to users
-            $table->tinyInteger('rating'); // Rating (1 to 5 stars)
+            $table->tinyInteger('rating')->nullable(); // Rating (1 to 5 stars)
             $table->text('comment')->nullable(); // Comment
             $table->timestamps(); // Created at, Updated at
         });

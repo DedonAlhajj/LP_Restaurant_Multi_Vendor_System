@@ -16,12 +16,15 @@ class RedirectIfNotAuthenticated
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {   
-        $slug=$request->route('vendor_slug');
+    {
+        $slug = $request->route('vendor_slug');
         if (!Auth::guard('customer')->check()) {
-            Session::put('url.intended', $request->url());
-            return redirect()->route('customer.login' ,$slug )
-            ->with(['info'=> 'Please log in to complete your order.' ]);
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Please log in to comment.'], 401);
+            }
+
+            return redirect()->route('customer.login', $slug)
+                ->with(['info' => 'Please log in to complete your order.']);
         }
 
         return $next($request);

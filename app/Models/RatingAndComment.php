@@ -11,7 +11,7 @@ class RatingAndComment extends Model
 {
     use HasFactory;
     protected $table='order_ratings_and_comments';
-    protected $gureded=[];
+    protected $fillable=['rating','comment','food_item_id','customer_id'];
     public function foodItem()
     {
         return $this->belongsTo(FoodItem::class);

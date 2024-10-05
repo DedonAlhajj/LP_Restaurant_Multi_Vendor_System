@@ -5,7 +5,7 @@
 @section('title', 'Home')
 @section('content')
   
-
+{{-- @dd($orders) --}}
 <div class="page-wraper">
     
     <!-- Preloader -->
@@ -37,7 +37,7 @@
 									<path d="M23.1278 4.47973C23.061 4.4668 22.9932 4.46023 22.9251 4.46012H5.93181L5.66267 2.65958C5.49499 1.46381 4.47216 0.574129 3.26466 0.573761H1.07655C0.481978 0.573761 0 1.05574 0 1.65031C0 2.24489 0.481978 2.72686 1.07655 2.72686H3.26734C3.40423 2.72586 3.52008 2.82779 3.53648 2.96373L5.19436 14.3267C5.42166 15.7706 6.66363 16.8358 8.12528 16.8405H19.3241C20.7313 16.8423 21.9454 15.8533 22.2281 14.4747L23.9802 5.74121C24.0931 5.15746 23.7115 4.59269 23.1278 4.47973Z" fill="#2C406E"/>
 									<path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#2C406E"/>
 								</svg>
-								<span class="badge badge-danger counter">5</span>
+								<span class="badge badge-danger counter">{{Cart::getContent()->count()}}</span>
 							</a> 
 							<a href="javascript:void(0);" class="filter" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom">
 								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,6 +151,7 @@
     <!-- Sidebar End -->
     
     <!-- Page Content -->
+    @if($orders->count() > 0)
 	<div class="page-content">
 		<div class="container bottom-content"> 
 			<div class="serach-area"> 
@@ -191,399 +192,80 @@
                         </div>
                     </div>					
                 </div>
+                @foreach ($orders as $order)
+                    
                 
                 <div class="order-status">
-                    <h5 class="title mb-2">Order ID #0012345</h5>
+                    <h5 class="title mb-2">Order ID #{{$order->id}}</h5>
                     <div class="tag-status">
-                        <span class="badge text-secondary style-1">ON DELIVERY</span>
+                        @if( $order->status == 'Completed')
+                        <span class="badge text-success style-2">{{$order->status}}</span>
+                        @elseif($order->status == 'Rejected')
+                        <span class="badge text-danger style-1">{{$order->status}}</span>
+                        @else
+                        <span class="badge text-warning style-2">{{$order->status}}</span>
+                        @endif
+
                         <a href="tracking-order.html" class="btn-link text-underline">Track Location</a>
                     </div>
                 </div>
                 
 				<div class="item-list style-2 recent-jobs-list">
+
 					<ul>
+                        @foreach ($order->orderItems as $item_order)
 						<li>
                             <div class="item-content">
                                 <div class="item-media media media-60">
-                                    <img src="assets/images/food/pic3.png" alt="logo">
+                                    <img src="{{asset('customer/assets/images/food/pic3.png')}}" alt="logo">
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title-row">
-                                        <h6 class="item-title"><a href="order-list.html">Coffee Mocha / White Mocha</a></h6>
+                                        <h6 class="item-title"><a href="{{route('vendor.menu.fooditem', ['vendor_slug'=>$vendor->slug, 'product_id'=>$item_order->foodItem->id])}}">{{$item_order->foodItem->name}}</a></h6>
                                     </div>
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
+                                            @if( $item_order->discount)
+                                            <h6 class="me-3">$ {{$item_order->discount}}</h6>
+                                            <del class="off-text"><h6>$ {{$item_order->price}}</h6></del>
+                                            @else
+                                            <h6 class="me-3">$ {{$item_order->price}}</h6>
+                                            @endif
                                         </div>    
-                                        <span>2x</span>
+                                        <span>{{$item_order->quantity}}x</span>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li class="border-0">
-                            <div class="item-content">
-                                <div class="item-media media media-60">
-                                    <img src="assets/images/food/pic6.png" alt="logo">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="order-list.html">Chicken Wings Spicy</a></h6>
-                                    </div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <span>2x</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        @endforeach
+
+                        <a href="{{route('order.invoice',['vendor_slug'=>$vendor->slug,'order_Id'=>$order->id ])}}" class="btn btn-primary right-icon mb-2" style="right: 50px">View Invoice</a>
                     </ul>
                     <div class="saprater"></div>    
-                    <div class="order-status my-3">
-                        <h5 class="title mb-2">Order ID #0012345</h5>
-                        <div class="tag-status">
-                            <span class="badge text-success style-2">DONE</span>
-                            <a href="javascript:void(0);" class="btn-link">View Details</a>
-                        </div>
-                    </div>
-                    <ul>
-						<li>
-                            <div class="item-content">
-                                <div class="item-media media media-60">
-                                    <img src="assets/images/food/pic4.png" alt="logo">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="order-list.html">Vanilla Sweet Cream Cold</a></h6>
-                                    </div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <span>2x</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media media media-60">
-                                    <img src="assets/images/food/pic5.png" alt="logo">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="order-list.html">Mily Cream Ice Coffee</a></h6>
-                                    </div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <span>2x</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media media media-60">
-                                    <img src="assets/images/food/food1.png" alt="logo">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title"><a href="order-list.html">Deluxe Burger Spicy</a></h6>
-                                    </div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="me-3">$ 5.0</h6>
-                                            <del class="off-text"><h6>$ 8.9</h6></del>
-                                        </div>    
-                                        <span>2x</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+               
 				</div>
+                @endforeach
 				<!-- Job List -->                    
 			</div>    
 		</div>
 	</div>
+    @else
+    <div class="page-content">
+        <div class="container bottom-content text-center mt-auto mb-auto"> 
+			Empty Order List
+        </div>
+    </div>
+
+				
+    @endif
     <!-- Page Content End-->
 	<!-- Menubar -->
-	<div class="menubar-area">
-		<div class="toolbar-inner menubar-nav">
-			<a href="notification.html" class="nav-link">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#bfc9da" xmlns:v="https://vecta.io/nano"><path d="M12 1a7.5 7.5 0 0 0-7.5 7.5v5.85l-1.66 2.5A2.04 2.04 0 0 0 4.535 20h14.93a2.04 2.04 0 0 0 1.695-3.165L19.5 14.35V8.5A7.5 7.5 0 0 0 12 1zm0 22a3 3 0 0 0 2.825-2h-5.65A3 3 0 0 0 12 23z"/></svg>
-			</a>
-            <a href="order-list.html" class="nav-link active">
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#bfc9da" xmlns:v="https://vecta.io/nano"><path d="M17.5.625h-15a2.25 2.25 0 0 0-2.25 2.25v14.25a2.25 2.25 0 0 0 2.25 2.25h15a2.25 2.25 0 0 0 2.25-2.25V2.875A2.25 2.25 0 0 0 17.5.625zM4.056 8.414a.75.75 0 0 1 .165-.817l2.25-2.25a.75.75 0 0 1 1.018.039.75.75 0 0 1 .039 1.018l-.967.971h8.314a.75.75 0 0 1 .75.75.75.75 0 0 1-.75.75H4.75a.75.75 0 0 1-.694-.461zm12.097 4.365l-2.25 2.25a.75.75 0 0 1-.243.187c-.093.045-.194.07-.298.074a.75.75 0 0 1-.559-.219.75.75 0 0 1-.219-.559c.004-.103.029-.205.074-.298a.75.75 0 0 1 .187-.243l.967-.971H5.5a.75.75 0 0 1-.75-.75.75.75 0 0 1 .75-.75h10.125a.75.75 0 0 1 .694.461.75.75 0 0 1-.165.817z" fill="#bfc9da"/></svg>
-			</a>
-			<a href="index.html" class="nav-link">
-				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" xmlns:v="https://vecta.io/nano"><path d="M21.44 11.035a.75.75 0 0 1-.69.465H18.5V19a2.25 2.25 0 0 1-2.25 2.25h-3a.75.75 0 0 1-.75-.75V16a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-.75.75h-3A2.25 2.25 0 0 1 3.5 19v-7.5H1.25a.75.75 0 0 1-.69-.465.75.75 0 0 1 .158-.818l9.75-9.75A.75.75 0 0 1 11 .246a.75.75 0 0 1 .533.222l9.75 9.75a.75.75 0 0 1 .158.818z" fill="#bfc9da"/></svg>
-			</a>
-			<a href="messages.html" class="nav-link">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#bfc9da" xmlns:v="https://vecta.io/nano"><path d="M15 15.75a.75.75 0 1 0 0-1.5.75.75 0 1 0 0 1.5zm-6-6a.75.75 0 1 0 0-1.5.75.75 0 1 0 0 1.5zm13.5 0a.75.75 0 0 0 .75-.75V4.5a.75.75 0 0 0-.75-.75h-21a.75.75 0 0 0-.75.75V9a.75.75 0 0 0 .75.75c1.241 0 2.25 1.009 2.25 2.25s-1.01 2.25-2.25 2.25a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 .75.75h21a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75c-1.241 0-2.25-1.009-2.25-2.25s1.009-2.25 2.25-2.25zM6.75 9c0-1.24 1.01-2.25 2.25-2.25S11.25 7.76 11.25 9 10.241 11.25 9 11.25 6.75 10.241 6.75 9zM9 15.75a.75.75 0 0 1-.53-1.28l6-6a.75.75 0 0 1 1.06 1.06l-6 6a.75.75 0 0 1-.53.22zm6 1.5c-1.241 0-2.25-1.009-2.25-2.25s1.009-2.25 2.25-2.25 2.25 1.009 2.25 2.25-1.009 2.25-2.25 2.25z"/></svg>
-			</a>
-			<a href="profile.html" class="menu-toggler">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="21" fill="#bfc9da" xmlns:v="https://vecta.io/nano"><path d="M8 7.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 1 0 0 7.5zm7.5 9v1.5c-.002.199-.079.39-.217.532C13.61 20.455 8.57 20.5 8 20.5s-5.61-.045-7.282-1.718C.579 18.64.501 18.449.5 18.25v-1.5a7.5 7.5 0 1 1 15 0z"/></svg>
-			</a>
-		</div>
-	</div>
+    @include('customer.partial.menubar-area')
+
 	<!-- Menubar -->
-    <!-- Theme Color Settings -->
-	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
-        <div class="offcanvas-body small">
-            <ul class="theme-color-settings">
-                <li>
-                    <input class="filled-in" id="primary_color_8" name="theme_color" type="radio" value="color-primary" />
-					<label for="primary_color_8"></label>
-                    <span>Default</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_2" name="theme_color" type="radio" value="color-green" />
-					<label for="primary_color_2"></label>
-                    <span>Green</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_3" name="theme_color" type="radio" value="color-blue" />
-					<label for="primary_color_3"></label>
-                    <span>Blue</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_4" name="theme_color" type="radio" value="color-pink" />
-					<label for="primary_color_4"></label>
-                    <span>Pink</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_5" name="theme_color" type="radio" value="color-yellow" />
-					<label for="primary_color_5"></label>
-                    <span>Yellow</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_6" name="theme_color" type="radio" value="color-orange" />
-					<label for="primary_color_6"></label>
-                    <span>Orange</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_7" name="theme_color" type="radio" value="color-purple" />
-					<label for="primary_color_7"></label>
-                    <span>Purple</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_1" name="theme_color" type="radio" value="color-red" />
-					<label for="primary_color_1"></label>
-                    <span>Red</span>
-                </li>
-                <li>
-					<input class="filled-in" id="primary_color_9" name="theme_color" type="radio" value="color-lightblue" />
-					<label for="primary_color_9"></label>
-                    <span>Lightblue</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_10" name="theme_color" type="radio" value="color-teal" />
-					<label for="primary_color_10"></label>
-                    <span>Teal</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_11" name="theme_color" type="radio" value="color-lime" />
-					<label for="primary_color_11"></label>
-                    <span>Lime</span>
-                </li>
-                <li>
-                    <input class="filled-in" id="primary_color_12" name="theme_color" type="radio" value="color-deeporange" />
-					<label for="primary_color_12"></label>
-                    <span>Deeporange</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-	<!-- Theme Color Settings End -->
+
 	<!-- CART -->
-	<div class="offcanvas offcanvas-bottom rounded-0" tabindex="-1" id="offcanvasBottom1">
-		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close">
-			<i class="fa-solid fa-xmark"></i>
-		</button>
-        <div class="offcanvas-body container fixed">
-			<div class="item-list style-2">
-                <ul>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/pic6.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Chicken Briyani Haji Mahmud</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 4.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/food1.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Deluxe Super Burger Spicy</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 7.2</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/pic3.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Coffee Mocha / White Mocha</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 12.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/pic6.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Chicken Briyani Haji Mahmud</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 4.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-					<li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/pic6.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Chicken Briyani Haji Mahmud</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 4.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-					<li>
-                        <div class="item-content">
-                            <div class="item-media media media-60">
-                                <img src="assets/images/food/pic6.png" alt="logo">
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <h6 class="item-title"><a href="order-list.html">Chicken Briyani Haji Mahmud</a></h6>
-                                    <div class="item-subtitle">Coffe, Milk</div>
-                                </div>
-                                <div class="item-footer">
-                                    <div class="d-flex align-items-center">
-                                        <h6 class="me-3">$ 4.0</h6>
-                                        <del class="off-text"><h6>$ 8.9</h6></del>
-                                    </div>    
-                                    <div class="d-flex align-items-center">
-                                        <div class="dz-stepper border-1 ">
-                                            <input class="stepper" type="text" value="3" name="demo3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-			<div class="view-title">
-                <div class="container">
-					<ul>
-						<li>
-							<a href="javascript:void(0);" class="promo-bx">
-								Apply Promotion Code
-								<span>2 Promos</span>
-							</a>
-						</li>
-						<li>
-							<span>Subtotal</span>
-							<span>$54.76</span>
-						</li>
-						<li>
-							<span>TAX (2%)</span>
-							<span>-$1.08</span>
-						</li>
-						<li>
-							<h5>Total</h5>
-							<h5>$53.68</h5>
-						</li>
-					</ul>
-					<a href="payment.html" class="btn btn-primary btn-rounded btn-block flex-1 ms-2">CONFIRM</a>
-				</div>
-            </div>
-        </div>
-    </div>
+    @include('customer.partial.cart')
 	<!-- CART -->
 	<!-- FILTER -->
     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom2">

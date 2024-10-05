@@ -1,12 +1,34 @@
 
-    
-   
-  
 @extends('customer.layouts.master')
 @section('title', 'Product Detail')
 @section('content')
 <div class="page-wraper"> 
-    
+    <style>
+.rating {
+    direction: rtl; /* Makes the stars clickable from right to left */
+    display: flex;
+}
+
+.rating input {
+    display: none; /* Hide the radio buttons */
+}
+
+.rating .star {
+    font-size:20px;
+    color: #ccc; /* Default star color */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating input:checked ~ .star {
+    color: gold; /* Color for selected stars */
+}
+
+.rating .star:hover,
+.rating .star:hover ~ .star {
+    color: gold; /* Color for hovered stars */
+}
+        </style>
     <!-- Preloader -->
 	<div id="preloader">
 		<div class="spinner"></div>
@@ -41,11 +63,12 @@
     </header>
     <!-- Header End -->
 	
-    <form action="{{ route('cart.add' , $vendor->slug) }}" method="POST">
+
 
     <!-- Page Content -->
     <div class="page-content">
         <div class="content-body fb">
+ 
             <div class="swiper-btn-center-lr my-0">
                 <div class="swiper-container demo-swiper">
                     <div class="swiper-wrapper">
@@ -85,9 +108,24 @@
             </div>
             <div class="container">
                 <div class="company-detail">
+                    @include('customer.partial.alert')
                     <div class="detail-content">
                         <div class="flex-1">
-                            <h4>{{ $product->name }}</h4>
+                        
+                            <h4>{{ $product->name }}
+                                <div class="rating" data-product-id="{{ $product->id }}" data-vendor="{{$vendor->slug}}">
+                                    <input type="radio" name="rating" id="star1" value="5" @auth  @if($rating==5) checked @endif @endauth>
+                                    <label for="star1" class="star fa fa-star"></label>
+                                    <input type="radio" name="rating" id="star2" value="4"  @auth @if( $rating==4) checked @endif  @endauth >
+                                    <label for="star2" class="star fa fa-star"></label>
+                                    <input type="radio" name="rating" id="star3" value="3"  @auth @if( $rating==3) checked @endif  @endauth>
+                                    <label for="star3" class="star fa fa-star"></label>
+                                    <input type="radio" name="rating" id="star4" value="2" @auth @if( $rating==2) checked @endif  @endauth>
+                                    <label for="star4" class="star fa fa-star"></label>
+                                    <input type="radio" name="rating" id="star5" value="1"@auth @if( $rating==1) checked @endif @endauth>
+                                    <label for="star5" class="star fa fa-star"></label>
+                                </div>
+                             </h4>
                             <p>{{ $product->description}}.</p>
                         </div>
                     </div>
@@ -123,8 +161,60 @@
                     <div class="badge badge-danger font-w400 px-3">20% OFF DISCOUNT</div>    
                     <a href="javascript:void(0);" class="btn-link font-16">Apply promo code</a>    
                 </div>
+
+
+                <div class="card text-center mt-5">
+                    <div class="card-header">
+
+                        <h5 class="card-title">Comments and Reviews</h5>
+                    </div>
+                   
+                    <div class="card-body">
+                        <div class="container pt-0">
+                            <ul class="dz-list message-list" id="comments-list">
+                                @forelse ($product->ratingsAndComments as $comment)
+                                @if($comment->comment != null)
+                                <li>
+                                    <a href="messages-detail.html">
+                                        <div class="media media-45 rounded-circle">
+                                            <img src="{{asset('customer/assets/images/message/pic1.jpg')}}" alt="image">
+                                        </div>
+                                        <div class="media-content">
+                                            <div>
+                                                <h6 class="name">{{$comment->customer->name}}</h6>
+                                                <p class="my-1">
+                                                    <i class="fa-solid fa-check text-primary me-1"></i>
+                                                    {{$comment->comment}}
+                                               </p>
+                                            </div>
+                                            <span class="time">{{$comment->created_at->diffForHumans()}}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                @endif
+                                @empty
+                                    
+                                @endforelse
+                            </ul>
+                        </div>
+                        {{-- <form action="{{route('ratings-comments.store' , ['vendor_slug'=>$vendor->slug ,'foodItem'=> $product->id])}}" method="POST"> --}}
+                            @csrf
+                            <div class="input-group mb-3">
+                            <textarea class="form-control" name="comment" id="comment" placeholder="Add Comment" rows="4"></textarea>
+                        </div>
+                            <button  type="submit"
+                            data-vendor="{{ $vendor->slug }}"   
+                                class="btn btn-dark submit-comment" data-id="{{ $product->id }}" 
+                                id="submit-comment" 
+                                >Comment</button>
+                                </div>
+                        {{-- </form> --}}
+                </div>
             </div>
-		</div>    
+            
+		</div> 
+
+        
     </div>    
     <!-- Page Content End -->
 	
@@ -198,8 +288,8 @@
 	<!-- Theme Color Settings End -->
     
     <!-- Footer -->
-	<div class="footer fixed">
-		<div class="container">
+            <div class="footer fixed">
+                <div class="container">
 
                 @csrf
                 <input type="hidden" name="id" value="{{ $product->id }}">
@@ -229,4 +319,110 @@
     <!-- Footer End -->
 	
 </div>    
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+
+        $(document).ready(function() {
+                const stars = document.querySelectorAll('.rating input');
+                let starValue = 1; // Default value
+                stars.forEach(star => {
+                star.addEventListener('change', () => {
+                    starValue = star.value;
+                var productId = {{$product->id}};
+                var vendor_slug = '{{$vendor->slug}}';
+                var url="{{route('ratings-comments.store' , ['vendor_slug'=>':vendor_slug'  ,'foodItem'=> ':id'])}}";
+                url = url.replace(':id', productId);
+                url = url.replace(':vendor_slug', vendor_slug);
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        product_id: productId,
+                        rating: starValue,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('.message').text('Thanks for your rating!');
+                    },
+                    error: function(xhr) {
+
+                        if(xhr.status == 401)
+                    {     $('.alert-info').show();
+                            $('#info_message').text(xhr.responseJSON.message);}
+                            else{
+                                $('.alert-danger').show();
+                                $('#error_message').text("An error occurred. Please try again.");
+                    }                    }
+                });
+            });
+
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('.submit-comment').click(function(e) {
+            e.preventDefault();
+            var product_id=$(this).data('id');
+            var vendor_slug=$(this).data('vendor');
+            var url="{{route('ratings-comments.store' , ['vendor_slug'=>':vendor_slug'  ,'foodItem'=> ':id'])}}";
+            url = url.replace(':id', product_id);
+            url = url.replace(':vendor_slug', vendor_slug);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data:
+                {
+                    "_token": "{{ csrf_token() }}",
+                    "comment": $('textarea[name="comment"]').val()
+                },
+                success: function(comment) {
+                    document.getElementById('comment').value='';
+                    $('#comments-list').append(
+                    `<li>
+                        <a >
+                            <div class="media media-45 rounded-circle">
+                                <img src="{{asset('customer/assets/images/message/pic1.jpg')}}" alt="image">
+                            </div>
+                            <div class="media-content">
+                                <div>
+                                    <h6 class="name">${comment.customer_name}</h6>
+                                    <p class="my-1">
+                                        <i class="fa-solid fa-check text-primary me-1"></i>
+                                        ${comment.comment}
+                                    </p>
+                                </div>
+                                <span class="time">${comment.create_date}</span>
+                            </div>
+                        </a>
+                    </li>`
+                    );
+                },
+                error: function(xhr) {
+                    if(xhr.status == 401)
+                    {    
+                         
+                            // $('.alert-info').show();
+                            $('#info_message').text(xhr.responseJSON.message);
+                            $('.alert-info').fadeIn();
+                        }
+                            else{
+                                $('.alert-danger').show();
+                                $('#error_message').text("An error occurred. Please try again.");
+                        }
+                    },
+
+            });
+        });
+
+        $('.btn-close').on('click', function() {
+            $('.alert-info').fadeOut(); // Hide the alert when the close button is clicked
+         });
+    });
+    </script>
+
 @endsection

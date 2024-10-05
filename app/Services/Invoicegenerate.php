@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\FrontEnd;
+namespace App\services;
 
-use App\Http\Controllers\Controller;
+
 use App\Models\Invoice;
 use App\Models\Restaurant;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -11,14 +11,14 @@ use App\Services\CartService;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class InvoiceController extends Controller
+class Invoicegenerate
 {
-    protected function generateInvoice(Order $order)
+    public function generateInvoice(Order $order)
     {
         // توليد رقم فريد للفاتورة
         $invoiceNumber = 'INV-' . time();
-
         // إعداد بيانات الفاتورة
         $data = [
             'order' => $order,
@@ -27,13 +27,15 @@ class InvoiceController extends Controller
             'totalPrice' => $order->total_price,
             'invoiceNumber' => $invoiceNumber,
         ];
-
         // إنشاء PDF باستخدام مكتبة DomPDF
-        $pdf = PDF::loadView('invoices.invoice_template', $data);
-
+        // dd($data);
+        $pdf = PDF::loadView('customer.invoices.invoice-download', $data );
         // تحديد مسار حفظ ملف PDF
         $pdfPath = 'invoices/' . $invoiceNumber . '.pdf';
-        $pdf->save(storage_path('app/public/' . $pdfPath));
+        
+       
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+        // $pdf->save(storage_path('public/' . $pdfPath));
 
         // حفظ معلومات الفاتورة في قاعدة البيانات
         Invoice::create([
@@ -41,23 +43,10 @@ class InvoiceController extends Controller
             'invoice_number' => $invoiceNumber,
             'pdf_path' => $pdfPath,
         ]);
+        return response()->download(storage_path('app/public/' .  $pdfPath));
+
     }
 
-    public function viewInvoice($order_id, $vendor_slug)
-    {
-        $order = Order::with('orderItems', 'invoice', 'customer')->find($vendor_slug);
-        $restaurant = Restaurant::where('id', $order->restaurant_id)->first();
+    //<a href="{{ asset('storage/' . $invoice->pdf_path) }}" target="_blank">Download Invoice</a>
 
-        $data = [
-            'order' =>  $order,
-            'customer' => $order->customer,
-            'items' => $order->orderItems,
-            'totalPrice' =>  $order->total_price,
-            'invoiceNumber' => $order->invoice->invoice_number,
-            'restaurant' => $restaurant,
-            'inovice' => $order->invoice
-
-        ];
-        return view('customer.invoices.invoice_template', $data);
-    }
 }

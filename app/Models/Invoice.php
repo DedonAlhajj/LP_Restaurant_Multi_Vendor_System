@@ -10,7 +10,7 @@ class Invoice extends Model
 {
     use HasFactory;
     protected $table='order_invoices';
-    protected $gureded=[];
+    protected $fillable=['order_id','invoice_number','pdf_path'];
 
     public function order()
     {

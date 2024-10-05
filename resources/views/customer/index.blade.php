@@ -97,7 +97,15 @@
 					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-1c0-2.66-5.33-4-8-4z"/></svg>
 				</span>
 				<span>Profile</span>
-			</a></li>
+			</a></li>     
+            <li>
+                <a class="nav-link" href="{{route('customer.orders',$vendor_slug)}}">
+                    <span class="dz-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                    </span>
+                    <span>My Orders</span>
+			    </a>
+            </li>
             <li>
                 <a class="nav-link" href="{{route('customer.logout',$vendor_slug)}}">
                     <span class="dz-icon">
@@ -107,14 +115,7 @@
 			    </a>
             </li>
 
-            <li>
-                <a class="nav-link" href="{{route('customer.orders',$vendor_slug)}}">
-                    <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
-                    </span>
-                    <span>My Orders</span>
-			    </a>
-            </li>
+       
 
             @else
 
@@ -131,8 +132,7 @@
             <li>
                 <a class="nav-link" href="{{route('customer.register',$vendor_slug)}}">
                     <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
-                    </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><g><circle cx="12" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="6" cy="12" r="2"></circle><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M11,18.07v1.43c0,0.28,0.22,0.5,0.5,0.5h1.4c0.13,0,0.26-0.05,0.35-0.15l5.83-5.83l-2.12-2.12l-5.81,5.81 C11.05,17.81,11,17.94,11,18.07z"></path><path d="M12.03,14L14,12.03V12c0-1.1-0.9-2-2-2s-2,0.9-2,2s0.9,2,2,2H12.03z"></path><path d="M20.85,11.56l-1.41-1.41c-0.2-0.2-0.51-0.2-0.71,0l-1.06,1.06l2.12,2.12l1.06-1.06C21.05,12.07,21.05,11.76,20.85,11.56z"></path></g></g></svg>                    </span>
                     <span>Sign Up</span>
 			    </a>
             </li>
@@ -174,11 +174,18 @@
 	<div class="author-notification">
 		<div class="container inner-wrapper">
 			<div class="dz-info">
-				<span class="text-dark">Good Morning</span>
-				<h3 class="name mb-0">
-                    @if(Auth::guard('customer')->check())
-                    {{ Auth::guard('customer')->user()->name }} 👋
-                    @endif </h3>
+				<div class="dz-info">
+                    <span> @if(date('A', strtotime(now())) == 'PM')
+                        Good Evening,
+                    @else
+                        Good Morning,
+                    @endif</span>
+                    <h5 class="name">
+                        @if(Auth::guard('customer')->check())
+                        {{Auth::guard('customer')->user()->name}}👋
+                        @endif
+                    </h5>
+                </div>
 			</div>
 			<a href="javascript:void(0);" class="position-relative me-2 notify-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom1" aria-controls="offcanvasBottom">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -381,103 +388,55 @@
                         <h5 class="title">Recomended 👌</h5>
                         <a class="btn-link" href="{{route('vendor.menu',$vendor->slug)}}">View more</a>
                     </div>
+                    @include('customer.partial.alert')
 
                     <div class="swiper-btn-center-lr">
                         <div class="swiper-container tag-group mt-4 recomanded-swiper">
                             <div class="swiper-wrapper">
+                                @foreach ($foodItems as $foodItem )
                                 <div class="swiper-slide">
                                     <div class="recomended-list">
                                         <div class="image-box">
                                             <img src="{{asset('customer/assets/images/food/food1.png')}}" alt="image">
                                             <div class="form-check bookmark">
-                                                <input class="form-check-input" type="checkbox" id="flexCheckDefault1">
+                                                <a class="form-check-input" href="" id="flexCheckDefault1"></a>
+
                                                 <label class="form-check-label" for="flexCheckDefault1">
+                                                <form action="{{ route('cart.add' , $vendor->slug) }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <input type="hidden" name="id" value="{{ $foodItem->id }}">
+                                                    <input type="hidden" name="name" value="{{ $foodItem->name }}">
+                                                    <input type="hidden" name="price" value="{{ $foodItem->price }}">
+                                                    <button type="submit" style="background: none ; border:none">
                                                    <svg width="20" height="20   " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.1776 17.8443C16.6362 17.8428 15.3854 19.0912 15.3839 20.6326C15.3824 22.1739 16.6308 23.4247 18.1722 23.4262C19.7136 23.4277 20.9643 22.1794 20.9658 20.638C20.9658 20.6371 20.9658 20.6362 20.9658 20.6353C20.9644 19.0955 19.7173 17.8473 18.1776 17.8443Z" fill="#fff"/>
                                                         <path d="M23.1278 4.47973C23.061 4.4668 22.9932 4.46023 22.9251 4.46012H5.93181L5.66267 2.65958C5.49499 1.46381 4.47216 0.574129 3.26466 0.573761H1.07655C0.481978 0.573761 0 1.05574 0 1.65031C0 2.24489 0.481978 2.72686 1.07655 2.72686H3.26734C3.40423 2.72586 3.52008 2.82779 3.53648 2.96373L5.19436 14.3267C5.42166 15.7706 6.66363 16.8358 8.12528 16.8405H19.3241C20.7313 16.8423 21.9454 15.8533 22.2281 14.4747L23.9802 5.74121C24.0931 5.15746 23.7115 4.59269 23.1278 4.47973Z" fill="#fff"/>
                                                         <path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#fff"/>
                                                     </svg>
+                                                </button>
+                                                </form>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="text-content">
-                                            <h6 class="title">Deluxe Burger with Extra Beef & Eggs</h6>
+                                            <h6 class="title mb-3"><a href="{{route('vendor.menu.fooditem',['vendor_slug' => $vendor->slug,$foodItem->id])}}" style="color:white">{{ $foodItem->name }}</h6>
                                             <div class="d-flex justify-content-between align-items-center m-t10">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M19.3899 9.60002C19.6646 9.31922 19.8559 8.96762 19.9424 8.58445C20.029 8.20128 20.0073 7.80161 19.8799 7.43002C19.7604 7.05733 19.5386 6.72569 19.2398 6.47288C18.941 6.22006 18.5773 6.05622 18.1899 6.00002L13.8999 5.34002C13.8799 5.33422 13.8615 5.32403 13.8459 5.31019C13.8303 5.29635 13.818 5.27921 13.8099 5.26002L11.9299 1.26002C11.7651 0.885457 11.4949 0.56692 11.1522 0.343206C10.8095 0.119491 10.4092 0.000254073 9.99994 1.79599e-05C9.59544 -0.00165464 9.19906 0.113532 8.85846 0.331732C8.51785 0.549932 8.24751 0.861859 8.07994 1.23002L6.19994 5.23002C6.18968 5.24952 6.1755 5.26669 6.15829 5.28046C6.14108 5.29423 6.12122 5.30429 6.09994 5.31002L1.81994 6.00002C1.43203 6.05781 1.06776 6.22206 0.767637 6.47452C0.467513 6.72698 0.243301 7.05774 0.119936 7.43002C-0.00276581 7.8029 -0.0210372 8.20226 0.0671036 8.58479C0.155244 8.96733 0.346433 9.31843 0.619936 9.60002L3.77994 12.85C3.78903 12.8705 3.79373 12.8926 3.79373 12.915C3.79373 12.9374 3.78903 12.9596 3.77994 12.98L3.03994 17.52C2.97114 17.9154 3.01599 18.3222 3.16926 18.6931C3.32253 19.064 3.57794 19.3838 3.90577 19.6152C4.23361 19.8467 4.62042 19.9804 5.02122 20.0007C5.42203 20.021 5.82037 19.9272 6.16994 19.73L9.89994 17.66C9.91847 17.6504 9.93905 17.6453 9.95994 17.6453C9.98082 17.6453 10.0014 17.6504 10.0199 17.66L13.7499 19.73C14.1 19.9229 14.4972 20.0134 14.8963 19.9913C15.2953 19.9691 15.6801 19.835 16.0065 19.6045C16.333 19.374 16.5881 19.0563 16.7425 18.6877C16.897 18.319 16.9446 17.9144 16.8799 17.52L16.1899 13C16.1794 12.9818 16.1739 12.9611 16.1739 12.94C16.1739 12.919 16.1794 12.8983 16.1899 12.88L19.3899 9.60002Z" fill="#FFA902"/>
                                                     </svg>
-                                                    <h5 class="mb-0 ms-2 number">4.6</h5>
+                                                    <h5 class="mb-0 ms-2 number">{{number_format($foodItem->average_rating, 1)}}</h5>
                                                 </div>
                                                 <div>
-                                                    <h5 class="mb-0 ms-2 text-primary">$ 10.9</h5>
+                                                    <h5 class="mb-0 ms-2 text-primary">$ {{$foodItem->price}}</h5>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="swiper-slide">
-                                    <div class="recomended-list">
-                                        <div class="image-box">
-                                            <img src="{{asset('customer/assets/images/food/food1.png')}}" alt="image">
-                                            <div class="form-check bookmark">
-                                                <input class="form-check-input" type="checkbox" id="flexCheckDefault2">
-                                                <label class="form-check-label" for="flexCheckDefault2">
-                                                   <svg width="20" height="20   " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M18.1776 17.8443C16.6362 17.8428 15.3854 19.0912 15.3839 20.6326C15.3824 22.1739 16.6308 23.4247 18.1722 23.4262C19.7136 23.4277 20.9643 22.1794 20.9658 20.638C20.9658 20.6371 20.9658 20.6362 20.9658 20.6353C20.9644 19.0955 19.7173 17.8473 18.1776 17.8443Z" fill="#fff"/>
-                                                        <path d="M23.1278 4.47973C23.061 4.4668 22.9932 4.46023 22.9251 4.46012H5.93181L5.66267 2.65958C5.49499 1.46381 4.47216 0.574129 3.26466 0.573761H1.07655C0.481978 0.573761 0 1.05574 0 1.65031C0 2.24489 0.481978 2.72686 1.07655 2.72686H3.26734C3.40423 2.72586 3.52008 2.82779 3.53648 2.96373L5.19436 14.3267C5.42166 15.7706 6.66363 16.8358 8.12528 16.8405H19.3241C20.7313 16.8423 21.9454 15.8533 22.2281 14.4747L23.9802 5.74121C24.0931 5.15746 23.7115 4.59269 23.1278 4.47973Z" fill="#fff"/>
-                                                        <path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#fff"/>
-                                                    </svg>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="text-content">
-                                            <h6 class="title">Deluxe Burger with Extra Beef & Eggs</h6>
-                                            <div class="d-flex justify-content-between align-items-center m-t10">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M19.3899 9.60002C19.6646 9.31922 19.8559 8.96762 19.9424 8.58445C20.029 8.20128 20.0073 7.80161 19.8799 7.43002C19.7604 7.05733 19.5386 6.72569 19.2398 6.47288C18.941 6.22006 18.5773 6.05622 18.1899 6.00002L13.8999 5.34002C13.8799 5.33422 13.8615 5.32403 13.8459 5.31019C13.8303 5.29635 13.818 5.27921 13.8099 5.26002L11.9299 1.26002C11.7651 0.885457 11.4949 0.56692 11.1522 0.343206C10.8095 0.119491 10.4092 0.000254073 9.99994 1.79599e-05C9.59544 -0.00165464 9.19906 0.113532 8.85846 0.331732C8.51785 0.549932 8.24751 0.861859 8.07994 1.23002L6.19994 5.23002C6.18968 5.24952 6.1755 5.26669 6.15829 5.28046C6.14108 5.29423 6.12122 5.30429 6.09994 5.31002L1.81994 6.00002C1.43203 6.05781 1.06776 6.22206 0.767637 6.47452C0.467513 6.72698 0.243301 7.05774 0.119936 7.43002C-0.00276581 7.8029 -0.0210372 8.20226 0.0671036 8.58479C0.155244 8.96733 0.346433 9.31843 0.619936 9.60002L3.77994 12.85C3.78903 12.8705 3.79373 12.8926 3.79373 12.915C3.79373 12.9374 3.78903 12.9596 3.77994 12.98L3.03994 17.52C2.97114 17.9154 3.01599 18.3222 3.16926 18.6931C3.32253 19.064 3.57794 19.3838 3.90577 19.6152C4.23361 19.8467 4.62042 19.9804 5.02122 20.0007C5.42203 20.021 5.82037 19.9272 6.16994 19.73L9.89994 17.66C9.91847 17.6504 9.93905 17.6453 9.95994 17.6453C9.98082 17.6453 10.0014 17.6504 10.0199 17.66L13.7499 19.73C14.1 19.9229 14.4972 20.0134 14.8963 19.9913C15.2953 19.9691 15.6801 19.835 16.0065 19.6045C16.333 19.374 16.5881 19.0563 16.7425 18.6877C16.897 18.319 16.9446 17.9144 16.8799 17.52L16.1899 13C16.1794 12.9818 16.1739 12.9611 16.1739 12.94C16.1739 12.919 16.1794 12.8983 16.1899 12.88L19.3899 9.60002Z" fill="#FFA902"/>
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-2 number">4.6</h5>
-                                                </div>
-                                                <div>
-                                                    <h5 class="mb-0 ms-2 text-primary">$ 10.9</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="recomended-list">
-                                        <div class="image-box">
-                                            <img src="{{asset('customer/assets/images/food/food1.png')}}" alt="image">
-                                            <div class="form-check bookmark">
-                                                <input class="form-check-input" type="checkbox" id="flexCheckDefault3">
-                                                <label class="form-check-label" for="flexCheckDefault3">
-                                                   <svg width="20" height="20   " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M18.1776 17.8443C16.6362 17.8428 15.3854 19.0912 15.3839 20.6326C15.3824 22.1739 16.6308 23.4247 18.1722 23.4262C19.7136 23.4277 20.9643 22.1794 20.9658 20.638C20.9658 20.6371 20.9658 20.6362 20.9658 20.6353C20.9644 19.0955 19.7173 17.8473 18.1776 17.8443Z" fill="#fff"/>
-                                                        <path d="M23.1278 4.47973C23.061 4.4668 22.9932 4.46023 22.9251 4.46012H5.93181L5.66267 2.65958C5.49499 1.46381 4.47216 0.574129 3.26466 0.573761H1.07655C0.481978 0.573761 0 1.05574 0 1.65031C0 2.24489 0.481978 2.72686 1.07655 2.72686H3.26734C3.40423 2.72586 3.52008 2.82779 3.53648 2.96373L5.19436 14.3267C5.42166 15.7706 6.66363 16.8358 8.12528 16.8405H19.3241C20.7313 16.8423 21.9454 15.8533 22.2281 14.4747L23.9802 5.74121C24.0931 5.15746 23.7115 4.59269 23.1278 4.47973Z" fill="#fff"/>
-                                                        <path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#fff"/>
-                                                    </svg>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="text-content">
-                                            <h6 class="title">Deluxe Burger with Extra Beef & Eggs</h6>
-                                            <div class="d-flex justify-content-between align-items-center m-t10">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M19.3899 9.60002C19.6646 9.31922 19.8559 8.96762 19.9424 8.58445C20.029 8.20128 20.0073 7.80161 19.8799 7.43002C19.7604 7.05733 19.5386 6.72569 19.2398 6.47288C18.941 6.22006 18.5773 6.05622 18.1899 6.00002L13.8999 5.34002C13.8799 5.33422 13.8615 5.32403 13.8459 5.31019C13.8303 5.29635 13.818 5.27921 13.8099 5.26002L11.9299 1.26002C11.7651 0.885457 11.4949 0.56692 11.1522 0.343206C10.8095 0.119491 10.4092 0.000254073 9.99994 1.79599e-05C9.59544 -0.00165464 9.19906 0.113532 8.85846 0.331732C8.51785 0.549932 8.24751 0.861859 8.07994 1.23002L6.19994 5.23002C6.18968 5.24952 6.1755 5.26669 6.15829 5.28046C6.14108 5.29423 6.12122 5.30429 6.09994 5.31002L1.81994 6.00002C1.43203 6.05781 1.06776 6.22206 0.767637 6.47452C0.467513 6.72698 0.243301 7.05774 0.119936 7.43002C-0.00276581 7.8029 -0.0210372 8.20226 0.0671036 8.58479C0.155244 8.96733 0.346433 9.31843 0.619936 9.60002L3.77994 12.85C3.78903 12.8705 3.79373 12.8926 3.79373 12.915C3.79373 12.9374 3.78903 12.9596 3.77994 12.98L3.03994 17.52C2.97114 17.9154 3.01599 18.3222 3.16926 18.6931C3.32253 19.064 3.57794 19.3838 3.90577 19.6152C4.23361 19.8467 4.62042 19.9804 5.02122 20.0007C5.42203 20.021 5.82037 19.9272 6.16994 19.73L9.89994 17.66C9.91847 17.6504 9.93905 17.6453 9.95994 17.6453C9.98082 17.6453 10.0014 17.6504 10.0199 17.66L13.7499 19.73C14.1 19.9229 14.4972 20.0134 14.8963 19.9913C15.2953 19.9691 15.6801 19.835 16.0065 19.6045C16.333 19.374 16.5881 19.0563 16.7425 18.6877C16.897 18.319 16.9446 17.9144 16.8799 17.52L16.1899 13C16.1794 12.9818 16.1739 12.9611 16.1739 12.94C16.1739 12.919 16.1794 12.8983 16.1899 12.88L19.3899 9.60002Z" fill="#FFA902"/>
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-2 number">4.6</h5>
-                                                </div>
-                                                <div>
-                                                    <h5 class="mb-0 ms-2 text-primary">$ 10.9</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
@@ -489,7 +448,7 @@
                     </div>
                     <div class="item-box">
                         <div class="item-media">
-                            <img src="{{asset('customer/assets/images/food/food2.png')}}')}}" alt="food">
+                            <img src="{{asset('customer/assets/images/food/food2.png')}}" alt="food">
                         </div>
                         <div class="item-content">
                             <a href="product.html"><h6 class="mb-0">Nasi Goreng Kampung Buk Minah</h6></a>

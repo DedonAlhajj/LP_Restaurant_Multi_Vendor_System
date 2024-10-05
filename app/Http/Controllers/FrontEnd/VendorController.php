@@ -22,55 +22,74 @@ class VendorController extends Controller
         $this->vendor = Restaurant::where('slug', $this->slug)->firstOrFail();
     }
 
-    public function welcome(){
+    public function welcome()
+    {
         // dd($vendor_slug);
 
-        return view('customer.welcome', ['vendor'=>$this->vendor]);
+        return view('customer.welcome', ['vendor' => $this->vendor]);
     }
-    public function index($vendor_slug){
-       /*
-        $foodItems = FoodItem::select('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id',
-            'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image',
-            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating'))
+    public function index($vendor_slug)
+    {
+
+        $foodItems = FoodItem::select(
+            'food_items.id',
+            'food_items.subcategory_id',
+            'food_items.restaurant_id',
+            'food_items.name',
+            'food_items.description',
+            'food_items.price',
+            'food_items.image',
+            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating')
+        )
             ->leftJoin('order_ratings_and_comments', 'food_items.id', '=', 'order_ratings_and_comments.food_item_id')
             ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
             ->orderByDesc('average_rating') // ترتيب تنازلي بناءً على متوسط التقييم
             ->take(2)
-            ->get();*/
-
-        return view('customer.index',['vendor'=>$this->vendor]);
+            ->where('food_items.restaurant_id', $this->vendor->id) // إضافة شرط المطعم
+            ->get();
+        return view('customer.index', ['vendor' => $this->vendor, 'foodItems' => $foodItems]);
     }
 
 
     public function showMenu($vendor_slug)
     {
-        $foodItems = FoodItem::select('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id',
-            'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image',
-            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating'))
+        $foodItems = FoodItem::select(
+            'food_items.id',
+            'food_items.subcategory_id',
+            'food_items.restaurant_id',
+            'food_items.name',
+            'food_items.description',
+            'food_items.price',
+            'food_items.image',
+            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating')
+        )
             ->leftJoin('order_ratings_and_comments', 'food_items.id', '=', 'order_ratings_and_comments.food_item_id')
             ->where('food_items.restaurant_id', $this->vendor->id) // إضافة شرط المطعم
             ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
             ->orderByDesc('average_rating') // ترتيب تنازلي بناءً على متوسط التقييم
             ->get();
-
-
-        return view('customer.product', ['foodItems'=>$foodItems,'vendor'=>$this->vendor]);
+        return view('customer.product', ['foodItems' => $foodItems, 'vendor' => $this->vendor]);
     }
 
 
     public function showFoodItem($vendor_slug, $food_item_id)
 
     {
-        $foodItem=FoodItem::find($food_item_id);
-        // dd($foodItem);
-        return view('customer.product-detail', ['vendor'=>$this->vendor, 'product'=>$foodItem]);
+        $foodItem = FoodItem::with('ratingsAndComments')->find($food_item_id);
 
+        if ($foodItem->ratingsAndComments()->count() > 0) {
+            $rating = $foodItem->ratingsAndComments()->where('customer_id', auth('customer')->id())
+                ->whereNotNull('rating')
+                ->first()->rating;
+        }
+        // dd($foodItem);
+        return view('customer.product-detail', ['vendor' => $this->vendor, 'product' => $foodItem, 'rating' => $rating ?? 0]);
     }
 
 
     public function showNotifications()
     {
 
-        return view('customer.notification', ['vendor'=>$this->vendor]);
+        return view('customer.notification', ['vendor' => $this->vendor]);
     }
 }

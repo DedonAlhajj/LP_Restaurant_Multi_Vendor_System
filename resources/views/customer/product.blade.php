@@ -298,6 +298,7 @@
 	<!-- FILTER -->
 </div>
 
+@include('customer.partial.menubar-area')
 
 
 @push('styles')

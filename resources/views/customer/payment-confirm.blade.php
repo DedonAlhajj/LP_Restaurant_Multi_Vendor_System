@@ -47,7 +47,7 @@
 					</div>
 					<div class="text-center mt-3">
 						<p class="text-dark mb-0">Receipt has been sent to your email address.</p>
-						<a href="javascript:void(0);" class="btn-link">View Receipt <i class="fa-solid fa-angle-right ms-2"></i></a>
+						<a href="{{route('order.invoice',['vendor_slug'=>$vendor_slug,'order_Id'=>$order->id ])}}" class="btn-link">View Receipt <i class="fa-solid fa-angle-right ms-2"></i></a>
 					</div>
 				</div>
 			<!-- MAKE PAYMENT -->
@@ -129,6 +129,9 @@
             </ul>
         </div>
     </div>
+
+    @include('customer.partial.menubar-area')
+
 	<!-- Theme Color Settings End -->
 </div>
 @endsection

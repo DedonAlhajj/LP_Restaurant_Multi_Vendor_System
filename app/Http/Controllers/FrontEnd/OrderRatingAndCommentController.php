@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment;
 use App\Models\FoodItem;
 use App\Models\RatingAndComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Type\Integer;
 
 class OrderRatingAndCommentController extends Controller
 {
@@ -19,36 +22,46 @@ class OrderRatingAndCommentController extends Controller
     }
 
     // دالة لإضافة تقييم وتعليق
-    public function store(Request $request, $foodItemId,$vendor_slug)
+    public function store(Request $request, $vendor_slug, $foodItem)
     {
+
         $validatedData = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'nullable|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
-
-        try {
-            DB::beginTransaction();
-
-            // التأكد من وجود الطعام
-            $foodItem = FoodItem::findOrFail($foodItemId);
-
-            // إنشاء التقييم والتعليق
-            RatingAndComment::create([
-                'food_item_id' => $foodItem->id,
-                'customer_id' => auth('customer')->id(),
-                'rating' => $validatedData['rating'],
-                'comment' => $validatedData['comment'] ?? null,
-            ]);
-
-            DB::commit();
-            return redirect()->route('customer.ratings-comments.index', ['vendor_slug' => $vendor_slug])
-                ->with('success', 'Rating and comment added successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'An error occurred while adding the rating and comment.']);
+        if ($request->rating) {
+            $ratingComment = RatingAndComment::where('customer_id', auth('customer')->id())
+                ->where('food_item_id', $foodItem)
+                ->where('rating', '!=', null)
+                ->firstOrFail();
+            if ($ratingComment && $ratingComment->rating != null) {
+                $rating = $ratingComment->update([
+                    'rating' => intval($request->rating),
+                ]);
+            }
+        } else {
+            try {
+                DB::beginTransaction();
+                // التأكد من وجود الطعام
+                $foodItem = FoodItem::findOrFail($foodItem);
+                // إنشاء التقييم والتعليق
+                $comment = RatingAndComment::create([
+                    'food_item_id' => $foodItem->id,
+                    'customer_id' => auth('customer')->id(),
+                    'rating' => intval($request->rating) ?? null,
+                    'comment' => $request->comment ?? null,
+                ]);
+                $comment['customer_name'] = auth('customer')->user()->name;
+                $comment['customer_image'] = auth('customer')->user()->image;
+                $comment['create_date'] = $comment->created_at->diffForHumans();
+                DB::commit();
+                return response()->json($comment);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withErrors(['error' => $e->getMessage()]);
+            }
         }
     }
-
     // عرض صفحة تعديل التقييم والتعليق
     public function edit($id)
     {
@@ -58,9 +71,8 @@ class OrderRatingAndCommentController extends Controller
 
         return view('ratings-comments.edit', compact('ratingComment'));
     }
-
     // دالة لتعديل التقييم والتعليق
-    public function update(Request $request, $id,$vendor_slug)
+    public function update(Request $request, $id, $vendor_slug)
     {
         $validatedData = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
