@@ -2,7 +2,7 @@
 @extends('customer.layouts.master')
 @section('title', 'Product Detail')
 @section('content')
-<div class="page-wraper"> 
+<div class="page-wraper">
     <style>
 .rating {
     direction: rtl; /* Makes the stars clickable from right to left */
@@ -34,7 +34,7 @@
 		<div class="spinner"></div>
 	</div>
     <!-- Preloader end-->
-    
+
 	<!-- Header -->
     <header class="header transparent">
         <div class="main-bar">
@@ -62,13 +62,13 @@
         </div>
     </header>
     <!-- Header End -->
-	
 
 
+    <form action="{{ route('cart.add' , $vendor->slug) }}" method="POST">
     <!-- Page Content -->
     <div class="page-content">
         <div class="content-body fb">
- 
+
             <div class="swiper-btn-center-lr my-0">
                 <div class="swiper-container demo-swiper">
                     <div class="swiper-wrapper">
@@ -111,7 +111,7 @@
                     @include('customer.partial.alert')
                     <div class="detail-content">
                         <div class="flex-1">
-                        
+
                             <h4>{{ $product->name }}
                                 <div class="rating" data-product-id="{{ $product->id }}" data-vendor="{{$vendor->slug}}">
                                     <input type="radio" name="rating" id="star1" value="5" @auth  @if($rating==5) checked @endif @endauth>
@@ -158,66 +158,19 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="badge badge-danger font-w400 px-3">20% OFF DISCOUNT</div>    
-                    <a href="javascript:void(0);" class="btn-link font-16">Apply promo code</a>    
+                    <div class="badge badge-danger font-w400 px-3">20% OFF DISCOUNT</div>
+                    <a href="javascript:void(0);" class="btn-link font-16">Apply promo code</a>
                 </div>
 
 
-                <div class="card text-center mt-5">
-                    <div class="card-header">
-
-                        <h5 class="card-title">Comments and Reviews</h5>
-                    </div>
-                   
-                    <div class="card-body">
-                        <div class="container pt-0">
-                            <ul class="dz-list message-list" id="comments-list">
-                                @forelse ($product->ratingsAndComments as $comment)
-                                @if($comment->comment != null)
-                                <li>
-                                    <a href="messages-detail.html">
-                                        <div class="media media-45 rounded-circle">
-                                            <img src="{{asset('customer/assets/images/message/pic1.jpg')}}" alt="image">
-                                        </div>
-                                        <div class="media-content">
-                                            <div>
-                                                <h6 class="name">{{$comment->customer->name}}</h6>
-                                                <p class="my-1">
-                                                    <i class="fa-solid fa-check text-primary me-1"></i>
-                                                    {{$comment->comment}}
-                                               </p>
-                                            </div>
-                                            <span class="time">{{$comment->created_at->diffForHumans()}}</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                @endif
-                                @empty
-                                    
-                                @endforelse
-                            </ul>
-                        </div>
-                        {{-- <form action="{{route('ratings-comments.store' , ['vendor_slug'=>$vendor->slug ,'foodItem'=> $product->id])}}" method="POST"> --}}
-                            @csrf
-                            <div class="input-group mb-3">
-                            <textarea class="form-control" name="comment" id="comment" placeholder="Add Comment" rows="4"></textarea>
-                        </div>
-                            <button  type="submit"
-                            data-vendor="{{ $vendor->slug }}"   
-                                class="btn btn-dark submit-comment" data-id="{{ $product->id }}" 
-                                id="submit-comment" 
-                                >Comment</button>
-                                </div>
-                        {{-- </form> --}}
-                </div>
             </div>
-            
-		</div> 
 
-        
-    </div>    
+		</div>
+
+
+    </div>
     <!-- Page Content End -->
-	
+
     <!-- Theme Color Settings -->
 	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
         <div class="offcanvas-body small">
@@ -286,7 +239,7 @@
         </div>
     </div>
 	<!-- Theme Color Settings End -->
-    
+
     <!-- Footer -->
             <div class="footer fixed">
                 <div class="container">
@@ -304,8 +257,57 @@
                     </svg>
                     PLACE ORDER
                 </button>
+                </div></div>
             </form>
-            
+    @if(auth('customer')->id())
+        <div class="card text-center mt-5">
+            <div class="card-header">
+
+                <h5 class="card-title">Comments and Reviews</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="container pt-0">
+                    <ul class="dz-list message-list" id="comments-list">
+                        @forelse ($product->ratingsAndComments as $comment)
+                            @if($comment->comment != null)
+                                <li>
+                                    <a href="messages-detail.html">
+                                        <div class="media media-45 rounded-circle">
+                                            <img src="{{asset('customer/assets/images/message/pic1.jpg')}}" alt="image">
+                                        </div>
+                                        <div class="media-content">
+                                            <div>
+                                                <h6 class="name">{{$comment->customer->name}}</h6>
+                                                <p class="my-1">
+                                                    <i class="fa-solid fa-check text-primary me-1"></i>
+                                                    {{$comment->comment}}
+                                                </p>
+                                            </div>
+                                            <span class="time">{{$comment->created_at->diffForHumans()}}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                        @empty
+
+                        @endforelse
+                    </ul>
+                </div>
+                {{-- <form action="{{route('ratings-comments.store' , ['vendor_slug'=>$vendor->slug ,'foodItem'=> $product->id])}}" method="POST"> --}}
+                @csrf
+                <div class="input-group mb-3">
+                    <textarea class="form-control" name="comment" id="comment" placeholder="Add Comment" rows="4"></textarea>
+                </div>
+                <button  type="submit"
+                         data-vendor="{{ $vendor->slug }}"
+                         class="btn btn-dark submit-comment" data-id="{{ $product->id }}"
+                         id="submit-comment"
+                >Comment</button>
+            </div>
+            {{-- </form> --}}
+        </div>
+    @endif
 			{{-- <a href="order.html" class="btn btn-primary text-start w-100 btn-rounded">
                 <svg class="cart me-4" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18.1776 17.8443C16.6362 17.8428 15.3854 19.0912 15.3839 20.6326C15.3824 22.1739 16.6308 23.4247 18.1722 23.4262C19.7136 23.4277 20.9643 22.1794 20.9658 20.638C20.9658 20.6371 20.9658 20.6362 20.9658 20.6353C20.9644 19.0955 19.7173 17.8473 18.1776 17.8443Z" fill="white"/>
@@ -317,8 +319,8 @@
 		</div>
 	</div>
     <!-- Footer End -->
-	
-</div>    
+
+</div>
 
 
 
@@ -404,8 +406,8 @@
                 },
                 error: function(xhr) {
                     if(xhr.status == 401)
-                    {    
-                         
+                    {
+
                             // $('.alert-info').show();
                             $('#info_message').text(xhr.responseJSON.message);
                             $('.alert-info').fadeIn();
