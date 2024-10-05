@@ -43,9 +43,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-
-
-
 });
 
 
@@ -62,11 +59,11 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 
 
-require __DIR__.'/auth.php';
-Route::get('/not-found',function(){
+require __DIR__ . '/auth.php';
+Route::get('/not-found', function () {
     return view(view: 'customer.error');
 })->name('not.found');
-Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
+Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function () {
     //Route::get('/', [VendorController::class, 'showMenu'])->name('vendor.menu');
 
     Route::get('/', [VendorController::class, 'welcome'])->name('vendor.welcome');
@@ -83,25 +80,22 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
 
 
 
-
     Route::get('customer/login', [CustomerAuthController::class, 'loginForm'])->name('customer.login');
     Route::post('customer/login', [CustomerAuthController::class, 'login'])->name('customer.store');
     Route::get('customer/register', [CustomerAuthController::class, 'registerForm'])->name('customer.register');
     Route::post('customer/register', [CustomerAuthController::class, 'register']);
+
     Route::get('customer/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
-    
 
 
     Route::middleware('auth.customer')->group(function () {
-        Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
-        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
         Route::get('order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
-        Route::get('order/{order_Id}/invoice', [InvoiceController::class, 'viewInvoice'])
-            ->name('order.invoice');
+
         Route::get('/order/{orderId}/download-invoice', [InvoiceController::class, 'downloadInvoice'])
             ->name('order.downloadInvoice');
-
+        Route::post('order/complete', [OrderController::class, 'completeOrder'])->name('order.complete');
+        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
         Route::get('/my-orders', [OrderController::class, 'customerOrder'])->name('customer.orders');
 
         Route::get('food-items/{foodItem}/ratings-comments', [OrderRatingAndCommentController::class, 'index'])->name('ratings-comments.index');
@@ -110,7 +104,5 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
         Route::get('ratings-comments/{id}/edit', [OrderRatingAndCommentController::class, 'edit'])->name('ratings-comments.edit');
         Route::put('ratings-comments/{id}', [OrderRatingAndCommentController::class, 'update'])->name('ratings-comments.update');
         Route::delete('ratings-comments/{id}', [OrderRatingAndCommentController::class, 'destroy'])->name('ratings-comments.destroy');
-
-
     });
 });
