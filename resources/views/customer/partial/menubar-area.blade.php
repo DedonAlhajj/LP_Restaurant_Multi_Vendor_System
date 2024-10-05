@@ -1,6 +1,6 @@
 <div class="menubar-area">
   <div class="toolbar-inner menubar-nav">
-    <a href="{{route('vendor.notifications',$vendor->slug)}}" class="nav-link">
+    {{-- <a href="{{route('vendor.notifications',$vendor->slug)}}" class="nav-link"> --}}
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#bfc9da" xmlns:v="https://vecta.io/nano"><path d="M12 1a7.5 7.5 0 0 0-7.5 7.5v5.85l-1.66 2.5A2.04 2.04 0 0 0 4.535 20h14.93a2.04 2.04 0 0 0 1.695-3.165L19.5 14.35V8.5A7.5 7.5 0 0 0 12 1zm0 22a3 3 0 0 0 2.825-2h-5.65A3 3 0 0 0 12 23z"/></svg>
     </a>
           <a href="order-list.html" class="nav-link">

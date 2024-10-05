@@ -61,7 +61,7 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 
 require __DIR__.'/auth.php';
-Route::get('/not-found',function(){
+Route::get('/not-found',function(){ 
     return view(view: 'customer.error');
 })->name('not.found');
 Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function() {
