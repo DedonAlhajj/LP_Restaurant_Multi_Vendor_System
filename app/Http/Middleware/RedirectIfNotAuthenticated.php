@@ -19,6 +19,7 @@ class RedirectIfNotAuthenticated
     {
         $slug = $request->route('vendor_slug');
         if (!Auth::guard('customer')->check()) {
+            Session::put('url.intended', $request->url());
             if ($request->ajax()) {
                 return response()->json(['message' => 'Please log in to comment.'], 401);
             }

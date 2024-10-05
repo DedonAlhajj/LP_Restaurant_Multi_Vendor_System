@@ -37,7 +37,7 @@
 						<div class="mb-3 input-group input-mini">
 							<span class="input-group-text"><i class="fa fa-lock"></i></span>
 							<input type="password" class="form-control dz-password" placeholder="Password" name="password" required>
-							<span class="input-group-text show-pass"> 
+							<span class="input-group-text show-pass">
 								<i class="fa fa-eye-slash"></i>
 								<i class="fa fa-eye"></i>
 							</span>
@@ -45,7 +45,7 @@
 
 
 						<div class="input-group">
-							<button type="submit" class="btn mt-2 btn-primary w-100 btn-rounded">SIGN IN</a>
+                            <button type="submit" class="btn mt-2 btn-primary w-100 btn-rounded">SIGN IN</button>
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 							<div class="form-check">
@@ -54,10 +54,10 @@
 									Keep Sign In
 								</label>
 							</div>
-                         
+
 							<a href="forgot-password.html" class="btn-link">Forgot password?</a>
 						</div>
-					</form>  
+					</form>
                     <div class="text-center mb-auto p-tb20">
                         <a href="{{route('customer.register', $vendor->slug)}}" class="saprate">Don’t have an account?</a>
                     </div>
@@ -66,7 +66,7 @@
         </div>
     </div>
     <!-- Page Content End -->
-    
+
     <!-- Footer -->
     <footer class="footer fixed">
         <div class="container">
@@ -74,7 +74,7 @@
         </div>
     </footer>
     <!-- Footer End -->
-    
+
     <!-- Theme Color Settings -->
 	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
         <div class="offcanvas-body small">
