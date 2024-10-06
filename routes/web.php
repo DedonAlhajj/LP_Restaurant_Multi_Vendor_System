@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('customer.notification');
+// });
 Route::get('/', function () {
-    return view('customer.notification');
+    return view('seller.orders.order_details');
 });
 
 Route::get('/dashboard', function () {

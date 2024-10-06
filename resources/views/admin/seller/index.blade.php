@@ -1,14 +1,13 @@
 @extends('admin.dashboard.master')
 @section('title')
-    oreder list
+    Restaurant
 @endsection
 
 @section('content')
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">All Restaurant</h4>
-                <a href="" class="btn btn-primary">Create Resturant</a>
+                <h4 class="card-title">All customers</h4>
             </div>
 
             <div >
@@ -27,13 +26,9 @@
                                     </div>
                                 </th>
                                 <th><strong>ROLL NO.</strong></th>
-                                <th><strong>customer</strong></th>
-                                <th><strong>restaurant</strong></th>
-                                <th><strong>status</strong></th>
-                                <th><strong>total_price</strong></th>
-                                <th><strong>payment_status</strong></th>
-                                <th><strong>order_types</strong></th>
-                                <th><strong>payment_method</strong></th>
+                                <th><strong>seller name</strong></th>
+                             
+                                <th><strong>seller resturant</strong></th>
                                 <th><strong>processes</strong></th>
                             </tr>
                         </thead>
@@ -48,23 +43,22 @@
                                     </td>
                                     <td><strong>1</strong></td>
                                     <td>
-                                        customer</div>
+                                        seller name</div>
                                     </td>
-                                    <td>restaurant </td>
-                                    <td></td>
-                                    <td>status</td>
+                                  
+                                    <td>seller email</td>
+                                    <td>  <a  class="btn btn-xs btn-danger" title=" show_retuarant"><i class="fas fa-eye"></i></a>
 
-                                    <td>total_price</td>
-                                    <td>payment_status</td>
-                                    <td>order_types</td>
-                                    <td>payment_method</td>
+                                    </td>
+
+                                    
                                     <td>
                                         <div class="d-flex">
                                             <a href=""
                                                 class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                     class="fas fa-pencil-alt"></i></a>
                                                     <button  class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#Deleted"><i class="fas fa-trash"></i></button>
-                                                    <a href=""  class="btn btn-xs btn-danger" ><i class="fas fa-eye"></i></a>
+                                                    <button  class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#edit_order_status"><i class="fas fa-trash"></i></button>
 
                                         </div>
                                     </td>
