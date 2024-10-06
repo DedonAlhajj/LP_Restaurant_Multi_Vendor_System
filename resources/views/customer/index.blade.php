@@ -42,126 +42,114 @@
 
 	<!-- Sidebar -->
     <div class="sidebar">
+        <?php $vendor_slug = $vendor->slug; ?>
 		<div class="author-box">
 			<div class="dz-media">
 				<img src="{{asset('customer/assets/images/message/pic5.jpg')}}" alt="author-image">
 			</div>
 			<div class="dz-info">
-				<span> @if(date('A', strtotime(now())) == 'PM')
+				<span> 
+                    @if(date('A', strtotime(now())) == 'PM')
                     Good Evening,
-                @else
-                    Good Morning,
-                @endif</span>
-				<h5 class="name">
+                    @else
+                        Good Morning,
+                    @endif
+                </span>
+                <h5 class="name">
                     @if(Auth::guard('customer')->check())
                     {{Auth::guard('customer')->user()->name}}👋
                     @endif
                 </h5>
 			</div>
 		</div>
-
-        <?php
-            $vendor_slug = $vendor->slug;
-        ?>
 		<ul class="nav navbar-nav">
-			<li class="nav-label">Main Menu</li>
-			<li><a class="nav-link" href="{{route('vendor.welcome',$vendor_slug)}}">
-				<span class="dz-icon">
-					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-					<path d="M13.35 20.13c-.76.69-1.93.69-2.69-.01l-.11-.1C5.3 15.27 1.87 12.16 2 8.28c.06-1.7.93-3.33 2.34-4.29 2.64-1.8 5.9-.96 7.66 1.1 1.76-2.06 5.02-2.91 7.66-1.1 1.41.96 2.28 2.59 2.34 4.29.14 3.88-3.3 6.99-8.55 11.76l-.1.09z"/></svg>
-				</span>
-				<span>Welcome</span>
-			</a></li>
-			<li><a class="nav-link" href="{{route('vendor.index',$vendor_slug)}}">
-				<span class="dz-icon">
-					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-						<path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z"/>
-					</svg>
-				</span>
-				<span>Home</span>
-			</a></li>
-
-
-
+                <li class="nav-label">Main Menu</li>
+                <li><a class="nav-link" href="{{route('vendor.welcome',$vendor_slug)}}">
+                    <span class="dz-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                        <path d="M13.35 20.13c-.76.69-1.93.69-2.69-.01l-.11-.1C5.3 15.27 1.87 12.16 2 8.28c.06-1.7.93-3.33 2.34-4.29 2.64-1.8 5.9-.96 7.66 1.1 1.76-2.06 5.02-2.91 7.66-1.1 1.41.96 2.28 2.59 2.34 4.29.14 3.88-3.3 6.99-8.55 11.76l-.1.09z"/></svg>
+                    </span>
+                    <span>Welcome</span>
+                </a></li>
+                <li><a class="nav-link" href="{{route('vendor.index',$vendor_slug)}}">
+                    <span class="dz-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                            <path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z"/>
+                        </svg>
+                    </span>
+                    <span>Home</span>
+                </a></li>
             @if(Auth::guard('customer')->check())
-
-            <li><a class="nav-link" href="notification.html">
-				<span class="dz-icon">
-					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.68-1.5-1.51-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-1.3 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16zm-6.01 6c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zM6.77 4.73c.42-.38.43-1.03.03-1.43-.38-.38-1-.39-1.39-.02C3.7 4.84 2.52 6.96 2.14 9.34c-.09.61.38 1.16 1 1.16.48 0 .9-.35.98-.83.3-1.94 1.26-3.67 2.65-4.94zM18.6 3.28c-.4-.37-1.02-.36-1.4.02-.4.4-.38 1.04.03 1.42 1.38 1.27 2.35 3 2.65 4.94.07.48.49.83.98.83.61 0 1.09-.55.99-1.16-.38-2.37-1.55-4.48-3.25-6.05z"/></svg>
-				</span>
-				<span>Notification</span>
-				<span class="badge badge-circle badge-danger">1</span>
-			</a></li>
-            <li><a class="nav-link" href="profile.html">
-				<span class="dz-icon">
-					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-1c0-2.66-5.33-4-8-4z"/></svg>
-				</span>
-				<span>Profile</span>
-			</a></li>     
-            <li>
-                <a class="nav-link" href="{{route('customer.orders',$vendor_slug)}}">
+                <li><a class="nav-link" href="notification.html">
                     <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.68-1.5-1.51-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-1.3 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16zm-6.01 6c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zM6.77 4.73c.42-.38.43-1.03.03-1.43-.38-.38-1-.39-1.39-.02C3.7 4.84 2.52 6.96 2.14 9.34c-.09.61.38 1.16 1 1.16.48 0 .9-.35.98-.83.3-1.94 1.26-3.67 2.65-4.94zM18.6 3.28c-.4-.37-1.02-.36-1.4.02-.4.4-.38 1.04.03 1.42 1.38 1.27 2.35 3 2.65 4.94.07.48.49.83.98.83.61 0 1.09-.55.99-1.16-.38-2.37-1.55-4.48-3.25-6.05z"/></svg>
                     </span>
-                    <span>My Orders</span>
-			    </a>
-            </li>
-            <li>
-                <a class="nav-link" href="{{route('customer.logout',$vendor_slug)}}">
+                    <span>Notification</span>
+                    <span class="badge badge-circle badge-danger">1</span>
+                </a></li>
+                <li><a class="nav-link" href="profile.html">
                     <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-1c0-2.66-5.33-4-8-4z"/></svg>
                     </span>
-                    <span>Logout</span>
-			    </a>
-            </li>
-
-       
-
+                    <span>Profile</span>
+                </a></li>     
+                <li>
+                    <a class="nav-link" href="{{route('customer.orders',$vendor_slug)}}">
+                        <span class="dz-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        </span>
+                        <span>My Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{{route('customer.logout',$vendor_slug)}}">
+                        <span class="dz-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                </li>
             @else
-
-			<li>
-                <a class="nav-link" href="{{route('customer.login',$vendor_slug)}}">
-                    <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
-                    </span>
-                    <span>Sign In</span>
-			    </a>
-            </li>
-
-
-            <li>
-                <a class="nav-link" href="{{route('customer.register',$vendor_slug)}}">
-                    <span class="dz-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><g><circle cx="12" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="6" cy="12" r="2"></circle><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M11,18.07v1.43c0,0.28,0.22,0.5,0.5,0.5h1.4c0.13,0,0.26-0.05,0.35-0.15l5.83-5.83l-2.12-2.12l-5.81,5.81 C11.05,17.81,11,17.94,11,18.07z"></path><path d="M12.03,14L14,12.03V12c0-1.1-0.9-2-2-2s-2,0.9-2,2s0.9,2,2,2H12.03z"></path><path d="M20.85,11.56l-1.41-1.41c-0.2-0.2-0.51-0.2-0.71,0l-1.06,1.06l2.12,2.12l1.06-1.06C21.05,12.07,21.05,11.76,20.85,11.56z"></path></g></g></svg>                    </span>
-                    <span>Sign Up</span>
-			    </a>
-            </li>
+                <li>
+                    <a class="nav-link" href="{{route('customer.login',$vendor_slug)}}">
+                        <span class="dz-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        </span>
+                        <span>Sign In</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{{route('customer.register',$vendor_slug)}}">
+                        <span class="dz-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><g><circle cx="12" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="6" cy="12" r="2"></circle><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><path d="M11,18.07v1.43c0,0.28,0.22,0.5,0.5,0.5h1.4c0.13,0,0.26-0.05,0.35-0.15l5.83-5.83l-2.12-2.12l-5.81,5.81 C11.05,17.81,11,17.94,11,18.07z"></path><path d="M12.03,14L14,12.03V12c0-1.1-0.9-2-2-2s-2,0.9-2,2s0.9,2,2,2H12.03z"></path><path d="M20.85,11.56l-1.41-1.41c-0.2-0.2-0.51-0.2-0.71,0l-1.06,1.06l2.12,2.12l1.06-1.06C21.05,12.07,21.05,11.76,20.85,11.56z"></path></g></g></svg>                    </span>
+                        <span>Sign Up</span>
+                    </a>
+                </li>
             @endif
-
-            <li class="nav-label">Settings</li>
-            <li class="nav-color" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                <a href="javascript:void(0);" class="nav-link">
-                    <span class="dz-icon">
-                        <svg class="color-plate" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#000000">
-							<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-						</svg>
-                    </span>
-                    <span>Highlights</span>
-                </a>
-            </li>
-            <li>
-                <div class="mode">
-                    <span class="dz-icon">
-                        <svg class="dark" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><g><path d="M11.57,2.3c2.38-0.59,4.68-0.27,6.63,0.64c0.35,0.16,0.41,0.64,0.1,0.86C15.7,5.6,14,8.6,14,12s1.7,6.4,4.3,8.2 c0.32,0.22,0.26,0.7-0.09,0.86C16.93,21.66,15.5,22,14,22c-6.05,0-10.85-5.38-9.87-11.6C4.74,6.48,7.72,3.24,11.57,2.3z"/></g></g></g>
-						</svg>
-                    </span>
-                    <span class="text-dark">Dark Mode</span>
-                    <div class="custom-switch">
-                        <input type="checkbox" class="switch-input theme-btn" id="toggle-dark-menu">
-                        <label class="custom-switch-label" for="toggle-dark-menu"></label>
+                <li class="nav-label">Settings</li>
+                <li class="nav-color" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <a href="javascript:void(0);" class="nav-link">
+                        <span class="dz-icon">
+                            <svg class="color-plate" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24" width="30px" fill="#000000">
+                                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                            </svg>
+                        </span>
+                        <span>Highlights</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="mode">
+                        <span class="dz-icon">
+                            <svg class="dark" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><g><path d="M11.57,2.3c2.38-0.59,4.68-0.27,6.63,0.64c0.35,0.16,0.41,0.64,0.1,0.86C15.7,5.6,14,8.6,14,12s1.7,6.4,4.3,8.2 c0.32,0.22,0.26,0.7-0.09,0.86C16.93,21.66,15.5,22,14,22c-6.05,0-10.85-5.38-9.87-11.6C4.74,6.48,7.72,3.24,11.57,2.3z"/></g></g></g>
+                            </svg>
+                        </span>
+                        <span class="text-dark">Dark Mode</span>
+                        <div class="custom-switch">
+                            <input type="checkbox" class="switch-input theme-btn" id="toggle-dark-menu">
+                            <label class="custom-switch-label" for="toggle-dark-menu"></label>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 		</ul>
 		<div class="sidebar-bottom">
 			<h6 class="name">{{$vendor->name}} Restaurant</h6>
@@ -201,7 +189,6 @@
 
     <!-- Page Content -->
     <div class="page-content">
-
         <div class="content-inner pt-0">
 			<div class="container fb">
                 <!-- Search -->
@@ -215,13 +202,13 @@
                         <input type="text" placeholder="Search beverages or foods" class="form-control main-in ps-0 bs-0">
 					</div>
                 </form>
-
                 <!-- Dashboard Area -->
                 <div class="dashboard-area">
 					<!-- Categorie -->
                     <div class="swiper-btn-center-lr">
                         <div class="swiper-container mt-4 categorie-swiper">
                             <div class="swiper-wrapper">
+                                @foreach ($categories as $category)
                                 <div class="swiper-slide">
                                     <a href="product.html" class="categore-box style-1">
                                         <div class="icon-bx bg-primary">
@@ -235,9 +222,11 @@
                                                 <path d="M23.29 8.89064C23.713 8.89064 24.0601 8.51637 23.9911 8.09908C23.2755 3.76846 19.3428 0.453156 14.8124 0.453156H9.18742C4.65704 0.453156 0.724306 3.76846 0.00873078 8.09908C-0.0602998 8.51637 0.286867 8.89064 0.70984 8.89064H23.29ZM16.2187 4.6719C16.607 4.6719 16.9218 4.98666 16.9218 5.37502C16.9218 5.76339 16.607 6.07815 16.2187 6.07815C15.8303 6.07815 15.5155 5.76339 15.5155 5.37502C15.5155 4.98666 15.8303 4.6719 16.2187 4.6719ZM13.4062 3.26565C13.7945 3.26565 14.1093 3.58041 14.1093 3.96877C14.1093 4.35714 13.7945 4.6719 13.4062 4.6719C13.0178 4.6719 12.703 4.35714 12.703 3.96877C12.703 3.58041 13.0178 3.26565 13.4062 3.26565ZM11.9999 6.07815C12.3883 6.07815 12.703 6.3929 12.703 6.78127C12.703 7.16963 12.3883 7.48439 11.9999 7.48439C11.6116 7.48439 11.2968 7.16963 11.2968 6.78127C11.2968 6.3929 11.6116 6.07815 11.9999 6.07815ZM9.18742 3.26565C9.57579 3.26565 9.89055 3.58041 9.89055 3.96877C9.89055 4.35714 9.57579 4.6719 9.18742 4.6719C8.79906 4.6719 8.4843 4.35714 8.4843 3.96877C8.4843 3.58041 8.79906 3.26565 9.18742 3.26565ZM6.37493 4.6719C6.7633 4.6719 7.07805 4.98666 7.07805 5.37502C7.07805 5.76339 6.7633 6.07815 6.37493 6.07815C5.98656 6.07815 5.67181 5.76339 5.67181 5.37502C5.67181 4.98666 5.98656 4.6719 6.37493 4.6719Z" fill="white"/>
                                             </svg>
                                         </div>
-                                        <span class="title">Foods</span>
+                                        <span class="title">{{$category->name}}</span>
                                     </a>
                                 </div>
+                                @endforeach
+{{--                             
                                 <div class="swiper-slide">
                                     <a href="product.html" class="categore-box style-1">
                                         <div class="icon-bx bg-secondary">
@@ -327,7 +316,7 @@
                                         </div>
                                         <span class="title">Foods</span>
                                     </a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -382,14 +371,12 @@
                         </div>
                     </div>
 					<!-- Recent -->
-
 					<!-- Recomended Start -->
                     <div class="title-bar">
                         <h5 class="title">Recomended 👌</h5>
                         <a class="btn-link" href="{{route('vendor.menu',$vendor->slug)}}">View more</a>
                     </div>
                     @include('customer.partial.alert')
-
                     <div class="swiper-btn-center-lr">
                         <div class="swiper-container tag-group mt-4 recomanded-swiper">
                             <div class="swiper-wrapper">
@@ -402,14 +389,14 @@
                                                 <a class="form-check-input" href="" id="flexCheckDefault1"></a>
 
                                                 <label class="form-check-label" for="flexCheckDefault1">
-                                                <form action="{{ route('cart.add' , $vendor->slug) }}" method="POST">
+                                                <form  method="POST" id="cart-form-{{$foodItem->id}}">
                                                     @csrf
                                                     <input type="hidden" name="quantity" value="1">
                                                     <input type="hidden" name="id" value="{{ $foodItem->id }}">
                                                     <input type="hidden" name="name" value="{{ $foodItem->name }}">
                                                     <input type="hidden" name="price" value="{{ $foodItem->price }}">
-                                                    <button type="submit" style="background: none ; border:none">
-                                                   <svg width="20" height="20   " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <button class="add-to-cart" data-id="{{ $foodItem->id }}" data-vendor="{{$vendor->slug}}"  style="background: none ; border:none">
+                                                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.1776 17.8443C16.6362 17.8428 15.3854 19.0912 15.3839 20.6326C15.3824 22.1739 16.6308 23.4247 18.1722 23.4262C19.7136 23.4277 20.9643 22.1794 20.9658 20.638C20.9658 20.6371 20.9658 20.6362 20.9658 20.6353C20.9644 19.0955 19.7173 17.8473 18.1776 17.8443Z" fill="#fff"/>
                                                         <path d="M23.1278 4.47973C23.061 4.4668 22.9932 4.46023 22.9251 4.46012H5.93181L5.66267 2.65958C5.49499 1.46381 4.47216 0.574129 3.26466 0.573761H1.07655C0.481978 0.573761 0 1.05574 0 1.65031C0 2.24489 0.481978 2.72686 1.07655 2.72686H3.26734C3.40423 2.72586 3.52008 2.82779 3.53648 2.96373L5.19436 14.3267C5.42166 15.7706 6.66363 16.8358 8.12528 16.8405H19.3241C20.7313 16.8423 21.9454 15.8533 22.2281 14.4747L23.9802 5.74121C24.0931 5.15746 23.7115 4.59269 23.1278 4.47973Z" fill="#fff"/>
                                                         <path d="M11.3404 20.5158C11.2749 19.0196 10.0401 17.8418 8.54244 17.847C7.0023 17.9092 5.80422 19.2082 5.86645 20.7484C5.92617 22.2262 7.1283 23.4008 8.60704 23.4262H8.67432C10.2142 23.3587 11.4079 22.0557 11.3404 20.5158Z" fill="#fff"/>
@@ -440,7 +427,7 @@
                             </div>
                         </div>
                     </div>
-					<!-- Recomended Start -->
+					<!-- Recomended end -->
 
 					<!-- Item box Start -->
                     <div class="title-bar">
@@ -582,4 +569,84 @@
 	<!-- PWA Offcanvas End -->
 
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function(e) {
+            console.log('clicked');
+            e.preventDefault();
+            var product_id=$(this).data('id');
+            var vendor_slug=$(this).data('vendor');
+            var form = $(`#cart-form-${product_id}`);
+
+            var url="{{route('cart.add',  ['vendor_slug'=>':vendor_slug'  ,'foodItem'=>':id'])}}";
+            url = url.replace(':id', product_id);
+            url = url.replace(':vendor_slug', vendor_slug);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data:form.serialize(),
+                success: function(response) {
+                    $('.alert-success').show();
+                    $('#success_message').text(response.success);
+                    $('.alert-success').fadeIn();
+
+                    $('#cart-list').append(`
+                        <li class="item_${response.product.id}"> 
+                            <div class="item-content">
+                                <div class="item-media media media-60">
+                                    <img src="{{asset('customer/assets/images/food/pic6.png')}}" alt="logo">
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <h6 class="item-title"><a href="order-list.html">${response.product.name}</a></h6>
+                                        <div class="item-subtitle">Coffe, Milk</div>
+                                    </div>
+                                    <div class="item-footer">
+                                        <div class="d-flex align-items-center">
+                                            <h6 class="me-3">$ ${response.product.price}</h6>
+                                            {{-- <del class="off-text"><h6>$ 8.9</h6></del> --}}
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="dz-stepper border-1 ">
+                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                    <span class="input-group-btn input-group-prepend">
+                                                        <button class="btn btn-primary bootstrap-touchspin-down" type="button">-</button>
+                                                    </span>
+                                                    <input class="stepper form-control" type="text" value="${response.product.quantity}" name="quantity" onchange="updateCart(this,${response.product.id} , '${vendor_slug}')">
+                                                    <span class="input-group-btn input-group-append">
+                                                        <button class="btn btn-primary bootstrap-touchspin-up" type="button">+</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-icon btn-icon-end btn-primary btn-remove" onclick="removeItemFromCart( ${response.product.id}, '${vendor_slug}')"   ><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </li>
+                    `)
+                    $('#count-item-cart').text(response.count);
+
+
+
+                },
+                error: function(xhr) {
+                    $('.alert-info').show();
+                    $('#info_message').text(xhr.responseJSON.error);
+                    $('.alert-info').fadeIn();
+                },
+
+            });
+        });
+
+        $('.btn-close').on('click', function() {
+            $('.alert-info').fadeOut(); // Hide the alert when the close button is clicked
+            $('.alert-success').fadeOut(); // Hide the alert when the close button is clicked
+
+         });
+    });
+</script>
 @endsection

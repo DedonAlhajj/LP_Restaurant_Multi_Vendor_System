@@ -15598,3 +15598,30 @@ ul.list-check {
     transform: rotate(360deg); } }
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+.rating {
+  direction: rtl; /* Makes the stars clickable from right to left */
+  display: flex;
+}
+
+.rating input {
+  display: none; /* Hide the radio buttons */
+}
+
+.rating .star {
+  font-size:20px;
+  color: #ccc; /* Default star color */
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.rating input:checked ~ .star {
+  color: gold; /* Color for selected stars */
+}
+
+.rating .star:hover,
+.rating .star:hover ~ .star {
+  color: gold; /* Color for hovered stars */
+}

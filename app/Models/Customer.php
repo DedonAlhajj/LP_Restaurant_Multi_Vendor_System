@@ -42,5 +42,8 @@ class Customer extends Authenticatable
         return $this->hasMany(Customer::class);
     }
 
-
+    public function likes()
+    {
+        return $this->belongsToMany(FoodItem::class, 'likes');
+    }
 }

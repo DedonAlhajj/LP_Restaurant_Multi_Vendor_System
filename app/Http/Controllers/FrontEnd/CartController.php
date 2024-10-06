@@ -31,26 +31,39 @@ class CartController extends Controller
     // إضافة عنصر إلى السلة
     public function add(Request $request, $vendor_slug)
     {
-        // dd($request->all());
+
         $validated = $request->validate([
             'id' => 'required|integer',
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'quantity' => 'required|integer|min:1',
         ]);
+        // dd($request->all());
+
 
         try {
             $added = $this->cartService->addItem($validated);
+
             if (!$added) {
-                return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                    ->with(['info' => 'The item is already in the cart.']);
+                return response()->json([
+                    'error' => 'The item is already in the cart.',
+                ], 422);
+                // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+                //     ->with(['info' => 'The item is already in the cart.']);
             }
 
-            return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with(['success'=> $validated['name'] . 'It has been added successfully.']);
+            return response()->json([
+                'success' => $validated['name'] . 'It has been added successfully.',
+                'product' => $validated,
+                'count' => (int) \Cart::getContent()->count(),
+                'subtotal' => (float) \Cart::getTotal(),
+            ]);
+
+            // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
+            //     ->with(['success' => $validated['name'] . 'It has been added successfully.']);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
-                ->with(['error'=> 'An error occurred while adding the item to the cart.']);
+                ->with(['error' => 'An error occurred while adding the item to the cart.']);
         }
     }
 
@@ -66,9 +79,11 @@ class CartController extends Controller
             $this->cartService->updateItemQuantity($validated['id'], $validated['quantity']);
             // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
             //     ->with('success', 'Quantity updated successfully.');
-            return response()->json(['success' => 'Quantity updated successfully.' , 
-            'subtotal'=>(float) \Cart::getTotal() ,
-          ]);
+            return response()->json([
+                'success' => 'Quantity updated successfully.',
+
+                'subtotal' => (float) \Cart::getTotal(),
+            ]);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while updating the quantity.');
@@ -84,9 +99,11 @@ class CartController extends Controller
             $this->cartService->removeItem($validated['id']);
             // return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
             //     ->with('success', 'The item was removed successfully.');
-            return response()->json(['success' => 'The item was removed successfully.' , 
-            'subtotal'=>(float) \Cart::getTotal(),
-            'count'=>(int) \Cart::getContent()->count()  ]);
+            return response()->json([
+                'success' => 'The item was removed successfully.',
+                'subtotal' => (float) \Cart::getTotal(),
+                'count' => (int) \Cart::getContent()->count()
+            ]);
         } catch (Exception $e) {
             return redirect()->route('vendor.menu', ['vendor_slug' => $vendor_slug])
                 ->with('error', 'An error occurred while removing the item from the cart.');
@@ -106,4 +123,3 @@ class CartController extends Controller
         }
     }
 }
-

@@ -50,7 +50,6 @@
 
     <!-- Page Content -->
 	<div class="page-content">
-
 		<div class="container">
             @include('customer.partial.alert')
 			<div class="serach-area">
@@ -67,6 +66,7 @@
                 <div class="swiper-btn-center-lr">
                     <div class="swiper-container mt-4 categorie-swiper">
                         <div class="swiper-wrapper">
+                            @foreach ($subcategories as $subcategory) 
                             <div class="swiper-slide">
                                 <a href="javascript:void(0);" class="categore-box style-2 primary">
                                     <div class="icon-bx">
@@ -80,10 +80,12 @@
                                             <path d="M23.29 8.89064C23.713 8.89064 24.0601 8.51637 23.9911 8.09908C23.2755 3.76846 19.3428 0.453156 14.8124 0.453156H9.18742C4.65704 0.453156 0.724306 3.76846 0.00873078 8.09908C-0.0602998 8.51637 0.286867 8.89064 0.70984 8.89064H23.29ZM16.2187 4.6719C16.607 4.6719 16.9218 4.98666 16.9218 5.37502C16.9218 5.76339 16.607 6.07815 16.2187 6.07815C15.8303 6.07815 15.5155 5.76339 15.5155 5.37502C15.5155 4.98666 15.8303 4.6719 16.2187 4.6719ZM13.4062 3.26565C13.7945 3.26565 14.1093 3.58041 14.1093 3.96877C14.1093 4.35714 13.7945 4.6719 13.4062 4.6719C13.0178 4.6719 12.703 4.35714 12.703 3.96877C12.703 3.58041 13.0178 3.26565 13.4062 3.26565ZM11.9999 6.07815C12.3883 6.07815 12.703 6.3929 12.703 6.78127C12.703 7.16963 12.3883 7.48439 11.9999 7.48439C11.6116 7.48439 11.2968 7.16963 11.2968 6.78127C11.2968 6.3929 11.6116 6.07815 11.9999 6.07815ZM9.18742 3.26565C9.57579 3.26565 9.89055 3.58041 9.89055 3.96877C9.89055 4.35714 9.57579 4.6719 9.18742 4.6719C8.79906 4.6719 8.4843 4.35714 8.4843 3.96877C8.4843 3.58041 8.79906 3.26565 9.18742 3.26565ZM6.37493 4.6719C6.7633 4.6719 7.07805 4.98666 7.07805 5.37502C7.07805 5.76339 6.7633 6.07815 6.37493 6.07815C5.98656 6.07815 5.67181 5.76339 5.67181 5.37502C5.67181 4.98666 5.98656 4.6719 6.37493 4.6719Z" fill="#42A7E5"/>
                                         </svg>
                                     </div>
-                                    <span class="title">Foods</span>
+                                    <span class="title">{{$subcategory->name}}</span>
                                 </a>
                             </div>
-                            <div class="swiper-slide">
+
+                            @endforeach
+                            {{-- <div class="swiper-slide">
                                 <a href="javascript:void(0);" class="categore-box style-2 secondary">
                                     <div class="icon-bx">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +126,7 @@
                                     </div>
                                     <span class="title">Dissert</span>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -133,7 +135,7 @@
                 <h4 class="title my-4">Expresson & Classic</h4>
                 <!-- TITLE -->
 
-				<div class="item-list recent-jobs-list">
+				<div class="item-list recent-jobs-list " style="margin-bottom: 50px">
 					<ul>
                         @forelse ($foodItems as $foodItem )
                         <li>
@@ -154,12 +156,14 @@
                                         </div>
                                     </div>
 								</div>
+                                {{-- @dd($foodItem->likes) --}}
                                 <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic1.png')}}" alt="logo">
-                                    <a href="javascript:void(0);" class="item-bookmark icon-2">
+                                    <button onclick="toggleLikeProduct('{{$vendor->slug}}' ,{{ $foodItem->id }})"  id="like-btn-{{$foodItem->id}}"  class="item-bookmark icon-2 {{ in_array($foodItem->id, $likes) ? 'active' : ''}} " style="background: none ; outline: none; border: none; cursor: pointer;">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" fill="white"/>
+                                            <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" 
+                                            fill="{{ in_array($foodItem->id, $likes) ? 'red' : 'white'}}"/>
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
 							</div>
 						</li>
@@ -176,6 +180,7 @@
 			</div>
 		</div>
 	</div>
+
     <!-- Page Content End-->
 
 
@@ -298,22 +303,54 @@
 	<!-- FILTER -->
 </div>
 
+<div>
 @include('customer.partial.menubar-area')
+</div>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function toggleLikeProduct(vendor,foodItemId) {
+        console.log(vendor,foodItemId);
+        var vendor_slug = vendor;
+            var foodItem_Id = foodItemId;
+            var url = "{{route('food-items.like',[':vendor_slug',':foodItemId'])}}";
+            url = url.replace(':vendor_slug',vendor_slug);
+            url = url.replace(':foodItemId',foodItem_Id);
+            $.ajax({
+                url:url,
+                type: "POST",
+                data: {
+                    _token: "{{csrf_token()}}",
+                    foodItemId:foodItemId
+            },
+                success: function(response) {
+                    if(response.status == true) {
+                        $('#like-'+foodItemId).html(response.count);
+                    }
+                }
+            });
+        
+        
+    }     
+    </script>
 @push('styles')
 <link rel="stylesheet" href="{{asset('customer/assets/vendor/nouislider/nouislider.min.css')}}">
-
 @endpush
+
 @push('scripts')
     <script src="{{asset('customer/assetss/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('customer/assetss/vendor/nouislider/nouislider.min.js')}}"></script>
     <script src="{{asset('customer/assetss/vendor/wnumb/wNumb.js')}}"></script>
     <script src="{{asset('customer/assetss/js/noui-slider.init.js')}}"></script>
     <script src="{{asset('customer/assetss/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}"></script>
-
     <script>
         $(".stepper").TouchSpin();
     </script>
 @endpush
+
+
+
+
 @endsection

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class FoodItem extends Model
 {
     use HasFactory;
-    protected $gureded=[];
+    protected $gureded = [];
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class);
@@ -30,12 +30,24 @@ class FoodItem extends Model
 
     public function ratingsAndComments()
     {
-        return $this->hasMany(RatingAndComment::class,'food_item_id');
+        return $this->hasMany(RatingAndComment::class, 'food_item_id');
     }
 
     public function getAverageRatingAttribute()
     {
         // استعلام لحساب متوسط التقييم
         return $this->ratingsAndComments()->avg('rating') ?? 0; // إرجاع 0 إذا لم يكن هناك تقييمات
+    }
+
+
+    // للتحقق إذا قام الزبون بإضافة لايك
+    public function isLikedByCustomer($customerId)
+    {
+        return $this->likes()->where('customer_id', $customerId)->exists();
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Customer::class, 'likes');
     }
 }

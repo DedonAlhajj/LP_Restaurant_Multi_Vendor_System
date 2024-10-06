@@ -7,7 +7,7 @@ use Cart;
 
 class CartService
 {
-    protected $sessionId='cart';
+    protected $sessionId = 'cart';
 
     public function __construct()
     {
@@ -29,14 +29,13 @@ class CartService
             return false; // العنصر موجود بالفعل
         }
 
-        \Cart::add([
+        $item = \Cart::add([
             'id' => $data['id'],
             'name' => $data['name'],
             'price' => $data['price'],
             'quantity' => $data['quantity'],
         ]);
-
-        return true;
+        return $item;
     }
 
     public function updateItemQuantity($id, $quantity)
@@ -53,7 +52,7 @@ class CartService
     {
         \Cart::remove($id);
         // $this->calculateTotalPrice(\Cart::getContent());
-     
+
     }
 
     public function clearCart()
@@ -68,10 +67,9 @@ class CartService
 
     public function calculateTotalPrice($cartItems)
     {
-      
+
         return $cartItems->sum(function ($item) {
             return $item->quantity * $item->price;
         });
     }
-
 }

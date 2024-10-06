@@ -4,8 +4,7 @@
   </button>
   <div class="offcanvas-body container fixed">
       <div class="item-list style-2">
-
-          <ul>
+          <ul id="cart-list">
             @if(Cart::isEmpty())
             <h3 class="text-center">Your Cart is Empty</h3>
             @else
@@ -20,8 +19,6 @@
                               <h6 class="item-title"><a href="order-list.html">{{ $item->name }}</a></h6>
                               <div class="item-subtitle">Coffe, Milk</div>
                           </div>
-
-
                           <div class="item-footer">
                               <div class="d-flex align-items-center">
                                   <h6 class="me-3">$ {{ $item->price }}</h6>
@@ -29,25 +26,16 @@
                               </div>
                               <div class="d-flex align-items-center">
                                   <div class="dz-stepper border-1 ">
-                                        
+                                    
                                       <input class="stepper" type="text" value="{{ $item->quantity }}" name="quantity" onchange="updateCart(this,{{ $item->id }} , '{{ $vendor->slug }}')" >
                                   </div>
                               </div>
                           </div>
                       </div>
-                      {{-- <form action="{{ route('cart.remove',$slug) }}" method="POST" id="remove-cart-item-{{ $item->id }}">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $item->id }}">
-                        <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit"><i class="fa-solid fa-trash"></i></button>
-                    </form> --}}
-
-                    <button class="btn btn-icon btn-icon-end btn-primary btn-remove" type="submit" data-id="{{ $item->id }}" data-slug="{{ $vendor->slug  }}"><i class="fa-solid fa-trash"></i></button>
-
-
-
+                    <button class="btn btn-icon btn-icon-end btn-primary btn-remove" onclick="removeItemFromCart( {{$item->id}},'{{ $vendor->slug}}')"  data-id="{{ $item->id }}" data-slug="{{ $vendor->slug  }}"><i class="fa-solid fa-trash"></i></button>
                   </div>
               </li>
-              @endforeach
+            @endforeach
           </ul>
       </div>
       <div class="view-title">
@@ -85,10 +73,12 @@
 
 {{-- delete item from cart --}}
 <script>
-    $(document).ready(function() {
-        $(".btn-remove").click(function(e) {
-            e.preventDefault();
-            var form = $(this).closest("form");
+    // $(document).ready(function() {
+    //     $(".btn-remove_"${$item->id}).click(function(e) {
+            // e.preventDefault();
+            // var form = $(this).closest("form");
+    function removeItemFromCart(item_id,vendor_slug) {
+      
             Swal.fire({
                 title: 'Are you sure delete this item ?',
                 icon: 'warning',
@@ -98,8 +88,9 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var slug= $(this).data("slug");
-                    var id = $(this).data("id");
+                    console.log(item_id,vendor_slug);
+                    var slug= vendor_slug;
+                    var id = item_id;
                     var url = "{{ route('cart.remove',':slug') }}"
                     url = url.replace(':slug',slug);
                     $.ajax({
@@ -137,8 +128,9 @@
                     });
                 }
             })
-        });
-    });
+        }
+        // });
+    // });
 </script>
 {{-- ------------------------------- --}}
 
@@ -179,3 +171,5 @@
 </script>
 {{-- ------------------------------------------- --}}
 @endpush
+
+

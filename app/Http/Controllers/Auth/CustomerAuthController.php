@@ -27,26 +27,29 @@ class CustomerAuthController extends Controller
     public function loginForm(Request $request)
     {
 
-        return view('customer.auth.login' , ['vendor'=> $this->vendor])->with(['url'=>session('intended')]);
+        return view('customer.auth.login', ['vendor' => $this->vendor])->with(['url' => session('intended')]);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         // تعديل بيانات الاعتماد لتكون متوافقة مع الجدول
         $credentials = $request->only('phone', 'password');
         if (Auth::guard('customer')->attempt($credentials)) {
 
-            return redirect()->intended(route('vendor.index' ,['vendor_slug'=> $this->slug]));
+            return redirect()->intended(route('vendor.index', ['vendor_slug' => $this->slug]));
         }
 
         return redirect()->back()->withInput($request->only('phone', 'remember'))
-        ->withErrors(['phone' => 'Invalid phone or password.']);
+            ->withErrors(['phone' => 'Invalid phone or password.']);
     }
 
-    public function registerForm() {
-        return view('customer.auth.register' , ['vendor'=> $this->vendor]);
+    public function registerForm()
+    {
+        return view('customer.auth.register', ['vendor' => $this->vendor]);
     }
 
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
 
         // dd($request);
         $request->validate([
@@ -59,18 +62,18 @@ class CustomerAuthController extends Controller
             'phone' => $request->phone, // استخدام رقم الهاتف بدلاً من البريد الإلكتروني
             'password' => Hash::make($request->password),
         ]);
-        dd($customer);
+
 
         Auth::guard('customer')->login($customer);
 
-        return redirect()->route('order.confirmation');
+        return redirect()->intended(route('vendor.index', ['vendor_slug' => $this->slug]));
     }
 
-    public function logout() {
+    public function logout()
+    {
 
         Auth::guard('customer')->logout();
 
         return redirect()->route('customer.login', $this->slug);
     }
 }
-

@@ -23,9 +23,8 @@ class RedirectIfNotAuthenticated
             if ($request->ajax()) {
                 return response()->json(['message' => 'Please log in to comment or rate this product.'], 401);
             }
-
             return redirect()->route('customer.login', $slug)
-                ->with(['info' => 'Please log in to complete your order.']);
+                ->with(['info' => 'Please log in to Make this action.']);
         }
 
         return $next($request);

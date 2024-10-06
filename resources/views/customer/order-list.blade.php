@@ -2,12 +2,11 @@
 	
 	
 @extends('customer.layouts.master')
-@section('title', 'Home')
+@section('title', 'My Orders')
 @section('content')
   
 {{-- @dd($orders) --}}
 <div class="page-wraper">
-    
     <!-- Preloader -->
     <div id="preloader">
         <div class="spinner"></div>

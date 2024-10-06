@@ -14,13 +14,29 @@ use Ramsey\Uuid\Type\Integer;
 class OrderRatingAndCommentController extends Controller
 {
     //<p>التقييم: {{ number_format($foodItem->average_rating, 1) }}</p>
+
+
+    // دالة لعرض التقييمات والتعليقات الخاصة بمنتج طعام معين
+    public function index($foodItemId)
+    {
+        try {
+            $foodItem = FoodItem::findOrFail($foodItemId);
+            $ratingsAndComments = RatingAndComment::where('food_item_id', $foodItem->id)
+                ->with('customer')
+                ->latest()
+                ->get();
+
+            return view('customer.ratings-comments.index', compact('foodItem', 'ratingsAndComments'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching the ratings and comments.']);
+        }
+    }
     // عرض صفحة إضافة تقييم وتعليق
     public function create($foodItemId)
     {
         $foodItem = FoodItem::findOrFail($foodItemId);
         return view('customer.ratings-comments.create', compact('foodItem'));
     }
-
     // دالة لإضافة تقييم وتعليق
     public function store(Request $request, $vendor_slug, $foodItem)
     {
@@ -29,17 +45,18 @@ class OrderRatingAndCommentController extends Controller
             'rating' => 'nullable|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
-        if ($request->rating) {
-            $ratingComment = RatingAndComment::where('customer_id', auth('customer')->id())
-                ->where('food_item_id', $foodItem)
-                ->where('rating', '!=', null)
-                ->first();
-            // dd($ratingComment);
-            if ($ratingComment && $ratingComment->rating != null) {
-                $rating = $ratingComment->update([
-                    'rating' => intval($request->rating),
-                ]);
-            }
+        $ratingComment = RatingAndComment::where('customer_id', auth('customer')->id())
+            ->where('food_item_id', $foodItem)
+            ->where('rating', '!=', null)
+            ->first();
+        if ($request->rating && $ratingComment && $ratingComment->rating != null) {
+            $rating = $ratingComment->update([
+                'rating' => intval($request->rating),
+            ]);
+            // dd(vars: $ratingComment);
+            // if ($ratingComment && $ratingComment->rating != null) {
+
+
         } else {
             try {
                 DB::beginTransaction();
@@ -98,7 +115,6 @@ class OrderRatingAndCommentController extends Controller
             return back()->withErrors(['error' => 'An error occurred while updating the rating and comment.']);
         }
     }
-
     // دالة لحذف التقييم والتعليق
     public function destroy($id)
     {
@@ -116,22 +132,6 @@ class OrderRatingAndCommentController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the rating and comment.']);
-        }
-    }
-
-    // دالة لعرض التقييمات والتعليقات الخاصة بمنتج طعام معين
-    public function index($foodItemId)
-    {
-        try {
-            $foodItem = FoodItem::findOrFail($foodItemId);
-            $ratingsAndComments = RatingAndComment::where('food_item_id', $foodItem->id)
-                ->with('customer')
-                ->latest()
-                ->get();
-
-            return view('customer.ratings-comments.index', compact('foodItem', 'ratingsAndComments'));
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching the ratings and comments.']);
         }
     }
 }

@@ -28,6 +28,8 @@ class Kernel extends HttpKernel
         'checkSellerStatus' => \App\Http\Middleware\CheckSellerStatus::class,
         'check.vendor.slug' => \App\Http\Middleware\CheckVendorSlug::class,
         'auth.customer' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
+        'Auth.vendor.check' => \App\Http\Middleware\CheckUserAuth::class,
+
 
     ];
 
@@ -48,7 +50,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
