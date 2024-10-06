@@ -24,8 +24,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('customer.notification');
+// });
 Route::get('/', function () {
+<<<<<<< HEAD
     return view('customer.invoice');
+=======
+    return view('seller.orders.order_details');
+>>>>>>> 2524a9a007e9d24dfd80b61adc834fb4e83f58cc
 });
 
 Route::get('/dashboard', function () {
@@ -60,8 +67,13 @@ Route::middleware(['auth', 'role:Seller'])->group(function () {
 
 
 
+<<<<<<< HEAD
 require __DIR__ . '/auth.php';
 Route::get('/not-found', function () {
+=======
+require __DIR__.'/auth.php';
+Route::get('/not-found',function(){ 
+>>>>>>> 2524a9a007e9d24dfd80b61adc834fb4e83f58cc
     return view(view: 'customer.error');
 })->name('not.found');
 Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'], function () {

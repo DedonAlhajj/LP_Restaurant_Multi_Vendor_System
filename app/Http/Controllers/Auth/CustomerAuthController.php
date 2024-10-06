@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 
 class CustomerAuthController extends Controller
 {
+<<<<<<< HEAD
 
 
 
@@ -28,6 +29,10 @@ class CustomerAuthController extends Controller
     {
 
         return view('customer.auth.login', ['vendor' => $this->vendor])->with(['url' => session('intended')]);
+=======
+    public function loginForm() {
+        return view('customer.auth.login');
+>>>>>>> 2524a9a007e9d24dfd80b61adc834fb4e83f58cc
     }
 
     public function login(Request $request)
