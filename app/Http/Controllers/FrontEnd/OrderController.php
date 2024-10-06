@@ -80,7 +80,7 @@ class OrderController extends Controller
 
             db::commit();
             $this->cartService->clearCart();
-            return view('customer.payment-confirm', ['vendor_slug' => $this->vendor->slug, 'order' => $order]);
+            return view('customer.payment-confirm', ['vendor' => $this->vendor->slug, 'order' => $order]);
         } catch (\Exception $e) {
             db::rollBack();
             return redirect()->back()->with(['error' => $e->getMessage()]);

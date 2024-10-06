@@ -210,7 +210,7 @@
                             <div class="swiper-wrapper">
                                 @foreach ($categories as $category)
                                 <div class="swiper-slide">
-                                    <a href="product.html" class="categore-box style-1">
+                                    <a href="{{route('vendor.menu.category',['vendor_slug'=>$vendor_slug,'category_id'=>$category->id])}}" class="categore-box style-1">
                                         <div class="icon-bx bg-primary">
                                             <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M18.3281 17.3282H11.2969L14.8125 19.9649L18.3281 17.3282Z" fill="white"/>

@@ -24,11 +24,6 @@ class VendorController extends Controller
         /* اخترت انى اعمل constructor لانى بستخدمvendor فى عمل اى عملية بالتالى بستدعية مرة واحدة */
         $this->slug = $request->route('vendor_slug');
         $this->vendor = Restaurant::where('slug', $this->slug)->firstOrFail();
-
-
-        if (auth('customer')->check()) {
-            $this->userLikes = auth('customer')->user()->likes->pluck('id')->toArray();
-        }
     }
 
     public function welcome()
@@ -74,12 +69,10 @@ class VendorController extends Controller
 
     public function showMenu($vendor_slug)
     {
-
         $vendor_id = $this->vendor->id;
         $subcategories = Subcategory::with(['foodItems' => function ($query) use ($vendor_id) {
             $query->where('restaurant_id', $vendor_id); // شرط على رقم المطعم
         }])->get();
-
         $subcategories = $subcategories->filter(function ($subcategory) {
             return $subcategory->foodItems->isNotEmpty();
         });
@@ -98,8 +91,10 @@ class VendorController extends Controller
             ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
             ->orderByDesc('average_rating') // ترتيب تنازلي بناءً على متوسط التقييم
             ->get();
-
-
+        // dd(auth('customer')->user()->likes->pluck('id')->toArray());
+        if (auth('customer')->user()) {
+            $this->userLikes = auth('customer')->user()->likes->pluck('id')->toArray();
+        }
         return view('customer.product', [
             'foodItems' => $foodItems,
             'vendor' => $this->vendor,
@@ -112,16 +107,20 @@ class VendorController extends Controller
     public function showFoodItem($vendor_slug, $food_item_id)
 
     {
+        $rating = null;
         $foodItem = FoodItem::with('ratingsAndComments', 'likes')->find($food_item_id);
         if ($foodItem->ratingsAndComments()->count() > 0) {
-            $rating = $foodItem->ratingsAndComments()->where('customer_id', auth('customer')->id())
+            $ratingItem = $foodItem->ratingsAndComments()->where('customer_id', auth('customer')->id())
                 ->whereNotNull('rating')
                 ->first();
-            if ($rating) {
-                $rating = $rating->rating;
+            if ($ratingItem) {
+                $rating = $ratingItem->rating;
             } else {
                 $rating = 0;
             }
+        }
+        if (auth('customer')->user()) {
+            $this->userLikes = auth('customer')->user()->likes->pluck('id')->toArray();
         }
         return view('customer.product-detail', [
             'vendor' => $this->vendor,
@@ -136,5 +135,75 @@ class VendorController extends Controller
     {
 
         return view('customer.notification', ['vendor' => $this->vendor]);
+    }
+
+
+
+    public function getProductsByCategory($vendor_slug, $subcategoryId)
+    {
+        $products = FoodItem::with('likes',)
+            ->where('restaurant_id', $this->vendor->id)
+            ->where('subcategory_id', $subcategoryId)->get();
+        // dd($products);
+
+
+        $productsWithRatings = $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $product->price,
+                'image' => $product->image,
+                'likes' => $product->likes,
+                'vendor_slug' => $this->vendor->slug,
+                'average_rating' => $product->average_rating,
+            ];
+        });
+
+        return response()->json($productsWithRatings);
+    }
+
+
+
+
+    public function showtocategory($vendor_slug, $category_id)
+    {
+        $vendor_id = $this->vendor->id;
+        $subcategories = Subcategory::with(['foodItems' => function ($query) use ($vendor_id) {
+            $query->where('restaurant_id', $vendor_id); // شرط على رقم المطعم
+        }])->where('category_id', $category_id)->get();
+
+
+        $subcategories = $subcategories->filter(function ($subcategory) {
+            return $subcategory->foodItems->isNotEmpty();
+        });
+
+
+        $foodItems = FoodItem::with('likes')->select(
+            'food_items.id',
+            'food_items.subcategory_id',
+            'food_items.restaurant_id',
+            'food_items.name',
+            'food_items.description',
+            'food_items.price',
+            'food_items.image',
+            DB::raw('COALESCE(AVG(order_ratings_and_comments.rating), 0) as average_rating')
+        )
+            ->leftJoin('order_ratings_and_comments', 'food_items.id', '=', 'order_ratings_and_comments.food_item_id')
+            ->where('food_items.restaurant_id', $this->vendor->id) // إضافة شرط المطعم
+            ->groupBy('food_items.id', 'food_items.subcategory_id', 'food_items.restaurant_id', 'food_items.name', 'food_items.description', 'food_items.price', 'food_items.image') // تضمين جميع الأعمدة هنا
+            ->orderByDesc('average_rating')
+            ->where('restaurant_id', $this->vendor->id) // ترتيب تنازلي بناءً على متوسط التقييم
+            ->get();
+
+        if (auth('customer')->user()) {
+            $this->userLikes = auth('customer')->user()->likes->pluck('id')->toArray();
+        }
+        return view('customer.product', [
+            'foodItems' => $foodItems,
+            'vendor' => $this->vendor,
+            'subcategories' => $subcategories,
+            'likes' =>  $this->userLikes,
+        ]);
     }
 }

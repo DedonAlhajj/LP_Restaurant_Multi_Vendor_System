@@ -68,7 +68,8 @@
                         <div class="swiper-wrapper">
                             @foreach ($subcategories as $subcategory) 
                             <div class="swiper-slide">
-                                <a href="javascript:void(0);" class="categore-box style-2 primary">
+                                <button href="javascript:void(0);" class="categore-box style-2 primary subcategory-btn" 
+                                data-id={{$subcategory->id}} data-vendor={{$vendor->slug}} data-subcategory={{$subcategory->name}}>
                                     <div class="icon-bx">
                                         <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M18.3281 17.3282H11.2969L14.8125 19.9649L18.3281 17.3282Z" fill="#42A7E5"/>
@@ -81,7 +82,7 @@
                                         </svg>
                                     </div>
                                     <span class="title">{{$subcategory->name}}</span>
-                                </a>
+                                </button>
                             </div>
 
                             @endforeach
@@ -132,11 +133,10 @@
                 </div>
 
                 <!-- TITLE -->
-                <h4 class="title my-4">Expresson & Classic</h4>
+                <h4 class="title my-4" id="category-title">Expresson & Classic</h4>
                 <!-- TITLE -->
-
 				<div class="item-list recent-jobs-list " style="margin-bottom: 50px">
-					<ul>
+					<ul id="foodItems-list">
                         @forelse ($foodItems as $foodItem )
                         <li>
 							<div class="item-content">
@@ -157,6 +157,7 @@
                                     </div>
 								</div>
                                 {{-- @dd($foodItem->likes) --}}
+                                {{-- @dd($likes) --}}
                                 <div class="item-media media media-90"><img src="{{asset('customer/assets/images/food/pic1.png')}}" alt="logo">
                                     <button onclick="toggleLikeProduct('{{$vendor->slug}}' ,{{ $foodItem->id }})"  id="like-btn-{{$foodItem->id}}"  class="item-bookmark icon-2 {{ in_array($foodItem->id, $likes) ? 'active' : ''}} " style="background: none ; outline: none; border: none; cursor: pointer;">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -324,7 +325,7 @@
                 data: {
                     _token: "{{csrf_token()}}",
                     foodItemId:foodItemId
-            },
+                },
                 success: function(response) {
                     if(response.status == true) {
                         $('#like-'+foodItemId).html(response.count);
@@ -334,7 +335,83 @@
         
         
     }     
-    </script>
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.subcategory-btn').click(function() {
+            var subcategoryId = $(this).data('id');
+            var vendor_slug = $(this).data('vendor');
+            var subcategory = $(this).data('subcategory');
+            var url = "{{route('vendor.categories.products',[':vendor_slug',':subcategoryId'])}}";
+            url = url.replace(':vendor_slug',vendor_slug);
+            url = url.replace(':subcategoryId',subcategoryId);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(products) {
+                    $('#category-title').text(subcategory);
+                    $('#foodItems-list').empty(); 
+                    if (products.length > 0) {
+                        products.forEach(function(product) {
+                            var rate=Number(product.average_rating);
+                            const url = `{{ route('vendor.menu.fooditem', ['vendor_slug' => '__vendor_slug__', 'product_id' => '__product_id__']) }}` 
+                                            .replace('__vendor_slug__', product.vendor_slug)
+                                            .replace('__product_id__', product.id);
+                            $('#foodItems-list').append(
+                                `<li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <h6 class="item-title"><a href="${url}">${product.name}</a></h6>
+                                                <div class="item-subtitle">${product.description}</div>
+                                            </div>
+                                            <div class="item-footer">
+                                                <div class="d-flex align-items-center">
+                                                    <h6 class="me-3">${product.price}</h6>
+                                                    {{-- <del class="off-text"><h6>$ 8.9</h6></del> --}}
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <h6>${rate.toFixed(1) }</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-media media media-90">
+                                            <button onclick="toggleLikeProduct('${vendor_slug}' ,${product.id})"  id="like-btn-{{$foodItem->id}}"  class="item-bookmark icon-2 ${product.likes.some(function(like) { return like.pivot.customer_id == {{Auth::guard('customer')->id()}}})  ? 'active' : ''}" " style="background: none ; outline: none; border: none; cursor: pointer;">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M16.785 2.04751C15.9489 2.04694 15.1209 2.21163 14.3486 2.53212C13.5764 2.85261 12.8751 3.32258 12.285 3.91501L12 4.18501L11.73 3.91501C11.1492 3.2681 10.4424 2.74652 9.65306 2.3822C8.86367 2.01787 8.00824 1.81847 7.13912 1.79618C6.27 1.7739 5.40547 1.9292 4.59845 2.25259C3.79143 2.57599 3.05889 3.06066 2.44566 3.67695C1.83243 4.29325 1.35142 5.02819 1.03206 5.83682C0.712696 6.64544 0.561704 7.51073 0.588323 8.37973C0.614942 9.24873 0.818613 10.1032 1.18687 10.8907C1.55513 11.6783 2.08022 12.3824 2.73002 12.96L12 22.2675L21.3075 12.96C22.2015 12.0677 22.8109 10.9304 23.0589 9.6919C23.3068 8.45338 23.1822 7.16915 22.7006 6.00144C22.2191 4.83373 21.4023 3.83492 20.3534 3.13118C19.3045 2.42744 18.0706 2.05034 16.8075 2.04751H16.785Z" 
+                                                    fill="${product.likes.some(function(like) { return like.pivot.customer_id == {{Auth::guard('customer')->id()}}})  ? 'red' : 'white'}" />
+                                                </svg>
+                                            </button>
+                                            <img src="{{asset('customer/assets/images/food/pic1.png')}}" alt="logo">
+                                           
+                                        </div>
+                                    </div>
+                                </li>`
+                            );
+                        });
+                    } else {
+                        $('#product-list').append('<p>No products found.</p>');
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr);
+                    alert('An error occurred while fetching products.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
 @push('styles')
 <link rel="stylesheet" href="{{asset('customer/assets/vendor/nouislider/nouislider.min.css')}}">
 @endpush

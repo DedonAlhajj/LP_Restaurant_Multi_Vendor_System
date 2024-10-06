@@ -73,6 +73,12 @@ Route::group(['prefix' => '{vendor_slug}', 'middleware' => 'check.vendor.slug'],
     Route::get('/menu/product/{product_id}', [VendorController::class, 'showFoodItem'])->name('vendor.menu.fooditem');
     Route::get('/notifications', [VendorController::class, 'showNotifications'])->name('vendor.notifications');
 
+    Route::get('/categories/{subcategoryId}/products', [VendorController::class, 'getProductsByCategory'])
+        ->name('vendor.categories.products');
+    Route::get('/menu/category/{category_id}', [VendorController::class, 'showtocategory'])->name('vendor.menu.category');
+
+
+
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
